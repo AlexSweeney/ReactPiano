@@ -66,11 +66,9 @@ class WhiteKey extends Key {
 class BlackKeyLeft extends Key {
 	render() {
 		return (
-		/*	<div className="key left" onClick={this.keyClick}></div>
-			<div className="blackKey" onClick={this.blackKeyClick}></div>*/
 			<div className="key left">
-				<div className="blackKey"></div>
-				<div className="halfWhiteKey"></div>
+				<div className="blackKey" onClick={() => this.keyClick(-1)}></div>
+				<div className="halfWhiteKey" onClick={() => this.keyClick()}></div>
 			</div>
 		)
 	}
@@ -80,8 +78,9 @@ class BlackKeyBoth extends Key {
 	render() {
 		return (
 			<div className="key ends">
-				<div className="blackKey"></div>
-				<div className="blackKey"></div>
+				<div className="blackKey" onClick={() => this.keyClick(-1)}></div>
+				<div className="thirdWhiteKey" onClick={() => this.keyClick()}></div>
+				<div className="blackKey" onClick={() => this.keyClick(1)}></div>
 			</div>
 		)
 	}
