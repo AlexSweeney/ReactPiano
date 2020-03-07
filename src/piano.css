@@ -1,0 +1,65 @@
+* {
+	box-sizing: border-box;
+}
+
+.piano {
+	border: 2px solid black;
+	width: 16em;
+    height: 8em;
+}
+
+.octave { 
+    width: 100%;
+    height: 100%;
+    display: flex; 
+    flex-direction: column;
+}
+
+.blackKeyContainer {
+	width: 100%;
+	height: 65%;  
+	display: flex;
+	border-top: 2px solid black; 
+}
+
+.whiteKeyContainer {
+	width: 100%;
+	height: 35%;
+	display: flex;
+	border-bottom: 2px solid black; 
+}
+
+.key {
+	width: 15%;
+	height: 100%;
+	border: 2px solid black;
+	background-color: white;
+	border-top: none;
+    border-bottom: none;
+}
+
+.right {
+	display: flex;
+    justify-content: flex-end;
+}
+
+.left {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.ends {
+	display: flex;
+	justify-content: space-between;
+}
+
+.blackKey {
+	width: 35%;
+    height: 100%;
+    background-color: black;
+}
+
+.leftWhiteKey {
+	width: 65%;
+	height: 100%;
+}
