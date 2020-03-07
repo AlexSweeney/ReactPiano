@@ -18,13 +18,13 @@ class Octave extends Component {
 		return (
 			<div className="octave" onClick={this.click}>
 				<div className="blackKeyContainer"> 
-					<BlackKeyRight keyNumber={0} blackKeyName="c#3"/>
-					<BlackKeyBoth keyNumber={2} blackKeyName="c#3"/>
-					<BlackKeyLeft keyNumber={3} blackKeyName="c#3"/>
-					<BlackKeyRight keyNumber={4} blackKeyName="c#3"/>
-					<BlackKeyBoth keyNumber={6} blackKeyName="c#3"/>
-					<BlackKeyBoth keyNumber={8} blackKeyName="c#3"/>
-					<BlackKeyLeft keyNumber={10} blackKeyName="c#3"/> 
+					<BlackKeyRight keyNumber={0}/>
+					<BlackKeyBoth keyNumber={2}/>
+					<BlackKeyLeft keyNumber={3}/>
+					<BlackKeyRight keyNumber={4}/>
+					<BlackKeyBoth keyNumber={6}/>
+					<BlackKeyBoth keyNumber={8}/>
+					<BlackKeyLeft keyNumber={10}/> 
 				</div>
 				<div className="whiteKeyContainer">
 					<WhiteKey keyNumber={0}/>
@@ -43,13 +43,13 @@ class Octave extends Component {
 class Key extends Component {
 	constructor(props) {
 		super(props);
-		this.keyClick = this.keyClick.bind(this); 
-		// this.blackKeyClick = this.blackKeyClick.bind(this);
+		this.keyClick = this.keyClick.bind(this);  
 	}
 
-	keyClick(keyColor) {   
-		let i;
-		keyColor == 'white' ? i = this.props.keyNumber : i = this.props.keyNumber + 1;
+	keyClick(sum = 0) {   
+		console.log(this.props);
+		let i = this.props.keyNumber + sum;
+		/*keyColor == 'white' ? i = this.props.keyNumber : i = this.props.keyNumber + 1;*/
 		console.log(i);
 		console.log('click key:', keys[i]);
 	}
@@ -58,7 +58,7 @@ class Key extends Component {
 class WhiteKey extends Key {	
 	render() {
 		return (
-			<div className="key" onClick={() => this.keyClick('white')}></div> 
+			<div className="key" onClick={() => this.keyClick()}></div> 
 		)
 	}
 }
@@ -66,8 +66,11 @@ class WhiteKey extends Key {
 class BlackKeyLeft extends Key {
 	render() {
 		return (
-			<div className="key left" onClick={this.keyClick}>
-				<div className="blackKey" onClick={this.blackKeyClick}></div>
+		/*	<div className="key left" onClick={this.keyClick}></div>
+			<div className="blackKey" onClick={this.blackKeyClick}></div>*/
+			<div className="key left">
+				<div className="blackKey"></div>
+				<div className="halfWhiteKey"></div>
 			</div>
 		)
 	}
@@ -88,8 +91,8 @@ class BlackKeyRight extends Key {
 	render() {
 		return (
 			<div className="key right">
-				<div className="leftWhiteKey" onClick={() => this.keyClick('white')} keycolor="white"></div>
-				<div className="blackKey" onClick={() => this.keyClick('black')} keycolor="black"></div>
+				<div className="halfWhiteKey" onClick={() => this.keyClick()} keyadd={0}></div>
+				<div className="blackKey" onClick={() => this.keyClick(1)}></div>
 			</div>
 		)
 	}
