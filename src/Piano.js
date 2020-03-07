@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './piano.css';
 
-const keys = ['c','c#','d','e','f','f#','g','g#','a','a#','b'];
+const keys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b'];
 
 class Piano extends Component {
 	render() {
@@ -20,20 +20,20 @@ class Octave extends Component {
 				<div className="blackKeyContainer"> 
 					<BlackKeyRight keyNumber={0}/>
 					<BlackKeyBoth keyNumber={2}/>
-					<BlackKeyLeft keyNumber={3}/>
-					<BlackKeyRight keyNumber={4}/>
-					<BlackKeyBoth keyNumber={6}/>
-					<BlackKeyBoth keyNumber={8}/>
-					<BlackKeyLeft keyNumber={10}/> 
+					<BlackKeyLeft keyNumber={4}/>
+					<BlackKeyRight keyNumber={5}/>
+					<BlackKeyBoth keyNumber={7}/>
+					<BlackKeyBoth keyNumber={9}/>
+					<BlackKeyLeft keyNumber={11}/> 
 				</div>
 				<div className="whiteKeyContainer">
 					<WhiteKey keyNumber={0}/>
 					<WhiteKey keyNumber={2}/>
-					<WhiteKey keyNumber={3}/>
 					<WhiteKey keyNumber={4}/>
-					<WhiteKey keyNumber={6}/>
-					<WhiteKey keyNumber={8}/>
-					<WhiteKey keyNumber={10}/>
+					<WhiteKey keyNumber={5}/>
+					<WhiteKey keyNumber={7}/>
+					<WhiteKey keyNumber={9}/>
+					<WhiteKey keyNumber={11}/>
 				</div> 
 			</div>
 		)
@@ -46,11 +46,8 @@ class Key extends Component {
 		this.keyClick = this.keyClick.bind(this);  
 	}
 
-	keyClick(sum = 0) {   
-		console.log(this.props);
-		let i = this.props.keyNumber + sum;
-		/*keyColor == 'white' ? i = this.props.keyNumber : i = this.props.keyNumber + 1;*/
-		console.log(i);
+	keyClick(sum = 0) {    
+		let i = this.props.keyNumber + sum;  
 		console.log('click key:', keys[i]);
 	}
 }
