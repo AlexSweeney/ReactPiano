@@ -6,9 +6,14 @@ const keys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b'];
 class Piano extends Component {
 	render() {
 		return (
-			<div className="piano">
-				<Display/>
-				<Keys/> 
+			<div className="pianoContainer">
+				<div className="piano">
+					<div className="topPiano">
+						<Display/>
+					</div>
+					 
+					<Keys/>
+				</div>
 			</div>
 		)
 	}
@@ -17,9 +22,7 @@ class Piano extends Component {
 class Display extends Component {
 	render() {
 		return (
-			<div className="pianoDisplayContainer">
-				<div className="pianoDisplay"></div>
-			</div>
+			<div className="pianoDisplay"></div>
 		)
 	}
 }

@@ -1,0 +1,15 @@
+Modes
+
++ select mode
+
+display key
+
+select key 
+
+
+
+Improve
+
+SASS calculations for key widths
+
+settings: 
