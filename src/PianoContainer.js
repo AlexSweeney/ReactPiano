@@ -17,14 +17,19 @@ class Octave extends Component {
 	render() {
 		return (
 			<div className="octave">
-				<WhiteKey/>
-				<WhiteKey/>
-				<WhiteKey/>
-				<WhiteKey/>
-				<WhiteKey/>
-				<WhiteKey/>
-				<WhiteKey/>
-				<WhiteKey/>
+				<WhiteKey/>{/*C*/}
+					<BlackKey left={9+"%"}/>{/*C#*/}
+				<WhiteKey left={12.5+"%"}/>{/*D*/}
+					<BlackKey left={(12.5 + 9)+"%"}/>{/*D#*/}
+				<WhiteKey left={(12.5 * 2)+"%"}/>{/*E*/}
+				<WhiteKey left={(12.5 * 3)+"%"}/>{/*F*/}
+					<BlackKey left={(12.5 * 3)+ 9 +"%"}/>{/*F#*/}
+				<WhiteKey left={(12.5 * 4)+"%"}/>{/*G*/}
+					<BlackKey left={(12.5 * 4)+ 9 +"%"}/>{/*G#*/}
+				<WhiteKey left={(12.5 * 5)+"%"}/>{/*A*/}
+					<BlackKey left={(12.5 * 5) + 9 +"%"}/>{/*A#*/}
+				<WhiteKey left={(12.5 * 6)+"%"}/>{/*B*/}
+				<BlankKey left={(12.5 * 7)+"%"}/>{/*C*/}
 			</div>
 		)
 	}
@@ -45,43 +50,24 @@ class Key extends Component {
 class WhiteKey extends Key {	
 	render() {
 		return (
-			<div className="key" onClick={() => this.keyClick()}></div> 
+			<div className="whiteKey" style={{left: this.props.left }} onClick={() => this.keyClick()}></div> 
 		)
 	}
-}
+} 
 
-class BlackKeyLeft extends Key {
+class BlackKey extends Key {
 	render() {
 		return (
-			<div className="key left">
-				<div className="blackKey" onClick={() => this.keyClick(-1)}></div>
-				<div className="halfWhiteKey" onClick={() => this.keyClick()}></div>
-			</div>
+			<div className="blackKey" style={{left: this.props.left }}></div>
 		)
 	}
 }
 
-class BlackKeyBoth extends Key {
+class BlankKey extends Key {
 	render() {
 		return (
-			<div className="key ends">
-				<div className="blackKey" onClick={() => this.keyClick(-1)}></div>
-				<div className="thirdWhiteKey" onClick={() => this.keyClick()}></div>
-				<div className="blackKey" onClick={() => this.keyClick(1)}></div>
-			</div>
+			<div className="blankKey" style={{left: this.props.left}}></div>
 		)
 	}
 }
-
-class BlackKeyRight extends Key {
-	render() {
-		return (
-			<div className="key right">
-				<div className="halfWhiteKey" onClick={() => this.keyClick()} keyadd={0}></div>
-				<div className="blackKey" onClick={() => this.keyClick(1)}></div>
-			</div>
-		)
-	}
-}
-
 export default Piano;
