@@ -9,12 +9,24 @@ class Piano extends Component {
 			<div className="pianoContainer">
 				<div className="piano">
 					<div className="topPiano">
+						<ModeSelect/>
 						<Display/>
 					</div>
 					 
 					<Keys/>
 				</div>
 			</div>
+		)
+	}
+}
+
+class ModeSelect extends Component {
+	render() {
+		return (
+			<form>
+				<input type="radio" name="mode" value="showKey"/>
+				<label for="showKey">Show Key</label>
+			</form>
 		)
 	}
 }
