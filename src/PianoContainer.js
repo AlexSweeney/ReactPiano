@@ -7,7 +7,28 @@ class Piano extends Component {
 	render() {
 		return (
 			<div className="piano">
-				<Octave/> 
+				<Display/>
+				<Keys/> 
+			</div>
+		)
+	}
+}
+
+class Display extends Component {
+	render() {
+		return (
+			<div className="pianoDisplayContainer">
+				<div className="pianoDisplay"></div>
+			</div>
+		)
+	}
+}
+
+class Keys extends Component {
+	render() {
+		return (
+			<div className="keys">
+				<Octave/>
 			</div>
 		)
 	}
@@ -37,7 +58,7 @@ class Octave extends Component {
 				<WhiteKey left={this.returnLeft(5,'white')}/>{/*A*/}
 					<BlackKey left={this.returnLeft(5,'black')}/>{/*A#*/}
 				<WhiteKey left={this.returnLeft(6,'white')}/>{/*B*/}
-				<BlankKey left={this.returnLeft(7,'white')}/>{/*C*/}
+				<BlankKey left={this.returnLeft(7,'white')}/>{/*Blank*/}
 			</div>
 		)
 	}
