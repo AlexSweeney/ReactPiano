@@ -62,12 +62,28 @@
 	z-index: 1;
 }
 
+.whiteKey:hover {
+	background-color: #2468ff;
+}
+
+.whiteKey:active {
+	background-color: #0f2a67;
+}
+
 .blackKey {
 	width: 8%;
 	height: 65%;
     background-color: black;
     position: absolute;
    	z-index: 100;
+}
+
+.blackKey:hover {
+	background-color: #24246d;
+}
+
+.blackKey:active {
+	background-color: #13132f;
 }
 
 .blankKey {
