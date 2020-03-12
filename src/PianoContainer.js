@@ -17,13 +17,14 @@ class Octave extends Component {
 	render() {
 		return (
 			<div className="octave">
-				<WhiteKey/>{/*C*/}
-				<WhiteKey left={12.5+"%"}/>{/*D*/}
-				<WhiteKey left={(12.5 * 2)+"%"}/>{/*E*/}
-				<WhiteKey left={(12.5 * 3)+"%"}/>{/*F*/}
-				<WhiteKey left={(12.5 * 4)+"%"}/>{/*G*/}
-				<WhiteKey left={(12.5 * 5)+"%"}/>{/*A*/}
-				<WhiteKey left={(12.5 * 6)+"%"}/>{/*B*/}
+				<WhiteKey/>
+				<WhiteKey/>
+				<WhiteKey/>
+				<WhiteKey/>
+				<WhiteKey/>
+				<WhiteKey/>
+				<WhiteKey/>
+				<WhiteKey/>
 			</div>
 		)
 	}
@@ -42,20 +43,42 @@ class Key extends Component {
 }
 
 class WhiteKey extends Key {	
-	
 	render() {
 		return (
-			<div className="whiteKey" style={{left: this.props.left }} onClick={() => this.keyClick()}></div> 
+			<div className="key" onClick={() => this.keyClick()}></div> 
 		)
 	}
-} 
+}
 
-class BlackKey extends Key {
+class BlackKeyLeft extends Key {
 	render() {
 		return (
 			<div className="key left">
 				<div className="blackKey" onClick={() => this.keyClick(-1)}></div>
 				<div className="halfWhiteKey" onClick={() => this.keyClick()}></div>
+			</div>
+		)
+	}
+}
+
+class BlackKeyBoth extends Key {
+	render() {
+		return (
+			<div className="key ends">
+				<div className="blackKey" onClick={() => this.keyClick(-1)}></div>
+				<div className="thirdWhiteKey" onClick={() => this.keyClick()}></div>
+				<div className="blackKey" onClick={() => this.keyClick(1)}></div>
+			</div>
+		)
+	}
+}
+
+class BlackKeyRight extends Key {
+	render() {
+		return (
+			<div className="key right">
+				<div className="halfWhiteKey" onClick={() => this.keyClick()} keyadd={0}></div>
+				<div className="blackKey" onClick={() => this.keyClick(1)}></div>
 			</div>
 		)
 	}
