@@ -2,15 +2,13 @@
 	box-sizing: border-box;
 }
 
-.pianoContainer {
-	background-color: green;
+.pianoContainer { 
 	display: flex;
-	height: 19em;
+	height: 19em; 
 }
 
 .piano {  
-    height: 100%;
-    background-color: blue;
+    height: 100%; 
 }
 
 .topPiano {
@@ -36,14 +34,10 @@
 	border-radius: 0.5em;
 }
 
-.keys {
-	display: flex;
-	justify-content: center;
-
+.keys { 
 	height: 60%;
-	background-color: #cecece;
-	padding-left: 1em;
-	padding-right: 1em;
+	background-color: #cecece; 
+	padding: 0 1em;
 
 	border-left: 4px solid black;
 	border-right: 4px solid black;
@@ -52,23 +46,23 @@
 	border-bottom-right-radius: 1em;
 }
 
-.octave {  
-	min-width: 23em;
-    height: 85%;
-    display: flex; 
-    flex-direction: row;
-    position: relative;
+.octave {   
+    height: 90%; 
+    position: relative; 
 }
 
 .whiteKey {
-	width: 12.5%;
-	min-width: 1em;
+	width: 3em;
 	height: 100%;
 	border: 2px solid black;
     border-right: none;
 	position: absolute;
 	background-color: white;
 	z-index: 1;
+}
+
+.whiteKey:last-child {
+	border-right: 2px solid black;
 }
 
 .whiteKey:hover {
@@ -80,7 +74,7 @@
 }
 
 .blackKey {
-	width: 8%;
+	width: 2em;
 	height: 65%;
     background-color: black;
     position: absolute;
@@ -93,13 +87,5 @@
 
 .blackKey:active {
 	background-color: #13132f;
-}
-
-.blankKey {
-	width: 12.5%;
-	height: 100%;
-	border-left: 2px solid black;
-    border-right: none;
-	position: absolute;
-}
+} 
 

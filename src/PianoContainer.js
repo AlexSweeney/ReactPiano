@@ -54,16 +54,19 @@ class Octave extends Component {
 	constructor(props) {
 		super(props);
 		this.returnLeft = this.returnLeft.bind(this);
+		this.getWidth = this.getWidth.bind(this);
 		this.makeKeys = this.makeKeys.bind(this);
-		this.keys = this.makeKeys(keys); 
+		this.keys = this.makeKeys(keys);   
 	}
 
 	returnLeft(key, i) {
-		if(key.indexOf('#') == -1) {
-			return (12.5 * i) + '%';
-		} else if (key.indexOf('#') != -1) {
-			return (12.5 * i) + 9 + '%';
+		let x = 3 * i;
+
+		if (key.indexOf('#') != -1) {
+			x += 2; 
 		}
+
+		return x + 'em';
 	}
 
 	makeKeys(keys) { 
@@ -80,12 +83,17 @@ class Octave extends Component {
 			} else {
 				return <BlackKey keyname={key} key={i} left={returnLeft(key, i)}/>
 			}
-		}); 
+		});  
+	}
+
+	getWidth() {
+		let whiteKeys = keys.filter((key) => { return key.indexOf('#') == -1});
+		return (whiteKeys.length * 3) + 'em';
 	}
 	
 	render() {
 		return (
-			<div className="octave">   
+			<div className="octave" style={{width: this.getWidth()}}>   
 				{ this.keys }  
 			</div>
 		)
@@ -118,7 +126,7 @@ class Key extends Component {
 class WhiteKey extends Key {	
 	render() {
 		return (
-			<div className="whiteKey" 
+			<div className="key whiteKey" 
 				style={{left: this.props.left }} 
 				onMouseOver={() => this.keyOver(this.props.keyname)}
 				onMouseOut={() => this.keyOut()}
@@ -132,7 +140,7 @@ class WhiteKey extends Key {
 class BlackKey extends Key {
 	render() {
 		return (
-			<div className="blackKey" 
+			<div className="key blackKey" 
 				style={{left: this.props.left }}
 				onMouseOver={() => this.keyOver(this.props.keyname)}
 				onMouseOut={() => this.keyOut()} 
@@ -141,16 +149,6 @@ class BlackKey extends Key {
 			</div>
 		)
 	}
-}
-
-class BlankKey extends Key {
-	render() {
-		return (
-			<div className="blankKey" 
-				style={{left: this.props.left}}>
-			</div>
-		)
-	}
-}
+} 
 
 export default Piano;
