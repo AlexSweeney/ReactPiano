@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './piano.css';
 
 const keys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b'];
+let mode = 'showKey';
 
 class Piano extends Component {
 	render() {
@@ -24,7 +25,7 @@ class ModeSelect extends Component {
 	render() {
 		return (
 			<form>
-				<input type="radio" name="mode" value="showKey"/>
+				<input type="radio" name="mode" value="showKey" checked/>
 				<label htmlFor="showKey">Show Key</label>
 			</form>
 		)
@@ -34,7 +35,7 @@ class ModeSelect extends Component {
 class Display extends Component {
 	render() {
 		return (
-			<div className="pianoDisplay"></div>
+			<div className="pianoDisplay" id="pianoDisplay"></div>
 		)
 	}
 }
@@ -98,8 +99,14 @@ class Key extends Component {
 		this.keyOver = this.keyOver.bind(this);
 	}
 
-	keyOver(key) {
-		console.log('over key', key);
+	keyOver(key) { 
+		if(mode == 'showKey') {
+			document.getElementById('pianoDisplay').innerHTML = key;
+		}
+	}
+
+	keyOut() {
+		document.getElementById('pianoDisplay').innerHTML = '';
 	}
 
 	keyClick(sum = 0) {    
@@ -114,7 +121,9 @@ class WhiteKey extends Key {
 			<div className="whiteKey" 
 				style={{left: this.props.left }} 
 				onMouseOver={() => this.keyOver(this.props.keyname)}
-				onClick={() => this.keyClick()}>
+				onMouseOut={() => this.keyOut()}
+				onClick={() => this.keyClick()} 
+			>
 			</div> 
 		)
 	}
@@ -124,8 +133,11 @@ class BlackKey extends Key {
 	render() {
 		return (
 			<div className="blackKey" 
+				style={{left: this.props.left }}
 				onMouseOver={() => this.keyOver(this.props.keyname)}
-				style={{left: this.props.left }}>
+				onMouseOut={() => this.keyOut()} 
+				onClick={() => this.keyClick()} 
+			>
 			</div>
 		)
 	}
