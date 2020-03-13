@@ -25,7 +25,7 @@ class ModeSelect extends Component {
 		return (
 			<form>
 				<input type="radio" name="mode" value="showKey"/>
-				<label for="showKey">Show Key</label>
+				<label htmlFor="showKey">Show Key</label>
 			</form>
 		)
 	}
@@ -51,9 +51,9 @@ class Keys extends Component {
 
 class Octave extends Component { 
 	returnLeft(i, key) {
-		if(key == 'white') {
+		if(key === 'white') {
 			return (12.5 * i) + '%';
-		} else if (key == 'black') {
+		} else if (key === 'black') {
 			return (12.5 * i) + 9 + '%';
 		}
 	}
@@ -61,18 +61,18 @@ class Octave extends Component {
 	render() {
 		return (
 			<div className="octave">
-				<WhiteKey/>{/*C*/}
-					<BlackKey left={this.returnLeft(0,'black')}/>{/*C#*/}
-				<WhiteKey left={this.returnLeft(1,'white')}/>{/*D*/}
-					<BlackKey left={this.returnLeft(1,'black')}/>{/*D#*/}
-				<WhiteKey left={this.returnLeft(2,'white')}/>{/*E*/}
-				<WhiteKey left={this.returnLeft(3,'white')}/>{/*F*/}
-					<BlackKey left={this.returnLeft(3,'black')}/>{/*F#*/}
-				<WhiteKey left={this.returnLeft(4,'white')}/>{/*G*/}
-					<BlackKey left={this.returnLeft(4,'black')}/>{/*G#*/}
-				<WhiteKey left={this.returnLeft(5,'white')}/>{/*A*/}
-					<BlackKey left={this.returnLeft(5,'black')}/>{/*A#*/}
-				<WhiteKey left={this.returnLeft(6,'white')}/>{/*B*/}
+				<WhiteKey keyname={"c"}/>								   {/*C*/}
+					<BlackKey keyname={"c#"} left={this.returnLeft(0,'black')}/>{/*C#*/}
+				<WhiteKey keyname={"d"} left={this.returnLeft(1,'white')}/>{/*D*/}
+					<BlackKey keyname={"d#"} left={this.returnLeft(1,'black')}/>{/*D#*/}
+				<WhiteKey keyname={"e"} left={this.returnLeft(2,'white')}/>{/*E*/}
+				<WhiteKey keyname={"f"} left={this.returnLeft(3,'white')}/>{/*F*/}
+					<BlackKey keyname={"f#"} left={this.returnLeft(3,'black')}/>{/*F#*/}
+				<WhiteKey keyname={"g"} left={this.returnLeft(4,'white')}/>{/*G*/}
+					<BlackKey keyname={"g#"} left={this.returnLeft(4,'black')}/>{/*G#*/}
+				<WhiteKey keyname={"a"} left={this.returnLeft(5,'white')}/>{/*A*/}
+					<BlackKey keyname={"a#"} left={this.returnLeft(5,'black')}/>{/*A#*/}
+				<WhiteKey keyname={"b"} left={this.returnLeft(6,'white')}/>{/*B*/}
 				<BlankKey left={this.returnLeft(7,'white')}/>{/*Blank*/}
 			</div>
 		)
@@ -83,6 +83,11 @@ class Key extends Component {
 	constructor(props) {
 		super(props);
 		this.keyClick = this.keyClick.bind(this);  
+		this.keyOver = this.keyOver.bind(this);
+	}
+
+	keyOver(key) {
+		console.log('over key', key);
 	}
 
 	keyClick(sum = 0) {    
@@ -94,7 +99,11 @@ class Key extends Component {
 class WhiteKey extends Key {	
 	render() {
 		return (
-			<div className="whiteKey" style={{left: this.props.left }} onClick={() => this.keyClick()}></div> 
+			<div className="whiteKey" 
+				style={{left: this.props.left }} 
+				onMouseOver={() => this.keyOver(this.props.keyname)}
+				onClick={() => this.keyClick()}>
+			</div> 
 		)
 	}
 } 
@@ -102,7 +111,10 @@ class WhiteKey extends Key {
 class BlackKey extends Key {
 	render() {
 		return (
-			<div className="blackKey" style={{left: this.props.left }}></div>
+			<div className="blackKey" 
+				onMouseOver={() => this.keyOver(this.props.keyname)}
+				style={{left: this.props.left }}>
+			</div>
 		)
 	}
 }
@@ -110,8 +122,11 @@ class BlackKey extends Key {
 class BlankKey extends Key {
 	render() {
 		return (
-			<div className="blankKey" style={{left: this.props.left}}></div>
+			<div className="blankKey" 
+				style={{left: this.props.left}}>
+			</div>
 		)
 	}
 }
+
 export default Piano;
