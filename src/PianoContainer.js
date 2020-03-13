@@ -50,54 +50,42 @@ class Keys extends Component {
 }
 
 class Octave extends Component { 
-	returnLeft(i, key) {
-		if(key === 'white') {
+	constructor(props) {
+		super(props);
+		this.returnLeft = this.returnLeft.bind(this);
+		this.makeKeys = this.makeKeys.bind(this);
+		this.keys = this.makeKeys(keys); 
+	}
+
+	returnLeft(key, i) {
+		if(key.indexOf('#') == -1) {
 			return (12.5 * i) + '%';
-		} else if (key === 'black') {
+		} else if (key.indexOf('#') != -1) {
 			return (12.5 * i) + 9 + '%';
 		}
+	}
+
+	makeKeys(keys) { 
+		let returnLeft = this.returnLeft;
+		let lastKey;
+		let i = 0;
+
+		return keys.map(function(key) { 
+			if(lastKey && lastKey[0] != key[0]) i ++; 
+			lastKey = key;
+ 
+			if(key.indexOf('#') == -1) {
+				return <WhiteKey keyname={key} key={i} left={returnLeft(key, i)}/>
+			} else {
+				return <BlackKey keyname={key} key={i} left={returnLeft(key, i)}/>
+			}
+		}); 
 	}
 	
 	render() {
 		return (
-			<div className="octave">
-				{/*C*/}
-				<WhiteKey keyname={"c"+this.props.octavenumber}/>
-				{/*C#*/}
-					<BlackKey keyname={"c#"+this.props.octavenumber} 
-							left={this.returnLeft(0,'black')}/>
-				{/*D*/}
-				<WhiteKey keyname={"d"+this.props.octavenumber} 
-						left={this.returnLeft(1,'white')}/>
-				{/*D#*/}
-					<BlackKey keyname={"d#"+this.props.octavenumber} 
-						left={this.returnLeft(1,'black')}/>
-				{/*E*/}
-				<WhiteKey keyname={"e"+this.props.octavenumber} 
-						left={this.returnLeft(2,'white')}/>
-				{/*F*/}
-				<WhiteKey keyname={"f"+this.props.octavenumber} 
-						left={this.returnLeft(3,'white')}/>
-				{/*F#*/}
-					<BlackKey keyname={"f#"+this.props.octavenumber} 
-						left={this.returnLeft(3,'black')}/>
-				{/*G*/}
-				<WhiteKey keyname={"g"+this.props.octavenumber} 
-						left={this.returnLeft(4,'white')}/>
-				{/*G#*/}
-					<BlackKey keyname={"g#"+this.props.octavenumber} 
-						left={this.returnLeft(4,'black')}/>
-				{/*A*/}
-				<WhiteKey keyname={"a"+this.props.octavenumber} 
-						left={this.returnLeft(5,'white')}/>
-				{/*A#*/}
-					<BlackKey keyname={"a#"+this.props.octavenumber} 
-						left={this.returnLeft(5,'black')}/>
-				{/*B*/}
-				<WhiteKey keyname={"b"+this.props.octavenumber} 
-						left={this.returnLeft(6,'white')}/>
-				{/*Blank*/}
-				<BlankKey left={this.returnLeft(7,'white')}/>
+			<div className="octave">   
+				{ this.keys }  
 			</div>
 		)
 	}
