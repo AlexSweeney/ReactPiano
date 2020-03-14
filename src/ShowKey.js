@@ -1,9 +1,7 @@
-let ShowKey = {};
-
-function keyOver(key) {
-	document.getElementById('pianoDisplay').innerHTML = key;
-}
-		
-ShowKey.keyOver = keyOver; 
+let ShowKey = {
+	'keyOver': function(key) {
+		document.getElementById('pianoDisplay').innerHTML = key;
+	}
+};
 
 export default ShowKey;

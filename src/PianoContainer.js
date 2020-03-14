@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './piano.css'; 
 import ShowKey from './ShowKey.js'; 
+/*import SelectKey from './SelectKey.js';*/
 
 const keys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b'];
 let mode = 'showKey';
