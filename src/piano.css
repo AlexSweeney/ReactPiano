@@ -37,7 +37,8 @@
 .keys { 
 	height: 60%;
 	background-color: #cecece; 
-	padding: 0 1em;
+	padding: 0 1em; 
+    padding-bottom: 1em;
 
 	border-left: 4px solid black;
 	border-right: 4px solid black;
@@ -47,7 +48,7 @@
 }
 
 .octave {   
-    height: 90%; 
+    height: 100%; 
     position: relative; 
 }
 
