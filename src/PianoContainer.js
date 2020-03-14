@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './piano.css'; 
+import ShowKey from './ShowKey.js'; 
 
 const keys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b'];
 let mode = 'showKey';
@@ -109,7 +110,7 @@ class Key extends Component {
 
 	keyOver(key) { 
 		if(mode == 'showKey') {
-			document.getElementById('pianoDisplay').innerHTML = key;
+			ShowKey.keyOver(key);
 		}
 	}
 
