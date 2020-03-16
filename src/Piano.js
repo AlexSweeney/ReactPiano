@@ -10,12 +10,10 @@ function keyOver(key) {
 	}
 }
 
-function keyDown() {
-
-}
-
 function keyOut(key) {
-	document.getElementById('pianoDisplay').innerHTML = '';
+	if(mode === 'showKey') {
+		ShowKey.keyOut(key);
+	}
 }
 
 let Piano = {keys, mode, keyOver, keyOut};
