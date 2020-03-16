@@ -8,7 +8,16 @@ const incorrectColor = 'red';
 const correctSound = './audio/correctSound.mp3';
 const incorrectSound = './audio/incorrectSound.mp3';
 
+let mode = 'showKey';
 let targetKey = '';
+
+// Change mode
+function changeMode(newMode) {
+	console.log('newMode', newMode);
+	console.log('this', this);
+	console.log('mode', mode);
+	mode = newMode;
+}
 
 // Generate key
 function generateKey(keys) {
@@ -63,7 +72,6 @@ function playSound(sound) {
 }
 
 // export
-SelectKey.generateKey = generateKey;
-SelectKey.clickKey = clickKey; 
+let SelectKey = {generateKey, clickKey, changeMode};
 
 export default SelectKey;
