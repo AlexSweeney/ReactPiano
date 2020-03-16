@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import './piano.css';  
-import PianoJS from './Piano.js';
-/*import ShowKey from './ShowKey.js'; 
-import SelectKey from './SelectKey.js';  
-*/
-let {keys, mode, keyOver, keyOut} = PianoJS; 
+import PianoJS from './Piano.js'; 
+
+let {keys, mode, changeMode, keyOver, keyOut} = PianoJS; 
 console.log('keys', keys);
 
 class Piano extends Component { 
@@ -28,11 +26,11 @@ class ModeSelect extends Component {
 	render() {
 		return (
 			<form>
-				<input type="radio" name="mode" value="showKey" checked/>
-				<label htmlFor="showKey">Show Key</label><br/> 
+				<input type="radio" name="mode" value="showKey" onClick={() => changeMode("showKey")} checked/>
+				<label htmlFor="showKey" onClick={() => changeMode("showKey")}>Show Key</label><br/> 
 
-				<input type="radio" name="mode" value="selectKey"/>
-				<label htmlFor="selectKey">Select Key</label> 
+				<input type="radio" name="mode" value="selectKey" onClick={() => changeMode("selectKey")}/>
+				<label htmlFor="selectKey" onClick={() => changeMode("selectKey")}>Select Key</label> 
 			</form>
 		)
 	}
