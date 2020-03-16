@@ -4,7 +4,7 @@ import PianoJS from './Piano.js';
 /*import ShowKey from './ShowKey.js'; 
 import SelectKey from './SelectKey.js';  
 */
-let {keys, mode, keyOver} = PianoJS; 
+let {keys, mode, keyOver, keyOut} = PianoJS; 
 console.log('keys', keys);
 
 class Piano extends Component { 
@@ -115,13 +115,13 @@ class WhiteKey extends Key {
 			<div className="key whiteKey" 
 				style={{left: this.props.left }} 
 				onMouseOver={() => keyOver(this.props.keyname)}
-				
+				onMouseOut={() => keyOut()}
 			>
 			</div> 
 		)
 	}
 } 
-{/*onMouseOut={() => this.keyOut()}
+{/*
 				onClick={() => this.keyClick()} */}
 
 class BlackKey extends Key {
@@ -130,13 +130,13 @@ class BlackKey extends Key {
 			<div className="key blackKey" 
 				style={{left: this.props.left }}
 				onMouseOver={() => keyOver(this.props.keyname)}
-				
+				onMouseOut={() => keyOut()} 
 			>
 			</div>
 		)
 	}
 } 
-{/*onMouseOut={() => this.keyOut()} 
+{/*
 				onClick={() => this.keyClick()} */}
 
 export default Piano;

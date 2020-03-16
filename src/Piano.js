@@ -14,5 +14,9 @@ function keyDown() {
 
 }
 
-let Piano = {keys, mode, keyOver};
+function keyOut(key) {
+	document.getElementById('pianoDisplay').innerHTML = '';
+}
+
+let Piano = {keys, mode, keyOver, keyOut};
 export default Piano; 
