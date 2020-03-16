@@ -36,7 +36,10 @@ function correctClick(key) {
 	flashColor(key, correctColor);
 	playSound(correctSound);
 	setTimeout(() => { 
-		targetKey = generateKey(keys);
+		console.log('correctClick');
+		console.log('this');
+		console.log(this);
+		/*targetKey = generateKey(keys);*/
 	}, 2000);
 }
 

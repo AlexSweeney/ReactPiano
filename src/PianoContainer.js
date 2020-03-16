@@ -24,7 +24,9 @@ class ModeSelect extends Component {
 		return (
 			<form>
 				<input type="radio" name="mode" value="showKey" checked/>
-				<label htmlFor="showKey">Show Key</label>
+				<label htmlFor="showKey">Show Key</label><br/>
+				<input type="radio" name="mode" value="selectKey"/>
+				<label htmlFor="selectKey">Select Key</label>
 			</form>
 		)
 	}
