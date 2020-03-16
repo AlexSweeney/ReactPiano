@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
-
 import ShowKey from './ShowKey.js'; 
-/*import SelectKey from './SelectKey.js';*/
+import SelectKey from './SelectKey.js';
 
 let mode = 'showKey';
 const keys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b'];
-
-
 
 class Keys extends Component {
 	render() {

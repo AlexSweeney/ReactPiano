@@ -5,8 +5,10 @@ const correctColor = 'green';
 const incorrectColor = 'red';
 
 // Audio
-const correctSound;
-const incorrectSound;
+const correctSound = './audio/correctSound.mp3';
+const incorrectSound = './audio/incorrectSound.mp3';
+
+let targetKey = '';
 
 // Generate key
 function generateKey(keys) {
@@ -33,7 +35,7 @@ function clickKey(key) {
 function correctClick(key) {
 	flashColor(key, correctColor);
 	playSound(correctSound);
-	setTimeout(() => {
+	setTimeout(() => { 
 		targetKey = generateKey(keys);
 	}, 2000);
 }
