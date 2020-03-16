@@ -1,5 +1,11 @@
 let SelectKey = {}
 
+// Colors
+const correctColor = 'green';
+const incorrectColor = 'red';
+
+// Audio
+
 // Generate key
 function generateKey(keys) {
 	return getRandomElement(keys);
@@ -14,15 +20,39 @@ function getRandomNumber(range) {
 }
 
 // Click key
+function clickKey(key) {
+	if(key === targetKey) {
+		correctClick(key);
+	} else {
+		incorrectClick(key);
+	}
+}
 
-	// correct
+function correctClick(key) {
+	flashColor(key, correctColor);
+	/*playSound(correctSound);*/
+	setTimeout(() => {
+		targetKey = generateKey(keys);
+	}, 2000);
+}
 
-	// incorrect
+function incorrectClick(key) {
+	flashColor(key, incorrectColor);
+	/*playSound(incorrectSound);*/
+}
 
-// flash color
+function flashColor(target, color) {
+	let element = document.getElementById(target);
+	let origColor = element.style.backgroundColor;
+	element.style.backgroundColor = color;
+	
+	setTimeout(() => {
+		element.style.backgroundColor = origColor;
+	}, 2000);
+}
 
-// play sound
-
+// export
 SelectKey.generateKey = generateKey;
+SelectKey.clickKey = clickKey;
 
 export default SelectKey;
