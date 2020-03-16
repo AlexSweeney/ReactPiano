@@ -64,6 +64,6 @@ function playSound(sound) {
 
 // export
 SelectKey.generateKey = generateKey;
-SelectKey.clickKey = clickKey;
+SelectKey.clickKey = clickKey; 
 
 export default SelectKey;
