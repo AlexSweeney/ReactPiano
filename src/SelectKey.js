@@ -30,7 +30,7 @@ function clickKey(key) {
 
 function correctClick(key) {
 	flashColor(key, correctColor);
-	/*playSound(correctSound);*/
+	playSound(correctSound);
 	setTimeout(() => {
 		targetKey = generateKey(keys);
 	}, 2000);
@@ -38,7 +38,7 @@ function correctClick(key) {
 
 function incorrectClick(key) {
 	flashColor(key, incorrectColor);
-	/*playSound(incorrectSound);*/
+	playSound(incorrectSound);
 }
 
 function flashColor(target, color) {
@@ -49,6 +49,10 @@ function flashColor(target, color) {
 	setTimeout(() => {
 		element.style.backgroundColor = origColor;
 	}, 2000);
+}
+
+function playSound(sound) {
+	sound.play();
 }
 
 // export
