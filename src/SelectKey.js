@@ -5,6 +5,8 @@ const correctColor = 'green';
 const incorrectColor = 'red';
 
 // Audio
+const correctSound;
+const incorrectSound;
 
 // Generate key
 function generateKey(keys) {
