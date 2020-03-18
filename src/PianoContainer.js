@@ -130,16 +130,22 @@ class Octave extends Component {
 	makeKeys(keys) {  
 		let lastKey;
 		let i = 0; 
+		let keyType;
+		let id;
 
 		return keys.map(function(key) {  
 			if(lastKey && lastKey[0] != key[0]) i ++; 
 			lastKey = key;
  
-			if(key.indexOf('#') == -1) {
-				return <WhiteKey keyname={key} key={i} left={this.returnLeft(key, i)} mode={this.props.mode} />
+			if(key.indexOf('#') == -1) { 
+				keyType = 'whiteKey';
+				id = i + '#'; 
 			} else {
-				return <BlackKey keyname={key} key={i+"#"} left={this.returnLeft(key, i)} mode={this.props.mode} />
+				keyType = 'blackKey';
+				id = i; 
 			}
+
+			return <Key keyType={keyType} key={id} left={this.returnLeft(key, i)} mode={this.props.mode} keyName={key}/>
 		}, this);  
 	}
 
@@ -173,9 +179,20 @@ class Key extends Component {
 			ShowKey.keyOut(key);
 		}
 	}
+
+	render() {
+		return (
+			<div className={"key " + this.props.keyType }
+				style={{left: this.props.left }} 
+				onMouseOver={() => this.keyOver(this.props.keyName)}
+				onMouseOut={() => this.keyOut()}
+			>
+			</div> 
+		)
+	}
 }
 
-class WhiteKey extends Key {	
+/*class WhiteKey extends Key {	
 	render() {
 		return (
 			<div className="key whiteKey" 
@@ -199,6 +216,6 @@ class BlackKey extends Key {
 			</div>
 		)
 	}
-} 
+} */
 
 export default Piano;
