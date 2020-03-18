@@ -1,41 +1,71 @@
 import React, {Component} from 'react';
 import './piano.css';  
-import PianoJS from './Piano.js'; 
+/*import PianoJS from './Piano.js'; 
 
-let {keys, mode, changeMode, keyOver, keyOut} = PianoJS; 
-console.log('keys', keys);
+let {keys, mode, keyOver, keyOut} = PianoJS;  */
 
 class Piano extends Component { 
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			mode: 'showKey'
+		}
+	}
+
+	changeMode = (newMode) => {
+		console.log('changeMode()');  
+		console.log('newMode', newMode);
+		this.setState({mode: newMode});
+		console.log(this.state.mode);
+	}
+
 	render() {
 		return (
 			<div className="pianoContainer">
 				<div className="piano">
 					<div className="topPiano">
-						<ModeSelect/>
-						<Display/>
+						{/*<ModeSelect clickFunction={this.changeMode}/>*/}
+						{/*<Display/>*/}
+							{/*name="mode" 
+									value={this.state.mode} */}
+						{/* MODE SELECT */}
+						<form>
+							<input type="radio"  
+									name="mode"
+									value={this.state.mode}
+									onClick={() => { this.changeMode("showKey") } 
+							} defaultChecked/>
+							<label htmlFor="showKey"  
+									onClick={() => { this.changeMode("showKey") } 
+							}>Show Key</label><br/> 
+
+							<input type="radio"  
+									name="mode"
+									value={this.state.mode}
+									onClick={() => { this.changeMode("selectKey") } 
+							}/>
+							<label htmlFor="selectKey"  
+									onClick={() => { this.changeMode("selectKey") } 
+							}>Select Key</label> 
+						</form>
 					</div>
 					 
-					<Keys/>
+					{/*<Keys/>*/}
 				</div>
 			</div>
 		)
 	}
 }
 
-class ModeSelect extends Component { 
+/*class ModeSelect extends Component { 
 	render() {
 		return (
-			<form>
-				<input type="radio" name="mode" value="showKey" onClick={() => changeMode("showKey")} checked/>
-				<label htmlFor="showKey" onClick={() => changeMode("showKey")}>Show Key</label><br/> 
-
-				<input type="radio" name="mode" value="selectKey" onClick={() => changeMode("selectKey")}/>
-				<label htmlFor="selectKey" onClick={() => changeMode("selectKey")}>Select Key</label> 
-			</form>
+			
 		)
 	}
-}
-
+}*/
+/*
 class Display extends Component {
 	render() {
 		return (
@@ -119,8 +149,7 @@ class WhiteKey extends Key {
 		)
 	}
 } 
-{/*
-				onClick={() => this.keyClick()} */}
+{
 
 class BlackKey extends Key {
 	render() {
@@ -133,8 +162,6 @@ class BlackKey extends Key {
 			</div>
 		)
 	}
-} 
-{/*
-				onClick={() => this.keyClick()} */}
+} */
 
 export default Piano;

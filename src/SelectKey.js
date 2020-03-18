@@ -1,5 +1,3 @@
-let SelectKey = {}
-
 // Colors
 const correctColor = 'green';
 const incorrectColor = 'red';
@@ -7,18 +5,9 @@ const incorrectColor = 'red';
 // Audio
 const correctSound = './audio/correctSound.mp3';
 const incorrectSound = './audio/incorrectSound.mp3';
-
-let mode = 'showKey';
-let targetKey = '';
-
-// Change mode
-function changeMode(newMode) {
-	console.log('newMode', newMode);
-	console.log('this', this);
-	console.log('mode', mode);
-	mode = newMode;
-}
-
+ 
+let targetKey = generateKey(keys);
+ 
 // Generate key
 function generateKey(keys) {
 	return getRandomElement(keys);
