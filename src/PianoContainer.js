@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './piano.css';  
+import ShowKey from './ShowKey.js';
 /*import PianoJS from './Piano.js'; 
 
 let {keys, mode, keyOver, keyOut} = PianoJS;  */ 
@@ -9,7 +10,6 @@ class Piano extends Component {
 		super(props);
 
 		this.state = {
-			
 			mode: 'showKey'
 		} 
 	
@@ -25,7 +25,7 @@ class Piano extends Component {
 						<Display/> 
 					</div>
 					 
-					<Keys allKeys={this.allKeys}/>
+					<Keys allKeys={this.allKeys} mode={this.state.mode}/>
 				</div>
 			</div>
 		)
@@ -67,7 +67,7 @@ class ModeSelect extends Component {
 						name="mode"
 						value="showKey" 
 						onClick={() => { this.clickModeChange("showKey") }}
-				/>
+				defaultChecked/>
 				<label htmlFor="showKey"  
 						onClick={() => { this.clickModeChange("showKey") }} 
 				>Show Key</label><br/> 
@@ -95,14 +95,13 @@ class Display extends Component {
 
 class Keys extends Component {
 	constructor(props) {
-		super(props); 
-		console.log(this);
+		super(props);  
 	}
 
 	render() {
 		return (
 			<div className="keys">
-				<Octave octavenumber={0} allKeys={this.props.allKeys}/>
+				<Octave octavenumber={0} allKeys={this.props.allKeys} mode={this.props.mode}/>
 			</div>
 		)
 	}
@@ -128,21 +127,20 @@ class Octave extends Component {
 		return x + 'em';
 	}
 
-	makeKeys(keys) { 
-		let returnLeft = this.returnLeft;
+	makeKeys(keys) {  
 		let lastKey;
-		let i = 0;
+		let i = 0; 
 
-		return keys.map(function(key) { 
+		return keys.map(function(key) {  
 			if(lastKey && lastKey[0] != key[0]) i ++; 
 			lastKey = key;
  
 			if(key.indexOf('#') == -1) {
-				return <WhiteKey keyname={key} key={i} left={returnLeft(key, i)}/>
+				return <WhiteKey keyname={key} key={i} left={this.returnLeft(key, i)} mode={this.props.mode} />
 			} else {
-				return <BlackKey keyname={key} key={i} left={returnLeft(key, i)}/>
+				return <BlackKey keyname={key} key={i+"#"} left={this.returnLeft(key, i)} mode={this.props.mode} />
 			}
-		});  
+		}, this);  
 	}
 
 	getWidth() {
@@ -160,31 +158,43 @@ class Octave extends Component {
 }
 
 class Key extends Component {
-}
+	constructor(props) {
+		super(props); 
+	}
 
-{/*onMouseOver={() => keyOver(this.props.keyname)}
-				onMouseOut={() => keyOut()}*/}
+	keyOver(key) { 
+		if(this.props.mode === 'showKey') { 
+			ShowKey.keyOver(key);
+		}
+	}
+
+	keyOut(key) {
+		if(this.props.mode === 'showKey') {
+			ShowKey.keyOut(key);
+		}
+	}
+}
 
 class WhiteKey extends Key {	
 	render() {
 		return (
 			<div className="key whiteKey" 
 				style={{left: this.props.left }} 
-			
+				onMouseOver={() => this.keyOver(this.props.keyname)}
+				onMouseOut={() => this.keyOut()}
 			>
 			</div> 
 		)
 	}
 } 
 
-/*onMouseOver={() => keyOver(this.props.keyname)}
-				onMouseOut={() => keyOut()} */
-
 class BlackKey extends Key {
 	render() {
 		return (
 			<div className="key blackKey" 
 				style={{left: this.props.left }}
+				onMouseOver={() => this.keyOver(this.props.keyname)}
+				onMouseOut={() => this.keyOut()} 
 			>
 			</div>
 		)
