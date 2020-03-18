@@ -12,12 +12,28 @@ class Piano extends Component {
 			mode: 'showKey'
 		}
 	}
-
+		
+	clickModeChange = (newMode) => { 
+		this.changeMode(newMode);
+		this.selectRadio('modeSelectForm', newMode);
+	}
+	
 	changeMode = (newMode) => {
-		console.log('changeMode()');  
-		console.log('newMode', newMode);
-		this.setState({mode: newMode});
-		console.log(this.state.mode);
+		this.setState({mode: newMode});  
+	}
+
+	selectRadio = (form, targetValue) => {
+		let formItems = Array.from(document[form].children); 
+
+		formItems.forEach((item) => {
+			if(item.type === 'radio') { 
+				if(item.value === targetValue) {
+					item.checked = true;
+				} else {
+					item.checked = false;
+				}
+			}
+		});
 	}
 
 	render() {
@@ -30,24 +46,24 @@ class Piano extends Component {
 							{/*name="mode" 
 									value={this.state.mode} */}
 						{/* MODE SELECT */}
-						<form>
-							<input type="radio"  
+						<form name="modeSelectForm">
+							<input type="radio" 
 									name="mode"
-									value={this.state.mode}
-									onClick={() => { this.changeMode("showKey") } 
-							} defaultChecked/>
+									value="showKey" 
+									onClick={() => { this.clickModeChange("showKey") }}
+							/>
 							<label htmlFor="showKey"  
-									onClick={() => { this.changeMode("showKey") } 
-							}>Show Key</label><br/> 
+									onClick={() => { this.clickModeChange("showKey") }} 
+							>Show Key</label><br/> 
 
-							<input type="radio"  
+							<input type="radio"   
 									name="mode"
-									value={this.state.mode}
-									onClick={() => { this.changeMode("selectKey") } 
-							}/>
+									value="selectKey"
+									onClick={() => { this.clickModeChange("selectKey") }}
+							/>
 							<label htmlFor="selectKey"  
-									onClick={() => { this.changeMode("selectKey") } 
-							}>Select Key</label> 
+									onClick={() => { this.clickModeChange("selectKey") }}
+							>Select Key</label> 
 						</form>
 					</div>
 					 
