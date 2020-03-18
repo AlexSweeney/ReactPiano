@@ -2,27 +2,51 @@ import React, {Component} from 'react';
 import './piano.css';  
 /*import PianoJS from './Piano.js'; 
 
-let {keys, mode, keyOver, keyOut} = PianoJS;  */
+let {keys, mode, keyOver, keyOut} = PianoJS;  */ 
 
 class Piano extends Component { 
 	constructor(props) {
 		super(props);
 
 		this.state = {
+			
 			mode: 'showKey'
-		}
+		} 
+	
+		this.allKeys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b']
 	}
 		
-	clickModeChange = (newMode) => { 
+	render() {
+		return (
+			<div className="pianoContainer">
+				<div className="piano">
+					<div className="topPiano"> 
+						<ModeSelect/>
+						<Display/> 
+					</div>
+					 
+					<Keys allKeys={this.allKeys}/>
+				</div>
+			</div>
+		)
+	}
+}
+
+class ModeSelect extends Component { 
+	constructor(props) {
+		super(props);  
+	}
+
+	clickModeChange(newMode) { 
 		this.changeMode(newMode);
 		this.selectRadio('modeSelectForm', newMode);
 	}
-	
-	changeMode = (newMode) => {
+
+	changeMode(newMode) {
 		this.setState({mode: newMode});  
 	}
 
-	selectRadio = (form, targetValue) => {
+	selectRadio(form, targetValue) {
 		let formItems = Array.from(document[form].children); 
 
 		formItems.forEach((item) => {
@@ -38,50 +62,29 @@ class Piano extends Component {
 
 	render() {
 		return (
-			<div className="pianoContainer">
-				<div className="piano">
-					<div className="topPiano">
-						{/*<ModeSelect clickFunction={this.changeMode}/>*/}
-						{/*<Display/>*/}
-							{/*name="mode" 
-									value={this.state.mode} */}
-						{/* MODE SELECT */}
-						<ModeSelect clickModeChange={this.clickModeChange}/>
-					</div>
-					 
-					{/*<Keys/>*/}
-				</div>
-			</div>
-		)
-	}
-}
-
-class ModeSelect extends Component { 
-	render() {
-		return (
 			<form name="modeSelectForm">
 				<input type="radio" 
 						name="mode"
 						value="showKey" 
-						onClick={() => { this.props.clickModeChange("showKey") }}
+						onClick={() => { this.clickModeChange("showKey") }}
 				/>
 				<label htmlFor="showKey"  
-						onClick={() => { this.props.clickModeChange("showKey") }} 
+						onClick={() => { this.clickModeChange("showKey") }} 
 				>Show Key</label><br/> 
 
 				<input type="radio"   
 						name="mode"
 						value="selectKey"
-						onClick={() => { this.props.clickModeChange("selectKey") }}
+						onClick={() => { this.clickModeChange("selectKey") }}
 				/>
 				<label htmlFor="selectKey"  
-						onClick={() => { this.props.clickModeChange("selectKey") }}
+						onClick={() => { this.clickModeChange("selectKey") }}
 				>Select Key</label> 
 			</form>
 		)
 	}
 }
-/*
+
 class Display extends Component {
 	render() {
 		return (
@@ -91,10 +94,15 @@ class Display extends Component {
 }
 
 class Keys extends Component {
+	constructor(props) {
+		super(props); 
+		console.log(this);
+	}
+
 	render() {
 		return (
 			<div className="keys">
-				<Octave octavenumber={0}/>
+				<Octave octavenumber={0} allKeys={this.props.allKeys}/>
 			</div>
 		)
 	}
@@ -102,11 +110,12 @@ class Keys extends Component {
 
 class Octave extends Component { 
 	constructor(props) {
-		super(props);
+		super(props); 
+		this.allKeys = this.props.allKeys;
 		this.returnLeft = this.returnLeft.bind(this);
 		this.getWidth = this.getWidth.bind(this);
 		this.makeKeys = this.makeKeys.bind(this);
-		this.keys = this.makeKeys(keys);   
+		this.keys = this.makeKeys(this.allKeys);   
 	}
 
 	returnLeft(key, i) {
@@ -137,7 +146,7 @@ class Octave extends Component {
 	}
 
 	getWidth() {
-		let whiteKeys = keys.filter((key) => { return key.indexOf('#') == -1});
+		let whiteKeys = this.allKeys.filter((key) => { return key.indexOf('#') == -1});
 		return (whiteKeys.length * 3) + 'em';
 	}
 	
@@ -153,31 +162,33 @@ class Octave extends Component {
 class Key extends Component {
 }
 
+{/*onMouseOver={() => keyOver(this.props.keyname)}
+				onMouseOut={() => keyOut()}*/}
+
 class WhiteKey extends Key {	
 	render() {
 		return (
 			<div className="key whiteKey" 
 				style={{left: this.props.left }} 
-				onMouseOver={() => keyOver(this.props.keyname)}
-				onMouseOut={() => keyOut()}
+			
 			>
 			</div> 
 		)
 	}
 } 
-{
+
+/*onMouseOver={() => keyOver(this.props.keyname)}
+				onMouseOut={() => keyOut()} */
 
 class BlackKey extends Key {
 	render() {
 		return (
 			<div className="key blackKey" 
 				style={{left: this.props.left }}
-				onMouseOver={() => keyOver(this.props.keyname)}
-				onMouseOut={() => keyOut()} 
 			>
 			</div>
 		)
 	}
-} */
+} 
 
 export default Piano;
