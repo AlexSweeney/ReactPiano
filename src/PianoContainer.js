@@ -46,25 +46,7 @@ class Piano extends Component {
 							{/*name="mode" 
 									value={this.state.mode} */}
 						{/* MODE SELECT */}
-						<form name="modeSelectForm">
-							<input type="radio" 
-									name="mode"
-									value="showKey" 
-									onClick={() => { this.clickModeChange("showKey") }}
-							/>
-							<label htmlFor="showKey"  
-									onClick={() => { this.clickModeChange("showKey") }} 
-							>Show Key</label><br/> 
-
-							<input type="radio"   
-									name="mode"
-									value="selectKey"
-									onClick={() => { this.clickModeChange("selectKey") }}
-							/>
-							<label htmlFor="selectKey"  
-									onClick={() => { this.clickModeChange("selectKey") }}
-							>Select Key</label> 
-						</form>
+						<ModeSelect clickModeChange={this.clickModeChange}/>
 					</div>
 					 
 					{/*<Keys/>*/}
@@ -74,13 +56,31 @@ class Piano extends Component {
 	}
 }
 
-/*class ModeSelect extends Component { 
+class ModeSelect extends Component { 
 	render() {
 		return (
-			
+			<form name="modeSelectForm">
+				<input type="radio" 
+						name="mode"
+						value="showKey" 
+						onClick={() => { this.props.clickModeChange("showKey") }}
+				/>
+				<label htmlFor="showKey"  
+						onClick={() => { this.props.clickModeChange("showKey") }} 
+				>Show Key</label><br/> 
+
+				<input type="radio"   
+						name="mode"
+						value="selectKey"
+						onClick={() => { this.props.clickModeChange("selectKey") }}
+				/>
+				<label htmlFor="selectKey"  
+						onClick={() => { this.props.clickModeChange("selectKey") }}
+				>Select Key</label> 
+			</form>
 		)
 	}
-}*/
+}
 /*
 class Display extends Component {
 	render() {
