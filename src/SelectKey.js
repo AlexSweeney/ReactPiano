@@ -6,14 +6,12 @@ const incorrectColor = 'red';
 const correctSound = './audio/correctSound.mp3';
 const incorrectSound = './audio/incorrectSound.mp3';
  
-let targetKey = generateKey(keys);
- 
 // Generate key
-function generateKey(keys) {
+function generateKey(keys) { 
 	return getRandomElement(keys);
 }
 
-function getRandomElement(array) {
+function getRandomElement(array) { 
 	return array[getRandomNumber(array.length)];
 }
 
@@ -23,11 +21,11 @@ function getRandomNumber(range) {
 
 // Click key
 function clickKey(key) {
-	if(key === targetKey) {
+	/*if(key === targetKey) {
 		correctClick(key);
 	} else {
 		incorrectClick(key);
-	}
+	}*/
 }
 
 function correctClick(key) {
@@ -61,6 +59,6 @@ function playSound(sound) {
 }
 
 // export
-let SelectKey = {generateKey, clickKey};
+let SelectKey = {generateKey};
 
 export default SelectKey;

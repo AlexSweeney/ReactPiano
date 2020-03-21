@@ -1,7 +1,7 @@
 Modes
 
-+ show key mode
-+ select key mode
++ show key mode 	x
++ select key mode 	
 + select key by ear
 + repeat melody:
 	1 bar
@@ -9,7 +9,7 @@ Modes
 	3 bars
 	4 bars
 
-Chords 
+ 
 
 
 Improve
@@ -20,5 +20,6 @@ add sounds
 
 midi compatible
 
+Chords
 
 settings: 
