@@ -61,6 +61,6 @@ function playSound(sound) {
 }
 
 // export
-let SelectKey = {generateKey, clickKey, changeMode};
+let SelectKey = {generateKey, clickKey};
 
 export default SelectKey;

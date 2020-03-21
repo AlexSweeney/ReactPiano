@@ -192,30 +192,4 @@ class Key extends Component {
 	}
 }
 
-/*class WhiteKey extends Key {	
-	render() {
-		return (
-			<div className="key whiteKey" 
-				style={{left: this.props.left }} 
-				onMouseOver={() => this.keyOver(this.props.keyname)}
-				onMouseOut={() => this.keyOut()}
-			>
-			</div> 
-		)
-	}
-} 
-
-class BlackKey extends Key {
-	render() {
-		return (
-			<div className="key blackKey" 
-				style={{left: this.props.left }}
-				onMouseOver={() => this.keyOver(this.props.keyname)}
-				onMouseOut={() => this.keyOut()} 
-			>
-			</div>
-		)
-	}
-} */
-
 export default Piano;
