@@ -108,8 +108,7 @@ class Keys extends Component {
 
 	render() {
 		return (
-			<div className="keys">
-				<p>Keys Mode: {this.props.mode}</p>
+			<div className="keys"> 
 				<Octave octavenumber={0} allKeys={this.props.allKeys} mode={this.props.mode}/>
 			</div>
 		)
@@ -142,8 +141,7 @@ class Octave extends Component {
 		let keyType;
 		let id;
 
-		let key;
-		console.log('keys', this);
+		let key; 
 
 		return keys.map(function(key) {  
 			if(lastKey && lastKey[0] != key[0]) i ++; 
@@ -154,19 +152,15 @@ class Octave extends Component {
 				id = i + '#'; 
 			} else {
 				keyType = 'blackKey';
-				id = i; 
+				id = i + ''; 
 			}
-
-			console.log('keys map', this.props.mode);
-
-
  
-					/*{keyType:{keyType}, 
-					key: 	{id},
-					left:   {returnLeft(key, i)},
-					mode:   {props.mode},
-					keyName:{key} }*/
-			// return <Key keyType={keyType} key={id} left={this.returnLeft(key, i)} mode={this.props.mode} keyName={key}/>
+			return {
+				keyType: 	keyType,
+				key: 		id,
+				left: 		this.returnLeft(key, i), 
+				keyName: 	key
+			}
 		}, this);  
 	}
 
@@ -175,11 +169,12 @@ class Octave extends Component {
 		return (whiteKeys.length * 3) + 'em';
 	}
 
-	render() {
-		return (
-			<div className="octave" style={{width: this.getWidth()}}>   
-				<p>octave mode: {this.props.mode}</p>
-				<Key keyType="white" left="0" mode={this.props.mode} keyName="C"/>
+	render() {   
+		return ( 
+			<div class="octave" style={{width: this.getWidth()}}>
+				{this.keys.map((key) => { 
+					return <Key key={key.number} keyType={key.keyType} left={key.left} mode={this.props.mode} keyName={key.keyName}/>
+				})}
 			</div>
 		)
 	}
@@ -203,13 +198,12 @@ class Key extends Component {
 	}
 
 	render() {
-		return (
+		return ( 
 			<div className={"key " + this.props.keyType }
 				style={{left: this.props.left }} 
 				onMouseOver={() => this.keyOver(this.props.keyName)}
 				onMouseOut={() => this.keyOut()}
 			>
-			<p>Key mode: {this.props.mode}</p>
 			</div> 
 		)
 	}
