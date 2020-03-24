@@ -10,11 +10,9 @@ class Piano extends Component {
 		this.state = {
 			mode: 'showKey',
 			targetKey: '',
-
 		} 
 	
-		this.allKeys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b'];
-		
+		this.allKeys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b']; 
 		this.changeMode = this.changeMode.bind(this);
 	}
 
@@ -27,7 +25,7 @@ class Piano extends Component {
 			<div className="pianoContainer"> 
 				<div className="piano">
 					<div className="topPiano"> 
-						<ModeSelect allKeys={this.allKeys} changeMode={this.changeMode}/>
+						<ModeSelect allKeys={this.allKeys} changeMode={this.changeMode} mode={this.state.mode}/>
 						<Display/> 
 					</div>
 					 
@@ -43,11 +41,14 @@ class ModeSelect extends Component {
 		super(props);  
 	}
 
-	clickModeChange(newMode) { 
+	clickModeChange(newMode) {   
+		let oldMode = this.props.mode;
 		this.props.changeMode(newMode);
 		this.selectRadio('modeSelectForm', newMode);
 
-		if(newMode === 'selectKey') { 
+		if(newMode === 'showKey') {
+			document.getElementById('pianoDisplay').innerHTML = '';
+		} else if (newMode === 'selectKey' && oldMode !== 'selectKey') { 
 			let key = SelectKey.generateKey(this.props.allKeys);
 			document.getElementById('pianoDisplay').innerHTML = key;
 		} 
@@ -159,7 +160,8 @@ class Octave extends Component {
 				keyType: 	keyType,
 				key: 		id,
 				left: 		this.returnLeft(key, i), 
-				keyName: 	key
+				keyName: 	key,
+				id: 		id
 			}
 		}, this);  
 	}
@@ -171,14 +173,21 @@ class Octave extends Component {
 
 	render() {   
 		return ( 
-			<div class="octave" style={{width: this.getWidth()}}>
+			<div className="octave" style={{width: this.getWidth()}}>
 				{this.keys.map((key) => { 
-					return <Key key={key.number} keyType={key.keyType} left={key.left} mode={this.props.mode} keyName={key.keyName}/>
+					return <Key keyType={key.keyType} 
+								left={key.left} 
+								mode={this.props.mode} 
+								keyName={key.keyName}
+								key={key.id}
+							/>
 				})}
 			</div>
 		)
 	}
 }
+
+
 
 class Key extends Component {
 	constructor(props) {
@@ -197,12 +206,13 @@ class Key extends Component {
 		}
 	}
 
-	render() {
-		return ( 
-			<div className={"key " + this.props.keyType }
+	render() { 
+		console.log(this);
+		return (  
+			<div className={"key " + this.props.keyType}
 				style={{left: this.props.left }} 
 				onMouseOver={() => this.keyOver(this.props.keyName)}
-				onMouseOut={() => this.keyOut()}
+				onMouseOut={() => this.keyOut()} 
 			>
 			</div> 
 		)
