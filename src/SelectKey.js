@@ -20,7 +20,12 @@ function getRandomNumber(range) {
 }
 
 // Click key
-function clickKey(key) {
+function keyDown(key, targetKey) {  
+	if(key===targetKey) {
+		console.log('correct');
+	} else {
+		console.log('incorrect');
+	}
 	/*if(key === targetKey) {
 		correctClick(key);
 	} else {
@@ -59,6 +64,7 @@ function playSound(sound) {
 }
 
 // export
-let SelectKey = {generateKey};
+let SelectKey = {	generateKey,
+					keyDown};
 
 export default SelectKey;

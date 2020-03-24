@@ -14,10 +14,15 @@ class Piano extends Component {
 	
 		this.allKeys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b']; 
 		this.changeMode = this.changeMode.bind(this);
+		this.newTargetKey = this.newTargetKey.bind(this);
 	}
 
 	changeMode(newMode) { 
 		this.setState({mode: newMode});  
+	}
+
+	newTargetKey(newKey) {
+		this.setState({targetKey: newKey});
 	}
 		
 	render() {
@@ -25,11 +30,11 @@ class Piano extends Component {
 			<div className="pianoContainer"> 
 				<div className="piano">
 					<div className="topPiano"> 
-						<ModeSelect allKeys={this.allKeys} changeMode={this.changeMode} mode={this.state.mode}/>
+						<ModeSelect allKeys={this.allKeys} changeMode={this.changeMode} mode={this.state.mode} newTargetKey={this.newTargetKey}/>
 						<Display/> 
 					</div>
 					 
-					<Keys allKeys={this.allKeys} mode={this.state.mode}/>
+					<Keys allKeys={this.allKeys} mode={this.state.mode} targetKey={this.state.targetKey}/>
 				</div>
 			</div>
 		)
@@ -48,8 +53,9 @@ class ModeSelect extends Component {
 
 		if(newMode === 'showKey') {
 			document.getElementById('pianoDisplay').innerHTML = '';
-		} else if (newMode === 'selectKey' && oldMode !== 'selectKey') { 
-			let key = SelectKey.generateKey(this.props.allKeys);
+		} else if (newMode === 'selectKey' && oldMode !== 'selectKey') {  
+			let key = SelectKey.generateKey(this.props.allKeys); 
+			this.props.newTargetKey(key);
 			document.getElementById('pianoDisplay').innerHTML = key;
 		} 
 	}
@@ -110,7 +116,10 @@ class Keys extends Component {
 	render() {
 		return (
 			<div className="keys"> 
-				<Octave octavenumber={0} allKeys={this.props.allKeys} mode={this.props.mode}/>
+				<Octave octavenumber={0} 
+						allKeys={this.props.allKeys} 
+						mode={this.props.mode} 
+						targetKey={this.props.targetKey}/>
 			</div>
 		)
 	}
@@ -180,14 +189,13 @@ class Octave extends Component {
 								mode={this.props.mode} 
 								keyName={key.keyName}
 								key={key.id}
+								targetKey={this.props.targetKey}
 							/>
 				})}
 			</div>
 		)
 	}
 }
-
-
 
 class Key extends Component {
 	constructor(props) {
@@ -206,13 +214,19 @@ class Key extends Component {
 		}
 	}
 
-	render() { 
-		console.log(this);
+	keyDown(key) {
+		if(this.props.mode === 'selectKey') {  
+			SelectKey.keyDown(key, this.props.targetKey);
+		}
+	}
+
+	render() {  
 		return (  
 			<div className={"key " + this.props.keyType}
 				style={{left: this.props.left }} 
 				onMouseOver={() => this.keyOver(this.props.keyName)}
 				onMouseOut={() => this.keyOut()} 
+				onMouseDown={() => this.keyDown(this.props.keyName)}
 			>
 			</div> 
 		)
