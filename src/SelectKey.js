@@ -21,8 +21,10 @@ function getRandomNumber(range) {
 
 // Click key
 function keyDown(key, targetKey) {  
-	if(key===targetKey) {
-		console.log('correct');
+	console.log('keyDown');
+	console.log(key);
+	if(key.props.keyName===targetKey) {  
+		correctClick(key);
 	} else {
 		console.log('incorrect');
 	}
@@ -34,14 +36,20 @@ function keyDown(key, targetKey) {
 }
 
 function correctClick(key) {
+	// console.log('correctClick');
+	// console.log(this);
+	console.log('correctClick');
+	console.log('key', key);
 	flashColor(key, correctColor);
-	playSound(correctSound);
+	/*
+	playSound(correctSound) 
 	setTimeout(() => { 
 		console.log('correctClick');
 		console.log('this');
 		console.log(this);
-		/*targetKey = generateKey(keys);*/
+		/*targetKey = generateKey(keys);
 	}, 2000);
+	*/
 }
 
 function incorrectClick(key) {
@@ -49,14 +57,17 @@ function incorrectClick(key) {
 	playSound(incorrectSound);
 }
 
-function flashColor(target, color) {
-	let element = document.getElementById(target);
-	let origColor = element.style.backgroundColor;
-	element.style.backgroundColor = color;
+function flashColor(element, color) {
+	console.log('flashColor');
+	console.log('element', element);
 	
-	setTimeout(() => {
-		element.style.backgroundColor = origColor;
-	}, 2000);
+	// /*let element = document.getElementById(target);*/
+	// /*let origColor = target.style.backgroundColor;*/
+	// target.style.backgroundColor = color;
+	
+	// setTimeout(() => {
+	// 	target.style.backgroundColor = origColor;
+	// }, 2000);
 }
 
 function playSound(sound) {
