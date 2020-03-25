@@ -22,7 +22,7 @@ class Piano extends Component {
 	}
 
 	newTargetKey() {
-		let newKey = SelectKey.generateKey(this.props.allKeys); 
+		let newKey = SelectKey.generateKey(this.allKeys); 
 		this.setState({targetKey: newKey});
 		return newKey;
 	}
@@ -48,16 +48,28 @@ class ModeSelect extends Component {
 		super(props);  
 	}
 
-	clickModeChange(newMode) {   
-		let oldMode = this.props.mode;
+	initShowKey() {
+		document.getElementById('pianoDisplay').innerHTML = '';
+	}
+
+	initSelectKey() {
+		let key = this.props.newTargetKey();
+		document.getElementById('pianoDisplay').innerHTML = key;
+	}
+
+	switchMode(newMode) {
 		this.props.changeMode(newMode);
 		this.selectRadio('modeSelectForm', newMode);
+	}
+
+	clickModeChange(newMode) {  
+		let oldMode = this.props.mode; 
+		this.switchMode(newMode);
 
 		if(newMode === 'showKey') {
-			document.getElementById('pianoDisplay').innerHTML = '';
+			this.initShowKey();
 		} else if (newMode === 'selectKey' && oldMode !== 'selectKey') {   
-			let key = this.props.newTargetKey();
-			document.getElementById('pianoDisplay').innerHTML = key;
+			this.initSelectKey();
 		} 
 	}
 

@@ -60,14 +60,15 @@ function incorrectClick(key) {
 function flashColor(element, color) {
 	console.log('flashColor');
 	console.log('element', element);
+
+	let target = document.getElementById(element);
+	console.log('target', target);
+	/*let origColor = target.style.backgroundColor;
+	target.style.backgroundColor = color;
 	
-	// /*let element = document.getElementById(target);*/
-	// /*let origColor = target.style.backgroundColor;*/
-	// target.style.backgroundColor = color;
-	
-	// setTimeout(() => {
-	// 	target.style.backgroundColor = origColor;
-	// }, 2000);
+	setTimeout(() => {
+		target.style.backgroundColor = origColor;
+	}, 2000);*/
 }
 
 function playSound(sound) {
