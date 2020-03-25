@@ -22,8 +22,10 @@ class Piano extends Component {
 	}
 
 	newTargetKey() {
+		console.log('newTargetKey');
 		let newKey = SelectKey.generateKey(this.allKeys); 
 		this.setState({targetKey: newKey});
+		document.getElementById('pianoDisplay').innerHTML = newKey;
 		return newKey;
 	}
 		
@@ -36,7 +38,7 @@ class Piano extends Component {
 						<Display/> 
 					</div>
 					 
-					<Keys allKeys={this.allKeys} mode={this.state.mode} targetKey={this.state.targetKey}/>
+					<Keys allKeys={this.allKeys} newTargetKey={this.newTargetKey} mode={this.state.mode} targetKey={this.state.targetKey}/>
 				</div>
 			</div>
 		)
@@ -54,7 +56,6 @@ class ModeSelect extends Component {
 
 	initSelectKey() {
 		let key = this.props.newTargetKey();
-		document.getElementById('pianoDisplay').innerHTML = key;
 	}
 
 	switchMode(newMode) {
@@ -132,7 +133,8 @@ class Keys extends Component {
 				<Octave octavenumber={0} 
 						allKeys={this.props.allKeys} 
 						mode={this.props.mode} 
-						targetKey={this.props.targetKey}/>
+						targetKey={this.props.targetKey}
+						newTargetKey={this.props.newTargetKey}/>
 			</div>
 		)
 	}
@@ -203,6 +205,7 @@ class Octave extends Component {
 								keyName={key.keyName}
 								key={key.id}
 								targetKey={this.props.targetKey}
+								newTargetKey={this.props.newTargetKey}
 							/>
 				})}
 			</div>
@@ -228,9 +231,8 @@ class Key extends Component {
 	}
 
 	keyDown(key) {
-		if(this.props.mode === 'selectKey') {   
-			console.log(this.props);
-			SelectKey.keyDown(this.props.keyName, this.props.targetKey);
+		if(this.props.mode === 'selectKey') {    
+			SelectKey.keyDown(this.props.keyName, this.props.targetKey, this.props.newTargetKey);
 		}
 	}
 

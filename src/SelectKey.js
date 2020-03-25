@@ -20,13 +20,13 @@ function getRandomNumber(range) {
 }
 
 // Click key
-function keyDown(key, targetKey) {  
+function keyDown(key, targetKey, reset) {  
 	console.log('keyDown');
-	console.log(key);
+	console.log(arguments);
 	if(key === targetKey) {  
-		correctClick(key);
+		correctClick(key, reset);
 	} else {
-		console.log('incorrect');
+		incorrectClick(key);
 	}
 	/*if(key === targetKey) {
 		correctClick(key);
@@ -35,26 +35,22 @@ function keyDown(key, targetKey) {
 	}*/
 }
 
-function correctClick(key) {
-	// console.log('correctClick');
-	// console.log(this);
-	console.log('correctClick');
-	console.log('key', key);
-	flashColor(key, correctColor);
-	/*
-	playSound(correctSound) 
+function correctClick(key, reset) { 
+	console.log('correctClick'); 
+	flashColor(key, correctColor); 
+	// playSound(correctSound) 
+
 	setTimeout(() => { 
-		console.log('correctClick');
-		console.log('this');
-		console.log(this);
-		/*targetKey = generateKey(keys);
-	}, 2000);
-	*/
+		console.log('correctClick'); 
+		reset();
+		// targetKey = generateKey(keys);
+	}, 1000);
 }
 
 function incorrectClick(key) {
+	console.log('incorrect');
 	flashColor(key, incorrectColor);
-	playSound(incorrectSound);
+	// playSound(incorrectSound);
 }
 
 function flashColor(element, color) { 
@@ -64,7 +60,7 @@ function flashColor(element, color) {
 	
 	setTimeout(() => {
 		target.style.backgroundColor = origColor;
-	}, 1000);
+	}, 500);
 }
 
 function playSound(sound) {
