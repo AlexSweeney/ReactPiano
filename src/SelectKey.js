@@ -7,8 +7,13 @@ const correctSound = './audio/correctSound.mp3';
 const incorrectSound = './audio/incorrectSound.mp3';
  
 // Generate key
-function generateKey(keys) { 
-	return getRandomElement(keys);
+function generateKey(keys, oldKey) { 
+	let newKey = getRandomElement(keys);
+	if(newKey === oldKey) {
+		return generateKey(keys, newKey);
+	} else {
+		return newKey;
+	}
 }
 
 function getRandomElement(array) { 
