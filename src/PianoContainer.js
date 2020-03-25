@@ -228,8 +228,9 @@ class Key extends Component {
 	}
 
 	keyDown(key) {
-		if(this.props.mode === 'selectKey') {  
-			SelectKey.keyDown(this, this.props.targetKey);
+		if(this.props.mode === 'selectKey') {   
+			console.log(this.props);
+			SelectKey.keyDown(this.props.keyName, this.props.targetKey);
 		}
 	}
 
@@ -240,6 +241,7 @@ class Key extends Component {
 				onMouseOver={() => this.keyOver(this.props.keyName)}
 				onMouseOut={() => this.keyOut()} 
 				onMouseDown={() => this.keyDown(this.props.keyName)}
+				id={this.props.keyName}
 			>
 			</div> 
 		)

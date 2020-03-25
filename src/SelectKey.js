@@ -23,7 +23,7 @@ function getRandomNumber(range) {
 function keyDown(key, targetKey) {  
 	console.log('keyDown');
 	console.log(key);
-	if(key.props.keyName===targetKey) {  
+	if(key === targetKey) {  
 		correctClick(key);
 	} else {
 		console.log('incorrect');
@@ -57,18 +57,14 @@ function incorrectClick(key) {
 	playSound(incorrectSound);
 }
 
-function flashColor(element, color) {
-	console.log('flashColor');
-	console.log('element', element);
-
-	let target = document.getElementById(element);
-	console.log('target', target);
-	/*let origColor = target.style.backgroundColor;
+function flashColor(element, color) { 
+	let target = document.getElementById(element); 
+	let origColor = target.style.backgroundColor;
 	target.style.backgroundColor = color;
 	
 	setTimeout(() => {
 		target.style.backgroundColor = origColor;
-	}, 2000);*/
+	}, 1000);
 }
 
 function playSound(sound) {
