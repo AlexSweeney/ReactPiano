@@ -3,6 +3,10 @@ import './piano.css';
 import ShowKey from './ShowKey.js'; 
 import SelectKey from './SelectKey.js'; 
 
+import correct from './audio/incorrectSound.mp3';
+
+let correctSound = './audio/correctSound.mp3'; 
+
 class Piano extends Component { 
 	constructor(props) {
 		super(props);
@@ -21,17 +25,24 @@ class Piano extends Component {
 		this.setState({mode: newMode});  
 	}
 
-	newTargetKey() {
-		console.log('newTargetKey');
+	newTargetKey() { 
 		let newKey = SelectKey.generateKey(this.allKeys); 
 		this.setState({targetKey: newKey});
 		document.getElementById('pianoDisplay').innerHTML = newKey;
 		return newKey;
 	}
-		
+	
 	render() {
 		return (
 			<div className="pianoContainer"> 
+				<audio
+					ref="audio_tag"
+					id="correctSound"
+					autoPlay={false}
+					controls={false} >
+					<source type="audio/mp3" src={correct} />
+				</audio>
+
 				<div className="piano">
 					<div className="topPiano"> 
 						<ModeSelect allKeys={this.allKeys} changeMode={this.changeMode} mode={this.state.mode} newTargetKey={this.newTargetKey}/>
