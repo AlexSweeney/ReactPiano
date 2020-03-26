@@ -3,9 +3,8 @@ import './piano.css';
 import ShowKey from './ShowKey.js'; 
 import SelectKey from './SelectKey.js'; 
 
-import correct from './audio/incorrectSound.mp3';
-
-let correctSound = './audio/correctSound.mp3'; 
+import correctSound from './audio/correctSound.mp3';
+import incorrectSound from './audio/incorrectSound.mp3'; 
 
 class Piano extends Component { 
 	constructor(props) {
@@ -35,12 +34,12 @@ class Piano extends Component {
 	render() {
 		return (
 			<div className="pianoContainer"> 
-				<audio
-					ref="audio_tag"
-					id="correctSound"
-					autoPlay={false}
-					controls={false} >
-					<source type="audio/mp3" src={correct} />
+				<audio  id="correctSound">
+					<source type="audio/mp3" src={correctSound} />
+				</audio>
+
+				<audio id="incorrectSound">
+					<source type="audio/mp3" src={incorrectSound}/>
 				</audio>
 
 				<div className="piano">

@@ -40,6 +40,7 @@ function correctClick(key, reset) {
 
 function incorrectClick(key) { 
 	flashColor(key, incorrectColor); 
+	playSound(document.getElementById('incorrectSound'));
 }
 
 function flashColor(element, color) { 
