@@ -27,7 +27,6 @@ class Piano extends Component {
 	newTargetKey() { 
 		let newKey = SelectKey.generateKey(this.allKeys); 
 		this.setState({targetKey: newKey});
-		document.getElementById('pianoDisplay').innerHTML = newKey;
 		return newKey;
 	}
 	
@@ -35,7 +34,7 @@ class Piano extends Component {
 		return (
 			<div className="pianoContainer"> 
 				<audio  id="correctSound">
-					<source type="audio/mp3" src={correctSound} />
+					<source type="audio/mp3" src={correctSound}/>
 				</audio>
 
 				<audio id="incorrectSound">
@@ -60,12 +59,22 @@ class ModeSelect extends Component {
 		super(props);  
 	}
 
+	displayKey(key) {
+		document.getElementById('pianoDisplay').innerHTML = key;
+	}
+
 	initShowKey() {
 		document.getElementById('pianoDisplay').innerHTML = '';
 	}
 
 	initSelectKey() {
 		let key = this.props.newTargetKey();
+		this.displayKey(key);
+	}
+
+	initSelectByEar() {
+		let key = this.props.newTargetKey();
+		document.getElementById('pianoDisplay').innerHTML = '';
 	}
 
 	switchMode(newMode) {
@@ -81,7 +90,9 @@ class ModeSelect extends Component {
 			this.initShowKey();
 		} else if (newMode === 'selectKey' && oldMode !== 'selectKey') {   
 			this.initSelectKey();
-		} 
+		} else if (newMode === 'selectByEar' && oldMode !== 'selectByEar') {
+			this.initSelectByEar();
+		}
 	}
 
 	selectRadio(form, targetValue) {
@@ -101,6 +112,7 @@ class ModeSelect extends Component {
 	render() {
 		return (
 			<form name="modeSelectForm">  
+				{/*<!-- SHOW KEY -->*/}
 				<input type="radio" 
 						name="mode"
 						value="showKey" 
@@ -109,8 +121,10 @@ class ModeSelect extends Component {
 				/>
 				<label htmlFor="showKey"  
 						onClick={() => { this.clickModeChange("showKey") }} 
-				>Show Key</label><br/> 
-
+				>Show Key</label>
+				<br/> 
+				
+				{/*<!-- SELECT KEY -->*/}
 				<input type="radio"   
 						name="mode"
 						value="selectKey"
@@ -119,6 +133,17 @@ class ModeSelect extends Component {
 				<label htmlFor="selectKey"  
 						onClick={() => { this.clickModeChange("selectKey") }}
 				>Select Key</label> 
+				<br/>
+
+				{/*<!-- SELECT BY EAR -->*/}
+				<input type="radio"
+						name="mode"
+						value="selectByEar"
+						onClick={() => { this.clickModeChange("selectByEar")}}
+				/>
+				<label htmlFor="selectByEar"
+						onClick={() => { this.clickModeChange("selectByEar")}}
+				>Select Key by Ear</label>
 			</form>
 		)
 	}
