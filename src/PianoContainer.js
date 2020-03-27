@@ -157,35 +157,21 @@ class Display extends Component {
 	}
 }
 
-/*class Keys extends Component {
-	constructor(props) {
-		super(props);  
-	}
+const Keys = (props) => {
+	console.log('Keys props', props); 
 
-	render() {
-		return (
-			<div className="keys"> 
-				<Octave octavenumber={0} 
-						allKeys={this.props.allKeys} 
-						mode={this.props.mode} 
-						targetKey={this.props.targetKey}
-						newTargetKey={this.props.newTargetKey}/>
-			</div>
-		)
-	}
-}*/
-
-const Keys = ({allKeys, mode, targetKey, newTargetKey}) => {
 	return(
 		<div className="keys"> 
 			<Octave octavenumber={0} 
-					allKeys={allKeys} 
-					mode={mode} 
-					targetKey={targetKey}
-					newTargetKey={newTargetKey}/>
+				{...props}/>	
 		</div>
 	)
 }
+
+/*allKeys={props.allKeys} 
+					mode={props.mode} 
+					targetKey={props.targetKey}
+					newTargetKey={props.newTargetKey}/>*/
 
 class Octave extends Component { 
 	constructor(props) {
