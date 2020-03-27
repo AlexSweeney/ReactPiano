@@ -157,7 +157,7 @@ class Display extends Component {
 	}
 }
 
-class Keys extends Component {
+/*class Keys extends Component {
 	constructor(props) {
 		super(props);  
 	}
@@ -173,6 +173,18 @@ class Keys extends Component {
 			</div>
 		)
 	}
+}*/
+
+const Keys = ({allKeys, mode, targetKey, newTargetKey}) => {
+	return(
+		<div className="keys"> 
+			<Octave octavenumber={0} 
+					allKeys={allKeys} 
+					mode={mode} 
+					targetKey={targetKey}
+					newTargetKey={newTargetKey}/>
+		</div>
+	)
 }
 
 class Octave extends Component { 
