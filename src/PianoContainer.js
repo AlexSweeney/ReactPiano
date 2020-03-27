@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import './piano.css';  
 import ShowKey from './ShowKey.js'; 
 import SelectKey from './SelectKey.js'; 
@@ -6,7 +6,44 @@ import SelectKey from './SelectKey.js';
 import correctSound from './audio/correctSound.mp3';
 import incorrectSound from './audio/incorrectSound.mp3'; 
 
-class Piano extends Component { 
+const Piano = () => {
+	const [mode, changeMode] = useState('showKey');
+	const [targetKey, changeTargetKey] = useState('');
+
+	const allKeys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b']; 
+	
+	function newTargetKey() { 
+		let newKey = SelectKey.generateKey(this.allKeys); 
+		changeTargetKey(newKey);
+		return newKey;
+	}
+
+	let props = [allKeys, mode, changeMode, newTargetKey]; 
+
+	return (
+			<div className="pianoContainer"> 
+				<audio  id="correctSound">
+					<source type="audio/mp3" src={correctSound}/>
+				</audio>
+
+				<audio id="incorrectSound">
+					<source type="audio/mp3" src={incorrectSound}/>
+				</audio>
+
+				<div className="piano">
+					<div className="topPiano"> 
+						<ModeSelect {...props}/>
+						{/*<ModeSelect allKeys={allKeys} changeMode={changeMode} mode={state.mode} newTargetKey={newTargetKey}/>*/}						
+						<Display/> 
+					</div>
+					 
+					{/*<Keys allKeys={allKeys} newTargetKey={newTargetKey} mode={state.mode} targetKey={this.state.targetKey}/>*/}
+				</div>
+			</div>
+		)
+}
+
+/*class Piano extends Component { 
 	constructor(props) {
 		super(props);
 
@@ -52,7 +89,7 @@ class Piano extends Component {
 			</div>
 		)
 	}
-}
+}*/
 
 class ModeSelect extends Component { 
 	constructor(props) {
@@ -112,7 +149,7 @@ class ModeSelect extends Component {
 	render() {
 		return (
 			<form name="modeSelectForm">  
-				{/*<!-- SHOW KEY -->*/}
+				
 				<input type="radio" 
 						name="mode"
 						value="showKey" 
@@ -124,7 +161,6 @@ class ModeSelect extends Component {
 				>Show Key</label>
 				<br/> 
 				
-				{/*<!-- SELECT KEY -->*/}
 				<input type="radio"   
 						name="mode"
 						value="selectKey"
@@ -134,8 +170,7 @@ class ModeSelect extends Component {
 						onClick={() => { this.clickModeChange("selectKey") }}
 				>Select Key</label> 
 				<br/>
-
-				{/*<!-- SELECT BY EAR -->*/}
+ 
 				<input type="radio"
 						name="mode"
 						value="selectByEar"
@@ -157,21 +192,14 @@ class Display extends Component {
 	}
 }
 
-const Keys = (props) => {
-	console.log('Keys props', props); 
-
+const Keys = (props) => { 
 	return(
 		<div className="keys"> 
 			<Octave octavenumber={0} 
 				{...props}/>	
 		</div>
 	)
-}
-
-/*allKeys={props.allKeys} 
-					mode={props.mode} 
-					targetKey={props.targetKey}
-					newTargetKey={props.newTargetKey}/>*/
+} 
 
 class Octave extends Component { 
 	constructor(props) {
