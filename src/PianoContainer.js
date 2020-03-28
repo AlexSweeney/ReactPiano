@@ -31,68 +31,25 @@ const Piano = () => {
 				</audio>
 
 				<div className="piano">
+					<p>Mode: {mode}</p>
 					<div className="topPiano"> 
-						<ModeSelect {...props}/>
-						{/*<ModeSelect allKeys={allKeys} changeMode={changeMode} mode={state.mode} newTargetKey={newTargetKey}/>*/}						
+						<ModeSelect allKeys={allKeys} 
+									mode={mode} 
+									changeMode={changeMode} 
+									targetKey={targetKey} 
+									newTargetKey={newTargetKey}/>				
 						<Display/> 
 					</div>
 					 
-					{/*<Keys allKeys={allKeys} newTargetKey={newTargetKey} mode={state.mode} targetKey={this.state.targetKey}/>*/}
+					<Keys {...props}/>
 				</div>
 			</div>
 		)
 }
 
-/*class Piano extends Component { 
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			mode: 'showKey',
-			targetKey: '',
-		} 
-	
-		this.allKeys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b']; 
-		this.changeMode = this.changeMode.bind(this);
-		this.newTargetKey = this.newTargetKey.bind(this);
-	}
-
-	changeMode(newMode) { 
-		this.setState({mode: newMode});  
-	}
-
-	newTargetKey() { 
-		let newKey = SelectKey.generateKey(this.allKeys); 
-		this.setState({targetKey: newKey});
-		return newKey;
-	}
-	
-	render() {
-		return (
-			<div className="pianoContainer"> 
-				<audio  id="correctSound">
-					<source type="audio/mp3" src={correctSound}/>
-				</audio>
-
-				<audio id="incorrectSound">
-					<source type="audio/mp3" src={incorrectSound}/>
-				</audio>
-
-				<div className="piano">
-					<div className="topPiano"> 
-						<ModeSelect allKeys={this.allKeys} changeMode={this.changeMode} mode={this.state.mode} newTargetKey={this.newTargetKey}/>
-						<Display/> 
-					</div>
-					 
-					<Keys allKeys={this.allKeys} newTargetKey={this.newTargetKey} mode={this.state.mode} targetKey={this.state.targetKey}/>
-				</div>
-			</div>
-		)
-	}
-}*/
-
 const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {   
 	let modes = ['showKey', 'selectKey', 'selectByEar'];
+	let inputs = null;
 
 	function displayKey(key) {
 		document.getElementById('pianoDisplay').innerHTML = key;
@@ -112,11 +69,6 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 		displayKey('');
 	}
 
-	function switchMode(newMode) {
-		changeMode(newMode);
-		selectRadio('modeSelectForm', newMode);
-	}
-
 	function initMode(newMode) {
 		if(newMode === 'showKey') {
 			initShowKey();
@@ -128,30 +80,38 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 	}
 
 	function clickModeChange(newMode) {  
-		changeMode(newMode);
-		if(newMode !== mode) initMode();
+		console.log('clickModeChange', newMode);
+		
+		if(newMode !== mode) {
+			changeMode(newMode); 
+			selectRadio(newMode);
+			/*initMode(newMode);*/
+		}  
 	}
 
-	function selectRadio(form, targetValue) {
-		let formItems = Array.from(document[form].children); 
+	function selectRadio(newMode) { 
+		if(!inputs) {
+			inputs = modes.map((mode) => {
+				return document.getElementById(mode+"Input");
+			}); 
+		}
 
-		formItems.forEach((item) => {
-			if(item.type === 'radio') { 
-				if(item.value === targetValue) {
-					item.checked = true;
-				} else {
-					item.checked = false;
-				}
+		inputs.forEach((input) => {
+			if(input.value === newMode) {
+				input.checked = true;
+			} else {
+				input.checked = false;
 			}
-		});
+		}); 
 	}
  	
- 	function returnInput(mode) {
+ 	function returnInput(mode) { 
  		return (
  			<div key={mode}>
 				<input type="radio" 
 						name="mode"
-						value={mode} 
+						value={mode}
+						id={mode+"Input"}
 						onClick={() => { clickModeChange(mode) }}
 						defaultChecked 
 				/>
@@ -161,10 +121,11 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 				<br/> 
 			</div>
  		)
- 	}
+ 	} 
 	
 	return (
 		<form name="modeSelectForm">   
+			<p>Mode: {mode}</p>
 			{modes.map((mode) => { 
 				return returnInput(mode);
 			})}
