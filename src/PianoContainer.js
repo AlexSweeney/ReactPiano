@@ -150,7 +150,7 @@ const Octave = (props) => {
 	const blackKeyOffset = 2;
 	const whiteKeys = props.allKeys.filter((key) => { return key.indexOf('#') == -1});
 	const keyArray = makeKeyArray(props.allKeys);
-	const keyElements = makeKeyElements(keyArray);   
+	const keyElements = makeKeyElements(keyArray);    
 
 	function returnLeft(key, i) { 
 		let whiteKey = key.replace('#', ''); 
@@ -167,7 +167,8 @@ const Octave = (props) => {
 		return keys.map((key) => { 
 			return {
 				id: key,
-				key: key,
+				key: key, 
+				keyName: key,
 				keyType: key.includes('#') ? 'blackKey' : 'whiteKey',
 				left: returnLeft(key)				
 			}
@@ -196,41 +197,35 @@ const Octave = (props) => {
 	)
 };
 
-class Key extends Component {
-	constructor(props) {
-		super(props); 
-	}
-
-	keyOver(key) {  
-		if(this.props.mode === 'showKey') { 
+const Key = ({mode, keyName, keyType, left, targetKey, newTargetKey}) => {
+	function keyOver(key) {   
+		if(mode === 'showKey') { 
 			ShowKey.keyOver(key);
 		}
 	}
 
-	keyOut(key) {
-		if(this.props.mode === 'showKey') {
+	function keyOut(key) {
+		if(mode === 'showKey') {
 			ShowKey.keyOut(key);
 		}
 	}
 
-	keyDown(key) {
-		if(this.props.mode === 'selectKey') {    
-			SelectKey.keyDown(this.props.keyName, this.props.targetKey, this.props.newTargetKey);
+	function keyDown(key) {
+		if(mode === 'selectKey') {    
+			SelectKey.keyDown(key, targetKey, newTargetKey);
 		}
 	}
 
-	render() {  
-		return (  
-			<div className={"key " + this.props.keyType}
-				style={{left: this.props.left }} 
-				onMouseOver={() => this.keyOver(this.props.keyName)}
-				onMouseOut={() => this.keyOut()} 
-				onMouseDown={() => this.keyDown(this.props.keyName)}
-				id={this.props.keyName}
-			>
-			</div> 
-		)
-	}
+	return (  
+		<div className={"key " + keyType}
+			style={{left}} 
+			onMouseOver={() => keyOver(keyName)}
+			onMouseOut={() => keyOut()} 
+			onMouseDown={() => keyDown(keyName)}
+			id={keyName}
+		>
+		</div> 
+	)
 }
 
 export default Piano;
