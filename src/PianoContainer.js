@@ -85,7 +85,7 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 		if(newMode !== mode) {
 			changeMode(newMode); 
 			selectRadio(newMode);
-			/*initMode(newMode);*/
+			initMode(newMode);
 		}  
 	}
 
@@ -113,7 +113,7 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 						value={mode}
 						id={mode+"Input"}
 						onClick={() => { clickModeChange(mode) }}
-						defaultChecked 
+						defaultChecked={mode === "showKey"}
 				/>
 				<label htmlFor={mode}  
 						onClick={() => { clickModeChange(mode) }} 
@@ -124,8 +124,7 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
  	} 
 	
 	return (
-		<form name="modeSelectForm">   
-			<p>Mode: {mode}</p>
+		<form name="modeSelectForm">    
 			{modes.map((mode) => { 
 				return returnInput(mode);
 			})}
