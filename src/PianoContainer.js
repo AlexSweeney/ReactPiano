@@ -10,7 +10,7 @@ const Piano = () => {
 	const [mode, changeMode] = useState('showKey');
 	const [targetKey, changeTargetKey] = useState('');
 
-	const allKeys = ['c','c#','d','d#','e','f','f#','g','g#','a','a#','b']; 
+	const allKeys = ['c3','c#3','d3','d#3','e3','f3','f#3','g3','g#3','a3','a#3','b3']; 
 	
 	function newTargetKey() { 
 		let newKey = SelectKey.generateKey(allKeys); 
@@ -45,7 +45,7 @@ const Piano = () => {
 				</div>
 			</div>
 		)
-}
+};
 
 const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {   
 	let modes = ['showKey', 'selectKey', 'selectByEar'];
@@ -128,95 +128,73 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 			})}
 		</form>
 	) 
-}
+};
 
 const Display = () => {
 	return (
 		<div className="pianoDisplay" id="pianoDisplay"></div>
 	)
-}
+};
 
 const Keys = (props) => { 
 	return(
 		<div className="keys"> 
-			<Octave octavenumber={0} 
+			<Octave octaveNumber={0} 
 				{...props}/>	
 		</div>
 	)
-} 
+};
 
-class Octave extends Component { 
-	constructor(props) {
-		super(props); 
-		this.allKeys = this.props.allKeys;
-		this.returnLeft = this.returnLeft.bind(this);
-		this.getWidth = this.getWidth.bind(this);
-		this.makeKeys = this.makeKeys.bind(this);
-		this.keys = this.makeKeys(this.allKeys);   
-	}
+const Octave = (props) => {
+	const whiteKeyWidth = 3;
+	const blackKeyOffset = 2;
+	const whiteKeys = props.allKeys.filter((key) => { return key.indexOf('#') == -1});
+	const keyArray = makeKeyArray(props.allKeys);
+	const keyElements = makeKeyElements(keyArray);   
 
-	returnLeft(key, i) {
-		let x = 3 * i;
+	function returnLeft(key, i) { 
+		let whiteKey = key.replace('#', ''); 
+		let offset = whiteKeys.indexOf(whiteKey) * whiteKeyWidth;
 
-		if (key.indexOf('#') != -1) {
-			x += 2; 
+		if(key.indexOf('#') !== -1) {
+			offset += blackKeyOffset;
 		}
-
-		return x + 'em';
+		
+		return offset + 'em'; 
 	}
 
-	makeKeys(keys) {  
-		let lastKey;
-		let i = 0; 
-		let keyType;
-		let id;
-
-		let key; 
-
-		return keys.map(function(key) {  
-			if(lastKey && lastKey[0] != key[0]) i ++; 
-			lastKey = key;
- 
-			if(key.indexOf('#') == -1) { 
-				keyType = 'whiteKey';
-				id = i + '#'; 
-			} else {
-				keyType = 'blackKey';
-				id = i + ''; 
-			}
- 
+	function makeKeyArray(keys) { 
+		return keys.map((key) => { 
 			return {
-				keyType: 	keyType,
-				key: 		id,
-				left: 		this.returnLeft(key, i), 
-				keyName: 	key,
-				id: 		id
+				id: key,
+				key: key,
+				keyType: key.includes('#') ? 'blackKey' : 'whiteKey',
+				left: returnLeft(key)				
 			}
-		}, this);  
+		})
 	}
 
-	getWidth() {
-		let whiteKeys = this.allKeys.filter((key) => { return key.indexOf('#') == -1});
-		return (whiteKeys.length * 3) + 'em';
+	function makeKeyElements(keys) {
+		return keys.map((key) => { 
+			return <Key keyType={key.keyType} 
+				left={key.left} 
+				keyName={key.keyName}
+				key={key.id}
+				{ ...props}
+			/>
+		});	
 	}
 
-	render() {   
-		return ( 
-			<div className="octave" style={{width: this.getWidth()}}>
-				{this.keys.map((key) => { 
-					return <Key keyType={key.keyType} 
-								left={key.left} 
-								mode={this.props.mode} 
-								keyName={key.keyName}
-								key={key.id}
-								targetKey={this.props.targetKey}
-								newTargetKey={this.props.newTargetKey}
-							/>
-				})}
-			</div>
-		)
+	function getWidth() { 
+		return (whiteKeys.length * whiteKeyWidth) + 'em';
 	}
-}
+  
+	return ( 
+		<div className="octave" style={{width: getWidth()}}>  
+			{keyElements}
+		</div>
+	)
+};
 
 class Key extends Component {
 	constructor(props) {
