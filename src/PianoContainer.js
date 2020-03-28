@@ -18,7 +18,7 @@ const Piano = () => {
 		return newKey;
 	}
 
-	let props = {allKeys, mode, changeMode, newTargetKey}; 
+	let props = {allKeys, mode, changeMode, targetKey, newTargetKey}; 
 
 	return (
 			<div className="pianoContainer"> 
@@ -91,7 +91,7 @@ const Piano = () => {
 	}
 }*/
 
-const ModeSelect = ({mode, changeMode, newTargetKey}) => {   
+const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {   
 	let modes = ['showKey', 'selectKey', 'selectByEar'];
 
 	function displayKey(key) {
@@ -103,13 +103,13 @@ const ModeSelect = ({mode, changeMode, newTargetKey}) => {
 	}
 
 	function initSelectKey() {
-		let key = newTargetKey();
-		displayKey(key);
+		newTargetKey();
+		displayKey(targetKey);
 	}
 
 	function initSelectByEar() {
-		let key = newTargetKey();
-		document.getElementById('pianoDisplay').innerHTML = '';
+		newTargetKey();
+		displayKey('');
 	}
 
 	function switchMode(newMode) {
@@ -117,17 +117,19 @@ const ModeSelect = ({mode, changeMode, newTargetKey}) => {
 		selectRadio('modeSelectForm', newMode);
 	}
 
-	function clickModeChange(newMode) {  
-		let oldMode = mode; 
-		changeMode(newMode);
-
+	function initMode(newMode) {
 		if(newMode === 'showKey') {
 			initShowKey();
-		} else if (newMode === 'selectKey' && oldMode !== 'selectKey') {   
+		} else if (newMode === 'selectKey') {   
 			initSelectKey();
-		} else if (newMode === 'selectByEar' && oldMode !== 'selectByEar') {
+		} else if (newMode === 'selectByEar') {
 			initSelectByEar();
 		}
+	}
+
+	function clickModeChange(newMode) {  
+		changeMode(newMode);
+		if(newMode !== mode) initMode();
 	}
 
 	function selectRadio(form, targetValue) {
@@ -146,7 +148,7 @@ const ModeSelect = ({mode, changeMode, newTargetKey}) => {
  	
  	function returnInput(mode) {
  		return (
- 			<div>
+ 			<div key={mode}>
 				<input type="radio" 
 						name="mode"
 						value={mode} 
@@ -166,35 +168,6 @@ const ModeSelect = ({mode, changeMode, newTargetKey}) => {
 			{modes.map((mode) => { 
 				return returnInput(mode);
 			})}
-			{/*<input type="radio" 
-					name="mode"
-					value="showKey" 
-					onClick={() => { this.clickModeChange("showKey") }}
-					defaultChecked 
-			/>
-			<label htmlFor="showKey"  
-					onClick={() => { this.clickModeChange("showKey") }} 
-			>Show Key</label>
-			<br/> 
-			
-			<input type="radio"   
-					name="mode"
-					value="selectKey"
-					onClick={() => { this.clickModeChange("selectKey") }}
-			/>
-			<label htmlFor="selectKey"  
-					onClick={() => { this.clickModeChange("selectKey") }}
-			>Select Key</label> 
-			<br/>
-
-			<input type="radio"
-					name="mode"
-					value="selectByEar"
-					onClick={() => { this.clickModeChange("selectByEar")}}
-			/>
-			<label htmlFor="selectByEar"
-					onClick={() => { this.clickModeChange("selectByEar")}}
-			>Select Key by Ear</label>*/}
 		</form>
 	) 
 }
