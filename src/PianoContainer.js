@@ -1,3 +1,5 @@
+/* select key, key out bug? */
+
 import React, {Component, useState} from 'react';
 import './piano.css';  
 import ShowKey from './ShowKey.js'; 
@@ -7,31 +9,41 @@ import correctSound from './audio/correctSound.mp3';
 import incorrectSound from './audio/incorrectSound.mp3'; 
 
 const Piano = () => {
-	const [mode, changeMode] = useState('showKey');
-	const [targetKey, changeTargetKey] = useState('');
-
 	const allKeys = ['c3','c#3','d3','d#3','e3','f3','f#3','g3','g#3','a3','a#3','b3']; 
-	
-	function newTargetKey() { 
-		let newKey = SelectKey.generateKey(allKeys); 
-		changeTargetKey(newKey);
-		return newKey;
+
+	const [mode, changeMode] = useState('showKey');
+	const [targetKey, changeTargetKey] = useState(randomArrayElement(allKeys));
+
+	const audio = {correctSound, incorrectSound};
+
+	function makeAudioElements(audio) {
+		return Object.keys(audio).map((name) => { 
+			return (
+				<audio id={name} key={name}>
+					<source type="audio/mp3" src={audio[name]}/>
+				</audio>
+			)
+		})
 	}
+		
+	function randomArrayElement(array) {
+		return array[Math.floor(Math.random() * array.length)];
+	}
+
+	function newTargetKey(show = false) { 
+		let newKey = SelectKey.generateKey(allKeys); 
+		changeTargetKey(newKey, targetKey);
+		if(show) document.getElementById('pianoDisplay').innerHTML = newKey;
+		return newKey;
+	} 
 
 	let props = {allKeys, mode, changeMode, targetKey, newTargetKey}; 
 
 	return (
 			<div className="pianoContainer"> 
-				<audio  id="correctSound">
-					<source type="audio/mp3" src={correctSound}/>
-				</audio>
+				{makeAudioElements(audio)}
 
-				<audio id="incorrectSound">
-					<source type="audio/mp3" src={incorrectSound}/>
-				</audio>
-
-				<div className="piano">
-					<p>Mode: {mode}</p>
+				<div className="piano"> 
 					<div className="topPiano"> 
 						<ModeSelect allKeys={allKeys} 
 									mode={mode} 
@@ -56,11 +68,10 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 	}
 
 	function initShowKey() {
-		document.getElementById('pianoDisplay').innerHTML = '';
+		displayKey('');
 	}
 
-	function initSelectKey() {
-		newTargetKey();
+	function initSelectKey() { 
 		displayKey(targetKey);
 	}
 

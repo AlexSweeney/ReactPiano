@@ -34,7 +34,7 @@ function correctClick(key, reset) {
 	playSound(document.getElementById('correctSound'));
 
 	setTimeout(() => {  
-		reset(); 
+		reset(true);  
 	}, 1000);
 }
 
