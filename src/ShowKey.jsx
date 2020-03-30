@@ -5,7 +5,9 @@ function keyDown(key) {
 }
 
 function keyUp(key) { 
-	Util.stopAudio(key);
+	setTimeout(() => {
+		Util.stopAudio(key);
+	}, 1000); 
 }
 
 function keyOver(key) {

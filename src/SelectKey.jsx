@@ -15,16 +15,16 @@ function keyDown(key, targetKey, reset) {
 
 function correctClick(key, reset) {  
 	flashColor(key, correctColor); 
-	playSound(document.getElementById('correctSound'));
+	Util.playAudio('correctSound'); 
 
-	setTimeout(() => {  
+	setTimeout(() => {   
 		reset(true);  
 	}, 1000);
 }
 
 function incorrectClick(key) { 
 	flashColor(key, incorrectColor); 
-	playSound(document.getElementById('incorrectSound'));
+	Util.playAudio('incorrectSound');
 }
 
 function flashColor(element, color) { 

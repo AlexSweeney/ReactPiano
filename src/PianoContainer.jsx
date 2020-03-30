@@ -1,5 +1,6 @@
-/* trim and normalize audio (mf o:3) */
+/* add volume control */
 /* keyboard with qwerty */
+/* add listen and click mode */
 
 import React, {Component, useState} from 'react';
 import './piano.css';  
@@ -33,7 +34,9 @@ const Piano = () => {
 	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
 
 	function newTargetKey(show = false) { 
-		let newKey = Util.getRandomKey(allKeys, targetKey);
+		console.log('newTargetKey');
+		console.log(Util);
+		let newKey = Util.generateKey(allKeys, targetKey);
 		changeTargetKey(newKey);
 		if(show) Util.displayKey(newKey);
 		return newKey;
