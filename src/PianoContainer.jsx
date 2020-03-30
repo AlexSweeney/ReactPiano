@@ -28,7 +28,8 @@ const Piano = () => {
 	const [targetKey, changeTargetKey] = useState(randomArrayElement(allKeys));
 
 	const audio = {correctSound, incorrectSound};
-	const pianoNotes = [C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3];
+	const pianoNotes = [C3];
+	// const pianoNotes = [C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3];
 
 	function makeAudioElements(audio) {
 		return Object.keys(audio).map((name) => { 
@@ -172,17 +173,18 @@ const Keys = (props) => {
 
 const Octave = (props) => {
 	const whiteKeyWidth = 3;
-	const blackKeyOffset = 2;
-	const whiteKeys = props.allKeys.filter((key) => { return key.indexOf('#') == -1});
+	const blackKeyWidth = 2;
+	const whiteKeys = props.allKeys.filter((key) => { return key.indexOf('b') == -1});
 	const keyArray = makeKeyArray(props.allKeys);
 	const keyElements = makeKeyElements(keyArray);    
 
-	function returnLeft(key, i) { 
-		let whiteKey = key.replace('#', ''); 
+	function returnLeft(key) { 
+		console.log('key', key);
+		let whiteKey = key.replace('b', ''); 
 		let offset = whiteKeys.indexOf(whiteKey) * whiteKeyWidth;
 
-		if(key.indexOf('#') !== -1) {
-			offset += blackKeyOffset;
+		if(key.indexOf('b') !== -1) {
+			offset -= blackKeyWidth / 2;
 		}
 		
 		return offset + 'em'; 
@@ -194,7 +196,7 @@ const Octave = (props) => {
 				id: key,
 				key: key, 
 				keyName: key,
-				keyType: key.includes('#') ? 'blackKey' : 'whiteKey',
+				keyType: key.includes('b') ? 'blackKey' : 'whiteKey',
 				left: returnLeft(key)				
 			}
 		})
