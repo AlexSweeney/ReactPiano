@@ -1,4 +1,3 @@
-/* add key sounds  (mf o:3)*/
 /* trim and normalize audio (mf o:3) */
 /* keyboard with qwerty */
 

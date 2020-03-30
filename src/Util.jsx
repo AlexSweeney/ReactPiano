@@ -1,8 +1,7 @@
 import React from 'react';
 
 // Generate key
-function generateKey(keys, oldKey = null) { 
-	console.log('generateKey', arguments);
+function generateKey(keys, oldKey = null) {  
 	let newKey = getRandomElement(keys);
 	if(newKey === oldKey) {
 		return generateKey(keys, oldKey);
@@ -28,13 +27,15 @@ function displayKey(key) {
 function makeAudioElements(audio) { 
 	return Object.keys(audio).map((name) => { 
 		return (
-			<audio id={name+"_audio"} key={name}>
+			<audio id={name+"_audio"} key={name} preload>
 				<source type="audio/mp3" src={audio[name]}/>
 			</audio> 
 		)
 	})
 } 
-+
+
+
+
 // Audio
 function getAudio(key) {
 	return document.getElementById(key+"_audio");
