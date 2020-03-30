@@ -8,13 +8,27 @@ import SelectKey from './SelectKey.jsx';
 import correctSound from './audio/correctSound.mp3';
 import incorrectSound from './audio/incorrectSound.mp3'; 
 
+import C3 from './audio/piano/mf/3/C3.mp3';
+// import C#3
+/*D3
+D#3
+E3
+F3
+F#3 
+G3 
+G#3 
+A3 
+A#3 
+B3 */
+
 const Piano = () => {
-	const allKeys = ['c3','c#3','d3','d#3','e3','f3','f#3','g3','g#3','a3','a#3','b3']; 
+	const allKeys = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 
 	const [mode, changeMode] = useState('showKey');
 	const [targetKey, changeTargetKey] = useState(randomArrayElement(allKeys));
 
 	const audio = {correctSound, incorrectSound};
+	const pianoNotes = [C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3];
 
 	function makeAudioElements(audio) {
 		return Object.keys(audio).map((name) => { 
