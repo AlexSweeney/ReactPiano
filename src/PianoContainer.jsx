@@ -33,20 +33,6 @@ const Piano = () => {
 	const audio = {correctSound, incorrectSound};
 	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
 
-	function makeAudioElements(audio) {
-		return Object.keys(audio).map((name) => { 
-			return (
-				<audio id={name+"_audio"} key={name}>
-					<source type="audio/mp3" src={audio[name]}/>
-				</audio>
-			)
-		})
-	}
-		
-	function randomArrayElement(array) {
-		return array[Math.floor(Math.random() * array.length)];
-	}
-
 	function newTargetKey(show = false) { 
 		let newKey = Util.getRandomKey(allKeys, targetKey);
 		changeTargetKey(newKey);
@@ -55,11 +41,11 @@ const Piano = () => {
 	} 
 
 	let props = {allKeys, mode, changeMode, targetKey, newTargetKey}; 
-
+ 
 	return (
 			<div className="pianoContainer"> 
-				{makeAudioElements(audio)}
-				{makeAudioElements(pianoNotes)}
+				{Util.makeAudioElements(audio)}
+				{Util.makeAudioElements(pianoNotes)} 
 
 				<div className="piano"> 
 					<div className="topPiano"> 

@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Generate key
 function generateKey(keys, oldKey = null) { 
 	console.log('generateKey', arguments);
@@ -22,6 +24,17 @@ function displayKey(key) {
 	document.getElementById('pianoDisplay').innerHTML = key;
 }
 
+// Make audio
+function makeAudioElements(audio) { 
+	return Object.keys(audio).map((name) => { 
+		return (
+			<audio id={name+"_audio"} key={name}>
+				<source type="audio/mp3" src={audio[name]}/>
+			</audio> 
+		)
+	})
+} 
++
 // Audio
 function getAudio(key) {
 	return document.getElementById(key+"_audio");
@@ -40,6 +53,7 @@ function stopAudio(key) {
 let Util = {
 	generateKey,
 	displayKey,
+	makeAudioElements,
 	playAudio,
 	stopAudio
 }
