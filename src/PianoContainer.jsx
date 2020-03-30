@@ -4,6 +4,7 @@
 
 import React, {Component, useState} from 'react';
 import './piano.css';  
+import Util from './Util.jsx';
 import ShowKey from './ShowKey.jsx'; 
 import SelectKey from './SelectKey.jsx'; 
 
@@ -47,10 +48,13 @@ const Piano = () => {
 	}
 
 	function newTargetKey(show = false) { 
-		let newKey = SelectKey.generateKey(allKeys); 
+		/*let newKey = SelectKey.generateKey(allKeys); 
 		changeTargetKey(newKey, targetKey);
 		if(show) document.getElementById('pianoDisplay').innerHTML = newKey;
-		return newKey;
+		return newKey;*/
+
+		let newKey = Util.getRandomKey(allKeys);
+		changeTargetKey(newKey, targetKey);
 	} 
 
 	let props = {allKeys, mode, changeMode, targetKey, newTargetKey}; 
