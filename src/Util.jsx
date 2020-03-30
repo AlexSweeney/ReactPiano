@@ -34,8 +34,6 @@ function makeAudioElements(audio) {
 	})
 } 
 
-
-
 // Audio
 function getAudio(key) {
 	return document.getElementById(key+"_audio");
