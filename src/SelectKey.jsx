@@ -1,24 +1,8 @@
+import Util from './Util.jsx';
+
 // Colors
 const correctColor = 'green';
 const incorrectColor = 'red';
-
-// Generate key
-function generateKey(keys, oldKey) { 
-	let newKey = getRandomElement(keys);
-	if(newKey === oldKey) {
-		return generateKey(keys, oldKey);
-	} else {
-		return newKey;
-	}
-}
-
-function getRandomElement(array) { 
-	return array[getRandomNumber(array.length)];
-}
-
-function getRandomNumber(range) {
-	return Math.floor(Math.random() * range + 1);
-}
 
 // Click key
 function keyDown(key, targetKey, reset) {   
@@ -58,7 +42,7 @@ function playSound(sound) {
 }
 
 // export
-let SelectKey = {	generateKey,
+let SelectKey = {	
 					keyDown
 				};
 

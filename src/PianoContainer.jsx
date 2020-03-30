@@ -28,7 +28,7 @@ const Piano = () => {
 	const allKeys = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 
 	const [mode, changeMode] = useState('showKey');
-	const [targetKey, changeTargetKey] = useState(randomArrayElement(allKeys));
+	const [targetKey, changeTargetKey] = useState(Util.generateKey(allKeys));
 
 	const audio = {correctSound, incorrectSound};
 	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
@@ -48,13 +48,10 @@ const Piano = () => {
 	}
 
 	function newTargetKey(show = false) { 
-		/*let newKey = SelectKey.generateKey(allKeys); 
-		changeTargetKey(newKey, targetKey);
-		if(show) document.getElementById('pianoDisplay').innerHTML = newKey;
-		return newKey;*/
-
-		let newKey = Util.getRandomKey(allKeys);
-		changeTargetKey(newKey, targetKey);
+		let newKey = Util.getRandomKey(allKeys, targetKey);
+		changeTargetKey(newKey);
+		if(show) Util.displayKey(newKey);
+		return newKey;
 	} 
 
 	let props = {allKeys, mode, changeMode, targetKey, newTargetKey}; 

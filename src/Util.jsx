@@ -1,3 +1,28 @@
+// Generate key
+function generateKey(keys, oldKey = null) { 
+	console.log('generateKey', arguments);
+	let newKey = getRandomElement(keys);
+	if(newKey === oldKey) {
+		return generateKey(keys, oldKey);
+	} else {
+		return newKey;
+	}
+}
+
+function getRandomElement(array) { 
+	return array[getRandomNumber(array.length)];
+}
+
+function getRandomNumber(range) {
+	return Math.floor(Math.random() * range + 1);
+}
+
+// display key
+function displayKey(key) {
+	document.getElementById('pianoDisplay').innerHTML = key;
+}
+
+// Audio
 function getAudio(key) {
 	return document.getElementById(key+"_audio");
 }
@@ -12,6 +37,11 @@ function stopAudio(key) {
 	audio.currentTime = 0;
 }
 
-function displayKey(key) {
-	document.getElementById('pianoDisplay').innerHTML = key;
+let Util = {
+	generateKey,
+	displayKey,
+	playAudio,
+	stopAudio
 }
+
+export default Util;
