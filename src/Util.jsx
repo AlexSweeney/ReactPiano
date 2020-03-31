@@ -61,6 +61,30 @@ function getAudio(key) {
 	return document.getElementById(key+"_audio");
 }
 
+function setVolume(audioElements, newVolume) {
+	console.log('setVolume');
+	console.log(audioElements);
+
+	audioElements.forEach((element) => {
+		console.log(element);
+		let id = element.props.id;
+		console.log('id', id);
+		let audio = document.getElementById(id);
+		console.log(audio);
+		audio.volume = newVolume;
+	})
+	// console.log(document.getElementById("C3_audio"));
+
+	/*let a = document.getElementById('pianoContainer');
+	console.log('a', a);
+	elements.forEach((element) => {
+		console.log(element.props.id); 
+		console.log(document);
+		let a = document.getElementById(element.props.id);
+		console.log('a', a);
+	})*/
+}
+
 function playAudio(key) {
 	getAudio(key).play();
 }
@@ -74,7 +98,8 @@ function stopAudio(key) {
 let Util = {
 	generateKey,
 	displayKey,
-	makeAudioElements,
+	makeAudioElements, 
+	setVolume,
 	playAudio,
 	stopAudio
 }

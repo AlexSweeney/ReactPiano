@@ -1,4 +1,4 @@
-/* add volume control */
+/* initialize volume at 0.5 */
 /* keyboard with qwerty */
 /* add listen and click mode */
 
@@ -29,33 +29,32 @@ const Piano = () => {
 
 	const [mode, changeMode] = useState('showKey');
 	const [targetKey, changeTargetKey] = useState(Util.generateKey(allKeys));
-
-	const audio = {correctSound, incorrectSound};
-	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
-
-	const [volume, changeVolume] = useState(50);
-
-	function newTargetKey(show = false) {  
+	const newTargetKey = (show = false) => {  
 		let newKey = Util.generateKey(allKeys, targetKey);
 		changeTargetKey(newKey);
 		if(show) Util.displayKey(newKey);
 		return newKey;
 	} 
 
-	let props = {allKeys, mode, changeMode, targetKey, newTargetKey};
-
-	let audioElements =  Util.makeAudioElements(audio, pianoNotes);
-	console.log(audioElements);
+	const audio = {correctSound, incorrectSound};
+	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
+	const [volume, changeVolume] = useState(50);
+	const audioElements = Util.makeAudioElements(audio, pianoNotes);
+	
+	let props = {allKeys, mode, changeMode, targetKey, newTargetKey}; 
+	let volumeProps = {audioElements, volume, changeVolume}; 
+	// let audioProps = {audio, pianoNotes};
  
 	return (
-			<div className="pianoContainer"> 
-				{audioElements}  
+			<div className="pianoContainer" id="pianoContainer">
+				{audioElements} 
+			{/*	<AudioElements {...audioProps}/>*/}
 
 				<div className="piano"> 
 					<div className="topPiano"> 
 						<ModeSelect {...props}/>				
 						<Display/>
-						<VolumeControl volume={volume} changeVolume={changeVolume}/> 
+						<VolumeControl {...volumeProps}/> 
 					</div>
 					 
 					<Keys {...props}/>
@@ -63,6 +62,22 @@ const Piano = () => {
 			</div>
 		)
 };
+
+/*const AudioElements = (props) => { 
+	let audioElements =  Util.makeAudioElements(props); 
+	
+	const myRef = (React.createRef());
+	console.log(myRef);
+	Util.setVolume(myRef);
+
+	return (
+		<div id="audioElements">
+			<audio id={"C3_audio"} key={"C3"} ref={myRef}>
+				<source type="audio/mp3" src={C3}/>
+			</audio> 
+		</div>
+	)
+};*/
 
 const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {   
 	let modes = ['showKey', 'selectKey', 'selectByEar'];
@@ -153,17 +168,19 @@ const Display = () => {
 	)
 };
 
-const VolumeControl = ({volume, changeVolume}) => {
-	let volumeSlider = document.getElementById('volumeSlider');
+const VolumeControl = ({audioElements, volume, changeVolume}) => {
+	let volumeSlider = document.getElementById('volumeSlider'); 
 
 	function volumeChange(event) { 
+		let newVolume = event.target.value;
 		changeVolume(event.target.value);
-	}
+		Util.setVolume(audioElements, newVolume / 100);
+	} 
 
 	return (
 		<div className="volumeContainer">
 			<div className="slidecontainer">
-			  <input type="range" min="1" max="100" id="volumeSlider" value={volume} onChange={(e) => {volumeChange(e)}}/>
+			  <input type="range" min="0" max="100" id="volumeSlider" value={volume} onChange={(e) => {volumeChange(e)}}/>
 			</div>
 			<p>Volume: {volume}</p> 
 		</div>
