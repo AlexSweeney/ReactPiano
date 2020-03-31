@@ -1,4 +1,3 @@
-/* initialize volume at 0.5 */
 /* keyboard with qwerty */
 /* add listen and click mode */
 
@@ -40,15 +39,27 @@ const Piano = () => {
 	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
 	const [volume, changeVolume] = useState(50);
 	const audioElements = Util.makeAudioElements(audio, pianoNotes);
+
+	const keyMap = {'a': 'C3', 
+					'w': 'Db3', 
+					's': 'D3',
+					'e': 'Eb3', 
+					'd': 'E3',
+					'f': 'F3',
+					't': 'Gb3',
+					'g': 'G3',
+					'y': 'Ab3',
+					'h': 'A3',
+					'u': 'Bb3',
+					'j': 'B3'
+					};
 	
-	let props = {allKeys, mode, changeMode, targetKey, newTargetKey}; 
-	let volumeProps = {audioElements, volume, changeVolume}; 
-	// let audioProps = {audio, pianoNotes};
- 
+	let props = {allKeys, keyMap, mode, changeMode, targetKey, newTargetKey}; 
+	let volumeProps = {audioElements, volume, changeVolume};  
+
 	return (
 			<div className="pianoContainer" id="pianoContainer">
-				{audioElements} 
-			{/*	<AudioElements {...audioProps}/>*/}
+				{audioElements}  
 
 				<div className="piano"> 
 					<div className="topPiano"> 
@@ -61,23 +72,7 @@ const Piano = () => {
 				</div>
 			</div>
 		)
-};
-
-/*const AudioElements = (props) => { 
-	let audioElements =  Util.makeAudioElements(props); 
-	
-	const myRef = (React.createRef());
-	console.log(myRef);
-	Util.setVolume(myRef);
-
-	return (
-		<div id="audioElements">
-			<audio id={"C3_audio"} key={"C3"} ref={myRef}>
-				<source type="audio/mp3" src={C3}/>
-			</audio> 
-		</div>
-	)
-};*/
+}; 
 
 const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {   
 	let modes = ['showKey', 'selectKey', 'selectByEar'];
@@ -179,9 +174,8 @@ class VolumeControl extends React.Component {
 		Util.setVolume(this.props.audioElements, newVolume / 100);
 	}  
 
-	componentDidMount() {
-		console.log('volume control mount');
-		this.volumeChange(0);
+	componentDidMount() { 
+		this.volumeChange(this.props.volume);
 	}
 
 	render() {
@@ -196,23 +190,6 @@ class VolumeControl extends React.Component {
 	}
 }
 
-/*const VolumeControl = ({audioElements, volume, changeVolume}) => { 
-	function volumeChange(newVolume) {  
-		changeVolume(newVolume);
-		Util.setVolume(audioElements, newVolume / 100);
-	}  
-
-	
-	return (
-		<div className="volumeContainer">
-			<div className="slidecontainer">
-			  <input type="range" min="0" max="100" id="volumeSlider" value={volume} onChange={(e) => {volumeChange(e.target.value)}}/>
-			</div>
-			<p>Volume: {volume}</p> 
-		</div>
-	)
-}
-*/
 const Keys = (props) => { 
 	return(
 		<div className="keys"> 
@@ -265,8 +242,8 @@ const Octave = (props) => {
 
 	function getWidth() { 
 		return (whiteKeys.length * whiteKeyWidth) + 'em';
-	}
-  
+	} 
+ 
 	return ( 
 		<div className="octave" style={{width: getWidth()}}>  
 			{keyElements}
@@ -274,7 +251,7 @@ const Octave = (props) => {
 	)
 };
 
-const Key = ({mode, keyName, keyType, left, targetKey, newTargetKey}) => {
+const Key = ({mode, keyName, keyType, keyMap, left, targetKey, newTargetKey}) => {
 	function keyOver(key) {   
 		if(mode === 'showKey') { 
 			ShowKey.keyOver(key);
@@ -299,7 +276,22 @@ const Key = ({mode, keyName, keyType, left, targetKey, newTargetKey}) => {
 		if(mode === 'showKey') {
 			ShowKey.keyUp(key);
 		}
+	} 
+
+	function handleKeyDown(e) {
+		console.log('handleKeyDown');
+		if(keyName === keyMap[e.key]) {
+			keyDown(keyName);
+		}
 	}
+
+	React.useEffect(() => { 
+		document.addEventListener('keydown', handleKeyDown);
+
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+		}
+	})
 
 	return (  
 		<div className={"key " + keyType}

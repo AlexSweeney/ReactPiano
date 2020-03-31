@@ -61,16 +61,10 @@ function getAudio(key) {
 	return document.getElementById(key+"_audio");
 }
 
-function setVolume(audioElements, newVolume) {
-	console.log('setVolume');
-	console.log(audioElements);
-
-	audioElements.forEach((element) => {
-		console.log(element);
-		let id = element.props.id;
-		console.log('id', id);
-		let audio = document.getElementById(id);
-		console.log(audio);
+function setVolume(audioElements, newVolume) { 
+	audioElements.forEach((element) => { 
+		let id = element.props.id; 
+		let audio = document.getElementById(id); 
 		audio.volume = newVolume;
 	}) 
 }
