@@ -33,9 +33,9 @@ const Piano = () => {
 	const audio = {correctSound, incorrectSound};
 	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
 
-	function newTargetKey(show = false) { 
-		console.log('newTargetKey');
-		console.log(Util);
+	const [volume, changeVolume] = useState(0);
+
+	function newTargetKey(show = false) {  
 		let newKey = Util.generateKey(allKeys, targetKey);
 		changeTargetKey(newKey);
 		if(show) Util.displayKey(newKey);
@@ -51,12 +51,9 @@ const Piano = () => {
 
 				<div className="piano"> 
 					<div className="topPiano"> 
-						<ModeSelect allKeys={allKeys} 
-									mode={mode} 
-									changeMode={changeMode} 
-									targetKey={targetKey} 
-									newTargetKey={newTargetKey}/>				
-						<Display/> 
+						<ModeSelect {...props}/>				
+						<Display/>
+						<VolumeControl volume={volume} changeVolume={changeVolume}/> 
 					</div>
 					 
 					<Keys {...props}/>
@@ -149,9 +146,27 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 
 const Display = () => {
 	return (
-		<div className="pianoDisplay" id="pianoDisplay"></div>
+		<div className="pianoDisplay" id="pianoDisplay">
+		</div>
 	)
 };
+
+const VolumeControl = ({volume, changeVolume}) => {
+	let volumeSlider = document.getElementById('volumeSlider');
+
+	function volumeChange(event) { 
+		changeVolume(event.target.value);
+	}
+
+	return (
+		<div className="volumeContainer">
+			<div className="slidecontainer">
+			  <input type="range" min="1" max="100" id="volumeSlider" value={volume} onChange={(e) => {volumeChange(e)}}/>
+			</div>
+			<p>Volume: {volume}</p> 
+		</div>
+	)
+}
 
 const Keys = (props) => { 
 	return(

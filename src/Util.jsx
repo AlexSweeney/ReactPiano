@@ -27,7 +27,7 @@ function displayKey(key) {
 function makeAudioElements(audio) { 
 	return Object.keys(audio).map((name) => { 
 		return (
-			<audio id={name+"_audio"} key={name} preload>
+			<audio id={name+"_audio"} key={name}>
 				<source type="audio/mp3" src={audio[name]}/>
 			</audio> 
 		)
