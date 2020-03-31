@@ -72,17 +72,7 @@ function setVolume(audioElements, newVolume) {
 		let audio = document.getElementById(id);
 		console.log(audio);
 		audio.volume = newVolume;
-	})
-	// console.log(document.getElementById("C3_audio"));
-
-	/*let a = document.getElementById('pianoContainer');
-	console.log('a', a);
-	elements.forEach((element) => {
-		console.log(element.props.id); 
-		console.log(document);
-		let a = document.getElementById(element.props.id);
-		console.log('a', a);
-	})*/
+	}) 
 }
 
 function playAudio(key) {

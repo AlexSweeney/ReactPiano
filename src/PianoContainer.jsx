@@ -168,25 +168,51 @@ const Display = () => {
 	)
 };
 
-const VolumeControl = ({audioElements, volume, changeVolume}) => {
-	let volumeSlider = document.getElementById('volumeSlider'); 
+class VolumeControl extends React.Component {
+	constructor(props) {
+		super(props);
+		this.volumeChange = this.volumeChange.bind(this);
+	}
+	
+	volumeChange(newVolume) {  
+		this.props.changeVolume(newVolume);
+		Util.setVolume(this.props.audioElements, newVolume / 100);
+	}  
 
-	function volumeChange(event) { 
-		let newVolume = event.target.value;
-		changeVolume(event.target.value);
+	componentDidMount() {
+		console.log('volume control mount');
+		this.volumeChange(0);
+	}
+
+	render() {
+		return( 
+			<div className="volumeContainer">
+				<div className="slidecontainer">
+				  <input type="range" min="0" max="100" id="volumeSlider" value={this.props.volume} onChange={(e) => {this.props.volumeChange(e.target.value)}}/>
+				</div>
+				<p>Volume: {this.props.volume}</p> 
+			</div>
+		)
+	}
+}
+
+/*const VolumeControl = ({audioElements, volume, changeVolume}) => { 
+	function volumeChange(newVolume) {  
+		changeVolume(newVolume);
 		Util.setVolume(audioElements, newVolume / 100);
-	} 
+	}  
 
+	
 	return (
 		<div className="volumeContainer">
 			<div className="slidecontainer">
-			  <input type="range" min="0" max="100" id="volumeSlider" value={volume} onChange={(e) => {volumeChange(e)}}/>
+			  <input type="range" min="0" max="100" id="volumeSlider" value={volume} onChange={(e) => {volumeChange(e.target.value)}}/>
 			</div>
 			<p>Volume: {volume}</p> 
 		</div>
 	)
 }
-
+*/
 const Keys = (props) => { 
 	return(
 		<div className="keys"> 
