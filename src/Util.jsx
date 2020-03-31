@@ -1,5 +1,23 @@
 import React from 'react';
 
+// General 
+function copyPropertiesAndValues(targetObject, object) {
+	Object.keys(object).forEach((name) => {
+		targetObject[name] = object[name];
+	});
+}
+
+function mergeObjects(/*object1, object2...*/) {
+	let objectsArray = Array.from(arguments[0]);
+	let o = {}; 
+	
+	objectsArray.map((object) => { 
+		copyPropertiesAndValues(o, object);
+	})	
+
+	return o;
+}
+
 // Generate key
 function generateKey(keys, oldKey = null) {  
 	let newKey = getRandomElement(keys);
@@ -24,14 +42,18 @@ function displayKey(key) {
 }
 
 // Make audio
-function makeAudioElements(audio) { 
-	return Object.keys(audio).map((name) => { 
-		return (
-			<audio id={name+"_audio"} key={name}>
-				<source type="audio/mp3" src={audio[name]}/>
-			</audio> 
-		)
-	})
+function makeAudioTags(audio) {
+	return Object.keys(audio).map((name) => {
+			return (
+				<audio id={name+"_audio"} key={name}>
+					<source type="audio/mp3" src={audio[name]}/>
+				</audio> 
+			)
+		})
+}
+
+function makeAudioElements(/*object1, object2...*/) { 
+	return makeAudioTags(mergeObjects(arguments));
 } 
 
 // Audio

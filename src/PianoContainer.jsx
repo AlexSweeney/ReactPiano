@@ -33,7 +33,7 @@ const Piano = () => {
 	const audio = {correctSound, incorrectSound};
 	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
 
-	const [volume, changeVolume] = useState(0);
+	const [volume, changeVolume] = useState(50);
 
 	function newTargetKey(show = false) {  
 		let newKey = Util.generateKey(allKeys, targetKey);
@@ -42,12 +42,14 @@ const Piano = () => {
 		return newKey;
 	} 
 
-	let props = {allKeys, mode, changeMode, targetKey, newTargetKey}; 
+	let props = {allKeys, mode, changeMode, targetKey, newTargetKey};
+
+	let audioElements =  Util.makeAudioElements(audio, pianoNotes);
+	console.log(audioElements);
  
 	return (
 			<div className="pianoContainer"> 
-				{Util.makeAudioElements(audio)}
-				{Util.makeAudioElements(pianoNotes)} 
+				{audioElements}  
 
 				<div className="piano"> 
 					<div className="topPiano"> 
