@@ -1,4 +1,3 @@
-/* keyboard with qwerty */
 /* add listen and click mode */
 
 import React, {Component, useState} from 'react';
@@ -6,6 +5,7 @@ import './piano.css';
 import Util from './Util.jsx';
 import ShowKey from './ShowKey.jsx'; 
 import SelectKey from './SelectKey.jsx'; 
+import SelectByEar from './SelectByEar.jsx';
 
 import correctSound from './audio/correctSound.mp3';
 import incorrectSound from './audio/incorrectSound.mp3'; 
@@ -93,6 +93,7 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 	function initSelectByEar() {
 		newTargetKey();
 		displayKey('');
+		Util.playAudio(targetKey);
 	}
 
 	function initMode(newMode) {
@@ -182,7 +183,7 @@ class VolumeControl extends React.Component {
 		return( 
 			<div className="volumeContainer">
 				<div className="slidecontainer">
-				  <input type="range" min="0" max="100" id="volumeSlider" value={this.props.volume} onChange={(e) => {this.props.volumeChange(e.target.value)}}/>
+				  <input type="range" min="0" max="100" id="volumeSlider" value={this.props.volume} onChange={(e) => {this.volumeChange(e.target.value)}}/>
 				</div>
 				<p>Volume: {this.props.volume}</p> 
 			</div>
@@ -269,6 +270,8 @@ const Key = ({mode, keyName, keyType, keyMap, left, targetKey, newTargetKey}) =>
 			ShowKey.keyDown(key);
 		} else if(mode === 'selectKey') {    
 			SelectKey.keyDown(key, targetKey, newTargetKey);
+		} else if(mode === 'selectByEar') {
+			SelectByEar.keyDown(key, targetKey);
 		}
 	}
 
@@ -278,8 +281,7 @@ const Key = ({mode, keyName, keyType, keyMap, left, targetKey, newTargetKey}) =>
 		}
 	} 
 
-	function handleKeyDown(e) {
-		console.log('handleKeyDown');
+	function handleKeyDown(e) { 
 		if(keyName === keyMap[e.key]) {
 			keyDown(keyName);
 		}
