@@ -1,4 +1,4 @@
-import Util from './Util.jsx';
+import Util from '../Util.jsx';
 
 // Colors 
 const {correctColor, incorrectColor} = Util;

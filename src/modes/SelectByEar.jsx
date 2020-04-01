@@ -1,4 +1,4 @@
-import Util from './Util.jsx';
+import Util from '../Util.jsx';
 
 let {correctColor, incorrectColor} = Util;
 

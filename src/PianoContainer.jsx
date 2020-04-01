@@ -9,18 +9,14 @@
 /* midi keyboard */
 
 import React, {Component, useState} from 'react';
+import Util from './Util.jsx';
 
 // styles
 import './piano.css';  
 
 // components
 import AudioElements from './AudioElements.jsx';
-
-// Modes
-import Util from './Util.jsx';
-import ShowKey from './ShowKey.jsx'; 
-import SelectKey from './SelectKey.jsx'; 
-import SelectByEar from './SelectByEar.jsx';
+import ModeSelect from './ModeSelect.jsx';
 
 // Sounds
 import correctSound from './audio/correctSound.mp3';
@@ -70,116 +66,35 @@ const Piano = () => {
 					'j': 'B3'
 					};
 	
-	let props = {allKeys, keyMap, mode, changeMode, targetKey, newTargetKey}; 
+	// let props = {allKeys, keyMap, mode, changeMode, targetKey, newTargetKey}; 
 	// let volumeProps = {audioElements, volume, changeVolume};  
+
+	let modeProps = {mode, changeMode, targetKey, newTargetKey};
 
 	return (
 			<div className="pianoContainer" id="pianoContainer"> 
 				<AudioElements audio={[audio, pianoNotes]}/>
-				{/*<div className="piano"> 
+				<div className="piano"> 
 					<div className="topPiano"> 
-						<ModeSelect {...props}/>				
-						<Display/>
-						<VolumeControl {...volumeProps}/> 
+						<ModeSelect {...modeProps}/>				
+						{/*<Display/>
+						<VolumeControl {...volumeProps}/> */}
 					</div>
 					 
-					<Keys {...props}/>
-				</div>*/}
+					{/*<Keys {...props}/>*/}
+				</div>
 			</div>
 		)
 }; 
 
-const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {   
-	let modes = ['showKey', 'selectKey', 'selectByEar'];
-	let inputs = null;
-
-	function displayKey(key) {
-		document.getElementById('pianoDisplay').innerHTML = key;
-	}
-
-	function initShowKey() {
-		displayKey('');
-	}
-
-	function initSelectKey() { 
-		displayKey(targetKey);
-	}
-
-	function initSelectByEar() {
-		newTargetKey();
-		displayKey('');
-		Util.playAudio(targetKey);
-	}
-
-	function initMode(newMode) {
-		if(newMode === 'showKey') {
-			initShowKey();
-		} else if (newMode === 'selectKey') {   
-			initSelectKey();
-		} else if (newMode === 'selectByEar') {
-			initSelectByEar();
-		}
-	}
-
-	function clickModeChange(newMode) {   
-		if(newMode !== mode) {
-			changeMode(newMode); 
-			selectRadio(newMode);
-			initMode(newMode);
-		}  
-	}
-
-	function selectRadio(newMode) { 
-		if(!inputs) {
-			inputs = modes.map((mode) => {
-				return document.getElementById(mode+"Input");
-			}); 
-		}
-
-		inputs.forEach((input) => {
-			if(input.value === newMode) {
-				input.checked = true;
-			} else {
-				input.checked = false;
-			}
-		}); 
-	}
- 	
- 	function returnInput(mode) { 
- 		return (
- 			<div key={mode}>
-				<input type="radio" 
-						name="mode"
-						value={mode}
-						id={mode+"Input"}
-						onClick={() => { clickModeChange(mode) }}
-						defaultChecked={mode === "showKey"}
-				/>
-				<label htmlFor={mode}  
-						onClick={() => { clickModeChange(mode) }} 
-				>{mode}</label>
-				<br/> 
-			</div>
- 		)
- 	} 
-	
-	return (
-		<form name="modeSelectForm">    
-			{modes.map((mode) => { 
-				return returnInput(mode);
-			})}
-		</form>
-	) 
-};
-
-const Display = () => {
+/*const Display = () => {
 	return (
 		<div className="pianoDisplay" id="pianoDisplay">
 		</div>
 	)
-};
+};*/
 
-class VolumeControl extends React.Component {
+/*class VolumeControl extends React.Component {
 	constructor(props) {
 		super(props);
 		this.volumeChange = this.volumeChange.bind(this);
@@ -204,18 +119,18 @@ class VolumeControl extends React.Component {
 			</div>
 		)
 	}
-}
+}*/
 
-const Keys = (props) => { 
+/*const Keys = (props) => { 
 	return(
 		<div className="keys"> 
 			<Octave octaveNumber={0} 
 				{...props}/>	
 		</div>
 	)
-};
+};*/
 
-const Octave = (props) => {
+/*const Octave = (props) => {
 	const whiteKeyWidth = 3;
 	const blackKeyWidth = 2;
 	const whiteKeys = props.allKeys.filter((key) => { return key.indexOf('b') == -1});
@@ -265,9 +180,9 @@ const Octave = (props) => {
 			{keyElements}
 		</div>
 	)
-};
+};*/
 
-const Key = ({mode, keyName, keyType, keyMap, left, targetKey, newTargetKey}) => {
+/*const Key = ({mode, keyName, keyType, keyMap, left, targetKey, newTargetKey}) => {
 	function keyOver(key) {   
 		if(mode === 'showKey') { 
 			ShowKey.keyOver(key);
@@ -321,6 +236,6 @@ const Key = ({mode, keyName, keyType, keyMap, left, targetKey, newTargetKey}) =>
 		>
 		</div> 
 	)
-}
+}*/
 
 export default Piano;

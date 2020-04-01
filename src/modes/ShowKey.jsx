@@ -1,4 +1,4 @@
-import Util from './Util.jsx';
+import Util from '../Util.jsx';
 
 function keyDown(key) {  
 	Util.playAudio(key);

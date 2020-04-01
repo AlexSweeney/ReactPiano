@@ -27,6 +27,28 @@ function mapObject(object, fn) {
 	return Object.keys(object).map((key) => fn(key, object[key]));  
 }
 
+function setInnerHTML(value, targetId) {
+	document.getElementById(targetId).innerHTML = value;
+}
+
+function makeRadioElement(value, clickFunction, defaultChecked) { 
+	return (
+			<div key={value}>
+			<input type="radio" 
+					name="mode"
+					value={value}
+					id={value+"_Input"}
+					onClick={() => { clickFunction(value) }}
+					defaultChecked={value === defaultChecked}
+			/>
+			<label htmlFor={value}  
+					onClick={() => { clickFunction(value) }} 
+			>{value}</label>
+			<br/> 
+		</div>
+	)
+}
+
 // Generate key
 function generateKey(keys, oldKey = null) {  
 	let newKey = getRandomElement(keys);
@@ -74,6 +96,8 @@ function stopAudio(key) {
 }
 
 let Util = {
+	setInnerHTML,
+	makeRadioElement,
 	mergeObjects,
 	mapObject,
 	generateKey,
