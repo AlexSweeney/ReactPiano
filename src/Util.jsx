@@ -1,5 +1,8 @@
 import React from 'react';
 
+const correctColor = 'green';
+const incorrectColor = 'red';
+
 // General 
 function copyPropertiesAndValues(targetObject, object) {
 	Object.keys(object).forEach((name) => {
@@ -85,7 +88,9 @@ let Util = {
 	makeAudioElements, 
 	setVolume,
 	playAudio,
-	stopAudio
+	stopAudio,
+	correctColor,
+	incorrectColor
 }
 
 export default Util;

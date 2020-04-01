@@ -10,12 +10,18 @@ function keyDown(clickedKey, targetKey) {
 
 // Correct
 function correctClick() {
+	// flash color
 
+	// play sound
+
+	// reset
 }
 
 // Incorrect
 function incorrectClick() {
-	
+	// flash color
+
+	// play sound
 }
 
 let SelectByEar = {

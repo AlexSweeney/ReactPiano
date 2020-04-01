@@ -1,8 +1,7 @@
 import Util from './Util.jsx';
 
-// Colors
-const correctColor = 'green';
-const incorrectColor = 'red';
+// Colors 
+const {correctColor, incorrectColor} = Util;  
 
 // Click key
 function keyDown(key, targetKey, reset) {   
