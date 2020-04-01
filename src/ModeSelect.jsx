@@ -7,43 +7,28 @@ import SelectByEar from './modes/SelectByEar.jsx';
 const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {   
 	let modes = ['showKey', 'selectKey', 'selectByEar'];
 	let modeElements = Util.makeRadioElements(modes, clickModeChange, 'showKey'); 
-/*	
-	function makeModeElements(modes, clickFunction, defaultChecked) {
-		return modes.map((mode) => { 
-			return Util.makeRadioElement(mode, clickFunction, defaultChecked);
-		})
-	}
-
-	*/
 
 	function clickModeChange(newMode) {   
 		console.log('newMode', newMode);
-		/*if(newMode !== mode) {
+		if(newMode !== mode) {
 			changeMode(newMode); 
-			selectRadio(newMode);
-			initMode(newMode);
-		} */ 
+			selectRadio(newMode, modes);
+			// initMode(newMode);
+		}  
 	} 
 
+	function selectRadio(targetRadio, allRadios) { 
+		let radios = Util.getElement(allRadios, '_Radio'); 
 
-	/*function makeInputElement(mode) { 
- 		return (
- 			<div key={mode}>
-				<input type="radio" 
-						name="mode"
-						value={mode}
-						id={mode+"Input"}
-						onClick={() => { clickModeChange(mode) }}
-						defaultChecked={mode === "showKey"}
-				/>
-				<label htmlFor={mode}  
-						onClick={() => { clickModeChange(mode) }} 
-				>{mode}</label>
-				<br/> 
-			</div>
- 		)
- 	} */
- 
+		radios.forEach((radio) => {
+			if(radio.value === targetRadio) {
+				radio.checked = true;
+			} else {
+				radio.checked = false;
+			}
+		}); 
+	}
+
 
  	/* 
 	function initShowKey() {

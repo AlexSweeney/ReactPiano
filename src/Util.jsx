@@ -4,6 +4,8 @@ const correctColor = 'green';
 const incorrectColor = 'red';
 
 // General 
+
+// Objects
 function copyPropertiesAndValues(targetObject, object) {
 	Object.keys(object).forEach((name) => {
 		targetObject[name] = object[name];
@@ -27,10 +29,19 @@ function mapObject(object, fn) {
 	return Object.keys(object).map((key) => fn(key, object[key]));  
 }
 
+// Elements
 function setInnerHTML(value, targetId) {
 	document.getElementById(targetId).innerHTML = value;
 }
 
+function getElement(id, extra='') {
+	if(Array.isArray(id)) {
+		return id.map(item => getElement(item + extra));
+	}
+	return document.getElementById(id+extra);
+}
+
+// Radio Elements
 function makeRadioElements(names, clickFunction, defaultChecked) {
 		return names.map((name) => {
 			return makeRadioElement(name, clickFunction, defaultChecked);
@@ -43,7 +54,7 @@ function makeRadioElement(value, clickFunction, defaultChecked) {
 			<input type="radio" 
 					name="mode"
 					value={value}
-					id={value+"_Input"}
+					id={value+"_Radio"}
 					onClick={() => { clickFunction(value) }}
 					defaultChecked={value === defaultChecked}
 			/>
@@ -103,6 +114,7 @@ function stopAudio(key) {
 
 let Util = {
 	setInnerHTML,
+	getElement,
 	makeRadioElements,
 	mergeObjects,
 	mapObject,
