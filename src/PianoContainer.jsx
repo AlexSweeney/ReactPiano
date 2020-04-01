@@ -76,7 +76,8 @@ const Piano = () => {
 				<AudioElements audio={[audio, pianoNotes]}/>
 				<div className="piano"> 
 					<div className="topPiano"> 
-						<ModeSelect {...modeProps}/>				
+						<ModeSelect {...modeProps}/>	
+						<div id="pianoDisplay"></div>			
 						{/*<Display/>
 						<VolumeControl {...volumeProps}/> */}
 					</div>

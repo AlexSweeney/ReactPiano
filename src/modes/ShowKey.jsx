@@ -1,5 +1,9 @@
 import Util from '../Util.jsx';
 
+function init() {
+	Util.setInnerHTML('', 'pianoDisplay');
+}
+
 function keyDown(key) {  
 	Util.playAudio(key);
 }
@@ -18,5 +22,5 @@ function keyOut(key) {
 	Util.displayKey(''); 
 }
 
-let ShowKey = {keyDown, keyUp, keyOver, keyOut};
+let ShowKey = {init, keyDown, keyUp, keyOver, keyOut};
 export default ShowKey;

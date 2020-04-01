@@ -3,6 +3,12 @@ import Util from '../Util.jsx';
 // Colors 
 const {correctColor, incorrectColor} = Util;
 
+// init
+function init() {
+	console.log('selectKey init');
+	Util.setInnerHTML('', 'pianoDisplay');
+}
+
 // Click key
 function keyDown(key, targetKey, reset) {   
 	if(key === targetKey) {  
@@ -41,6 +47,7 @@ function flashColor(element, color) {
 
 // export
 let SelectKey = {	
+					init,
 					keyDown
 				};
 

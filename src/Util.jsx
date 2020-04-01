@@ -66,6 +66,18 @@ function makeRadioElement(value, clickFunction, defaultChecked) {
 	)
 }
 
+function selectRadio(targetRadio, allRadios) { 
+	let radios = Util.getElement(allRadios, '_Radio'); 
+
+	radios.forEach((radio) => {
+		if(radio.value === targetRadio) {
+			radio.checked = true;
+		} else {
+			radio.checked = false;
+		}
+	}); 
+}
+
 // Generate key
 function generateKey(keys, oldKey = null) {  
 	let newKey = getRandomElement(keys);
@@ -116,6 +128,7 @@ let Util = {
 	setInnerHTML,
 	getElement,
 	makeRadioElements,
+	selectRadio,
 	mergeObjects,
 	mapObject,
 	generateKey,
