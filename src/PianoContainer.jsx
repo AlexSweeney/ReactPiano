@@ -42,6 +42,7 @@ const Piano = () => {
 	const [mode, changeMode] = useState('showKey');
 	const [targetKey, changeTargetKey] = useState(Util.generateKey(allKeys));
 	const newTargetKey = (show = false) => {  
+		console.log('newTargetKey called');
 		let newKey = Util.generateKey(allKeys, targetKey);
 		changeTargetKey(newKey);
 		if(show) Util.displayKey(newKey);

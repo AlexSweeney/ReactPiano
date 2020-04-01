@@ -22,10 +22,10 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 		} else if (newMode === 'selectKey') {   
 			SelectKey.init();
 		} else if (newMode === 'selectByEar') {
-			// SelectByEar.init(targetKey, newTargetKey);
+			SelectByEar.init(targetKey, newTargetKey);
 		}
 	} 
-	
+
 	return (
 		<form name="modeSelectForm">    
 			{modeRadios}

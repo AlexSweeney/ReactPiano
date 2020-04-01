@@ -2,7 +2,7 @@ import Util from '../Util.jsx';
 
 let {correctColor, incorrectColor} = Util;
 
-function init(targetKey, newTargetKey) {
+function init(targetKey, newTargetKey) { 
 	newTargetKey();
 	Util.setInnerHTML('', 'pianoDisplay');
 	Util.playAudio(targetKey);
@@ -34,7 +34,8 @@ function incorrectClick() {
 	// play sound
 }
 
-let SelectByEar = {
+const SelectByEar = {
+	init,
 	keyDown
 }
 
