@@ -6,13 +6,15 @@ import SelectByEar from './modes/SelectByEar.jsx';
 
 const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {   
 	let modes = ['showKey', 'selectKey', 'selectByEar'];
-	let modeElements = makeModeElements(modes, clickModeChange, 'showKey'); 
-	
+	let modeElements = Util.makeRadioElements(modes, clickModeChange, 'showKey'); 
+/*	
 	function makeModeElements(modes, clickFunction, defaultChecked) {
 		return modes.map((mode) => { 
 			return Util.makeRadioElement(mode, clickFunction, defaultChecked);
 		})
 	}
+
+	*/
 
 	function clickModeChange(newMode) {   
 		console.log('newMode', newMode);
@@ -21,7 +23,7 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 			selectRadio(newMode);
 			initMode(newMode);
 		} */ 
-	}
+	} 
 
 
 	/*function makeInputElement(mode) { 

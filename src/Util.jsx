@@ -31,6 +31,12 @@ function setInnerHTML(value, targetId) {
 	document.getElementById(targetId).innerHTML = value;
 }
 
+function makeRadioElements(names, clickFunction, defaultChecked) {
+		return names.map((name) => {
+			return makeRadioElement(name, clickFunction, defaultChecked);
+		});
+	}
+
 function makeRadioElement(value, clickFunction, defaultChecked) { 
 	return (
 			<div key={value}>
@@ -97,7 +103,7 @@ function stopAudio(key) {
 
 let Util = {
 	setInnerHTML,
-	makeRadioElement,
+	makeRadioElements,
 	mergeObjects,
 	mapObject,
 	generateKey,
