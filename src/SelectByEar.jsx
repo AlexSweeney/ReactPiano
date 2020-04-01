@@ -1,10 +1,14 @@
+import Util from './Util.jsx';
+
+let {correctColor, incorrectColor} = Util;
+
 // Click key
 function keyDown(clickedKey, targetKey) {
 	console.log('targetKey', targetKey);
 	if(clickedKey === targetKey) {
 		console.log("correct");
 	} else {
-		console.log('incorrect');
+		incorrectClick();
 	}
 }
 

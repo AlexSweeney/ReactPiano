@@ -1,7 +1,7 @@
 import Util from './Util.jsx';
 
 // Colors 
-const {correctColor, incorrectColor} = Util;  
+const {correctColor, incorrectColor} = Util;
 
 // Click key
 function keyDown(key, targetKey, reset) {   
@@ -12,6 +12,7 @@ function keyDown(key, targetKey, reset) {
 	} 
 }
 
+// correct
 function correctClick(key, reset) {  
 	flashColor(key, correctColor); 
 	Util.playAudio('correctSound'); 
@@ -21,11 +22,13 @@ function correctClick(key, reset) {
 	}, 1000);
 }
 
+// incorrect
 function incorrectClick(key) { 
 	flashColor(key, incorrectColor); 
 	Util.playAudio('incorrectSound');
 }
 
+// 
 function flashColor(element, color) { 
 	let target = document.getElementById(element); 
 	let origColor = target.style.backgroundColor;
@@ -34,10 +37,6 @@ function flashColor(element, color) {
 	setTimeout(() => {
 		target.style.backgroundColor = origColor;
 	}, 500);
-}
-
-function playSound(sound) { 
-	sound.play();
 }
 
 // export

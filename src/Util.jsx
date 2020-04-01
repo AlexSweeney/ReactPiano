@@ -10,7 +10,7 @@ function copyPropertiesAndValues(targetObject, object) {
 	});
 }
 
-function mergeObjects(/*object1, object2...*/) {
+/*function mergeObjects() {
 	let objectsArray = Array.from(arguments[0]);
 	let o = {}; 
 	
@@ -20,7 +20,7 @@ function mergeObjects(/*object1, object2...*/) {
 
 	return o;
 }
-
+*/
 // Generate key
 function generateKey(keys, oldKey = null) {  
 	let newKey = getRandomElement(keys);
@@ -43,21 +43,6 @@ function getRandomNumber(range) {
 function displayKey(key) {
 	document.getElementById('pianoDisplay').innerHTML = key;
 }
-
-// Make audio
-function makeAudioTags(audio) {
-	return Object.keys(audio).map((name) => {
-			return (
-				<audio id={name+"_audio"} key={name}>
-					<source type="audio/mp3" src={audio[name]}/>
-				</audio> 
-			)
-		})
-}
-
-function makeAudioElements(/*object1, object2...*/) { 
-	return makeAudioTags(mergeObjects(arguments));
-} 
 
 // Audio
 function getAudio(key) {
@@ -84,13 +69,12 @@ function stopAudio(key) {
 
 let Util = {
 	generateKey,
-	displayKey,
-	makeAudioElements, 
+	displayKey, 
 	setVolume,
 	playAudio,
 	stopAudio,
 	correctColor,
-	incorrectColor
+	incorrectColor, 
 }
 
 export default Util;

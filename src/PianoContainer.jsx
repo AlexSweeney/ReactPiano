@@ -1,12 +1,28 @@
+/* refactor - split into seperate components */
+
 /* add listen and click mode */
 
+/* style */
+
+/* trim audio in ableton, -> sync start */
+
+/* midi keyboard */
+
 import React, {Component, useState} from 'react';
+
+// styles
 import './piano.css';  
+
+// components
+import AudioElements from './AudioElements.jsx';
+
+// Modes
 import Util from './Util.jsx';
 import ShowKey from './ShowKey.jsx'; 
 import SelectKey from './SelectKey.jsx'; 
 import SelectByEar from './SelectByEar.jsx';
 
+// Sounds
 import correctSound from './audio/correctSound.mp3';
 import incorrectSound from './audio/incorrectSound.mp3'; 
 
@@ -38,8 +54,7 @@ const Piano = () => {
 	const audio = {correctSound, incorrectSound};
 	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
 	const [volume, changeVolume] = useState(50);
-	const audioElements = Util.makeAudioElements(audio, pianoNotes);
-
+	
 	const keyMap = {'a': 'C3', 
 					'w': 'Db3', 
 					's': 'D3',
@@ -55,13 +70,14 @@ const Piano = () => {
 					};
 	
 	let props = {allKeys, keyMap, mode, changeMode, targetKey, newTargetKey}; 
-	let volumeProps = {audioElements, volume, changeVolume};  
+	// let volumeProps = {audioElements, volume, changeVolume};  
 
 	return (
 			<div className="pianoContainer" id="pianoContainer">
-				{audioElements}  
+				{/* {audioElements} */}
+				<AudioElements audio={[audio, pianoNotes]}/>
 
-				<div className="piano"> 
+				{/*<div className="piano"> 
 					<div className="topPiano"> 
 						<ModeSelect {...props}/>				
 						<Display/>
@@ -69,7 +85,7 @@ const Piano = () => {
 					</div>
 					 
 					<Keys {...props}/>
-				</div>
+				</div>*/}
 			</div>
 		)
 }; 
