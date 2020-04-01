@@ -2,28 +2,16 @@ import React from 'react';
 import Util from './Util.jsx';
 
 const AudioElements = ({audio}) => { 
-	function makeAudioTag(name, src) {
+	function makeAudioTag(key, value) {
 		return (
-			<audio id={name+"_audio"} key={name}>
-				<source type="audio/mp3" src={src}/>
+			<audio id={key+"_audio"} key={key}>
+				<source type="audio/mp3" src={value}/>
 			</audio> 
 		)
-	}
-
-	function makeAudioTags(audioObjects) {
-		let audioTags = [];
-		
-		audioObjects.forEach((audioObject) => { 
-			Object.keys(audioObject).forEach((name) => {
-				audioTags.push(makeAudioTag(name, audio[name]));
-			}) 
-		}) 
-
-		return audioTags;
-	}
+	}   
 
 	function makeAudioElements(audioObjects) {  
-		return makeAudioTags(audioObjects);
+		return Util.mapObject(audioObjects, makeAudioTag); 
 	} 
 
 	const audioElements = makeAudioElements(audio); 

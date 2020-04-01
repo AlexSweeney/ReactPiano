@@ -10,17 +10,23 @@ function copyPropertiesAndValues(targetObject, object) {
 	});
 }
 
-/*function mergeObjects() {
-	let objectsArray = Array.from(arguments[0]);
+function mergeObjects(objectsArray) {
 	let o = {}; 
 	
-	objectsArray.map((object) => { 
+	objectsArray.forEach((object) => { 
 		copyPropertiesAndValues(o, object);
 	})	
 
 	return o;
 }
-*/
+
+function mapObject(object, fn) { 
+	if(Array.isArray(object)) { 
+		object = Util.mergeObjects(object);
+	}  
+	return Object.keys(object).map((key) => fn(key, object[key]));  
+}
+
 // Generate key
 function generateKey(keys, oldKey = null) {  
 	let newKey = getRandomElement(keys);
@@ -68,6 +74,8 @@ function stopAudio(key) {
 }
 
 let Util = {
+	mergeObjects,
+	mapObject,
 	generateKey,
 	displayKey, 
 	setVolume,

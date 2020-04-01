@@ -26,6 +26,7 @@ import SelectByEar from './SelectByEar.jsx';
 import correctSound from './audio/correctSound.mp3';
 import incorrectSound from './audio/incorrectSound.mp3'; 
 
+// Keys
 import C3 from './audio/piano/mf/3/C3.mp3';
 import Db3 from './audio/piano/mf/3/Db3.mp3';
 import D3 from './audio/piano/mf/3/D3.mp3';
@@ -73,10 +74,8 @@ const Piano = () => {
 	// let volumeProps = {audioElements, volume, changeVolume};  
 
 	return (
-			<div className="pianoContainer" id="pianoContainer">
-				{/* {audioElements} */}
+			<div className="pianoContainer" id="pianoContainer"> 
 				<AudioElements audio={[audio, pianoNotes]}/>
-
 				{/*<div className="piano"> 
 					<div className="topPiano"> 
 						<ModeSelect {...props}/>				
