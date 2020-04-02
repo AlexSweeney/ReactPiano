@@ -34,11 +34,15 @@ function setInnerHTML(value, targetId) {
 	document.getElementById(targetId).innerHTML = value;
 }
 
-function getElement(id, extra='') {
+function getElement(id, extra='') { 
 	if(Array.isArray(id)) {
 		return id.map(item => getElement(item + extra));
 	}
 	return document.getElementById(id+extra);
+}
+
+function getElementsFromStorage(id, elements, extra) {
+	return localStorage.getItem(id) || Util.getElement(elements, extra);
 }
 
 // Radio Elements
@@ -78,13 +82,13 @@ function selectRadio(targetRadio, allRadios) {
 	}); 
 }
 
-// Generate key
-function generateKey(keys, oldKey = null) {  
-	let newKey = getRandomElement(keys);
-	if(newKey === oldKey) {
-		return generateKey(keys, oldKey);
+// Generate Random Element
+function getNewRandomElement(allElements, oldElement = null) {  
+	let newElement = getRandomElement(allElements);
+	if(newElement === oldElement) {
+		return getNewRandomElement(allElements, oldElement);
 	} else {
-		return newKey;
+		return newElement;
 	}
 }
 
@@ -106,12 +110,8 @@ function getAudio(key) {
 	return document.getElementById(key+"_audio");
 }
 
-function setVolume(audioElements, newVolume) { 
-	audioElements.forEach((element) => { 
-		let id = element.props.id; 
-		let audio = document.getElementById(id); 
-		audio.volume = newVolume;
-	}) 
+function setVolume(audioElements, newVolume) {
+	audioElements.forEach(element => element.volume = newVolume);
 }
 
 function playAudio(key) {
@@ -127,11 +127,12 @@ function stopAudio(key) {
 let Util = {
 	setInnerHTML,
 	getElement,
+	getElementsFromStorage,
 	makeRadioElements,
 	selectRadio,
 	mergeObjects,
 	mapObject,
-	generateKey,
+	getNewRandomElement,
 	displayKey, 
 	setVolume,
 	playAudio,

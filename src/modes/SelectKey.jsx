@@ -5,7 +5,6 @@ const {correctColor, incorrectColor} = Util;
 
 // init
 function init() {
-	console.log('selectKey init');
 	Util.setInnerHTML('', 'pianoDisplay');
 }
 

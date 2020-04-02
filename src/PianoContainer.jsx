@@ -8,6 +8,10 @@
 
 /* midi keyboard */
 
+/* show scales */
+
+/* settings - number of ocataves */
+
 import React, {Component, useState} from 'react';
 import Util from './Util.jsx';
 
@@ -17,6 +21,7 @@ import './piano.css';
 // components
 import AudioElements from './AudioElements.jsx';
 import ModeSelect from './ModeSelect.jsx';
+import VolumeControl from './VolumeControl.jsx';
 
 // Sounds
 import correctSound from './audio/correctSound.mp3';
@@ -39,20 +44,6 @@ import B3 from './audio/piano/mf/3/B3.mp3';
 const Piano = () => {
 	const allKeys = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 
-	const [mode, changeMode] = useState('showKey');
-	const [targetKey, changeTargetKey] = useState(Util.generateKey(allKeys));
-	const newTargetKey = (show = false) => {  
-		console.log('newTargetKey called');
-		let newKey = Util.generateKey(allKeys, targetKey);
-		changeTargetKey(newKey);
-		if(show) Util.displayKey(newKey);
-		return newKey;
-	} 
-
-	const audio = {correctSound, incorrectSound};
-	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
-	const [volume, changeVolume] = useState(50);
-	
 	const keyMap = {'a': 'C3', 
 					'w': 'Db3', 
 					's': 'D3',
@@ -66,21 +57,34 @@ const Piano = () => {
 					'u': 'Bb3',
 					'j': 'B3'
 					};
-	
-	// let props = {allKeys, keyMap, mode, changeMode, targetKey, newTargetKey}; 
-	// let volumeProps = {audioElements, volume, changeVolume};  
+	 
+	// Props 
+	const pianoNotes = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
+	const audio = {correctSound, incorrectSound, ...pianoNotes};
+	const audioProps = {audio};
 
-	let modeProps = {mode, changeMode, targetKey, newTargetKey};
+	const [mode, changeMode] = useState('showKey');
+	const [targetKey, changeTargetKey] = useState(Util.getNewRandomElement(allKeys));
+	const newTargetKey = (show = false) => {   
+		let newKey = Util.getNewRandomElement(allKeys, targetKey);
+		changeTargetKey(newKey);
+		if(show) Util.setInnerHTML(newKey);
+		return newKey;
+	} 
+
+	const modeProps = {mode, changeMode, targetKey, newTargetKey};
+
+	const [volume, changeVolume] = useState(50);
+	const volumeProps = {audio, volume, changeVolume};  
 
 	return (
 			<div className="pianoContainer" id="pianoContainer"> 
-				<AudioElements audio={[audio, pianoNotes]}/>
+				<AudioElements {...audioProps}/>
 				<div className="piano"> 
 					<div className="topPiano"> 
 						<ModeSelect {...modeProps}/>	
-						<div id="pianoDisplay"></div>			
-						{/*<Display/>
-						<VolumeControl {...volumeProps}/> */}
+						<div className="pianoDisplay" id="pianoDisplay"></div>		
+						<VolumeControl {...volumeProps}/>
 					</div>
 					 
 					{/*<Keys {...props}/>*/}
@@ -88,40 +92,9 @@ const Piano = () => {
 			</div>
 		)
 }; 
+ 
 
-/*const Display = () => {
-	return (
-		<div className="pianoDisplay" id="pianoDisplay">
-		</div>
-	)
-};*/
 
-/*class VolumeControl extends React.Component {
-	constructor(props) {
-		super(props);
-		this.volumeChange = this.volumeChange.bind(this);
-	}
-	
-	volumeChange(newVolume) {  
-		this.props.changeVolume(newVolume);
-		Util.setVolume(this.props.audioElements, newVolume / 100);
-	}  
-
-	componentDidMount() { 
-		this.volumeChange(this.props.volume);
-	}
-
-	render() {
-		return( 
-			<div className="volumeContainer">
-				<div className="slidecontainer">
-				  <input type="range" min="0" max="100" id="volumeSlider" value={this.props.volume} onChange={(e) => {this.volumeChange(e.target.value)}}/>
-				</div>
-				<p>Volume: {this.props.volume}</p> 
-			</div>
-		)
-	}
-}*/
 
 /*const Keys = (props) => { 
 	return(

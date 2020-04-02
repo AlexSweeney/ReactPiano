@@ -1,7 +1,7 @@
 import React from 'react';
 import Util from './Util.jsx';
 
-const AudioElements = ({audio}) => { 
+const AudioElements = ({audio, changeAudioElements}) => { 
 	function makeAudioTag(key, value) {
 		return (
 			<audio id={key+"_audio"} key={key}>
@@ -14,7 +14,7 @@ const AudioElements = ({audio}) => {
 		return Util.mapObject(audioObjects, makeAudioTag); 
 	} 
 
-	const audioElements = makeAudioElements(audio); 
+	const audioElements = makeAudioElements(audio);  
 
 	return (
 		<div className="audioElementContainer">
