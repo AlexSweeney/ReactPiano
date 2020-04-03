@@ -8,10 +8,10 @@ const Octave = (props) => {
 	const keyElements = makeKeyElements(props.allKeys);
 
 	function filterBlackKeys(keys) {
-		return keys.filter(key => getKeyType(key) === 'white');
+		return keys.filter(key => getKeyColor(key) === 'white');
 	}
 
-	function getKeyType(key) {
+	function getKeyColor(key) {
 		return (key.indexOf('b') == - 1 ) ? 'white' : 'black';
 	}
 
@@ -22,7 +22,7 @@ const Octave = (props) => {
 	function getLeft(key, keys) { 
 		let offset = getWhiteLeft(key);
 		
-		if(getKeyType(key) === 'black') {
+		if(getKeyColor(key) === 'black') {
 			offset -= blackKeyWidth / 2;
 		}
 		
@@ -32,7 +32,7 @@ const Octave = (props) => {
 	function makeKeyElements(keys) {
 		return keys.map((key) => {
 			return (
-				<Key keyType={getKeyType(key)}
+				<Key keyType={getKeyColor(key)}
 					left={getLeft(key, props.allKeys)}	
 					keyName={key}
 					key={key}

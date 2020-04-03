@@ -1,4 +1,5 @@
-import React from './react.jsx';
+import React from 'react';
+import Octave from './Octave.jsx';
 
 const Keys = (props) => { 
 	return(
