@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Util from './Util.jsx';
 
 // Sounds
@@ -19,10 +19,23 @@ import A3 from './audio/piano/mf/3/A3.mp3';
 import Bb3 from './audio/piano/mf/3/Bb3.mp3';
 import B3 from './audio/piano/mf/3/B3.mp3';
 
-const AudioElements = ({audio, changeAudioElements}) => { 
+const AudioElements = ({audioRefs, changeAudioRefs}) => { 
 	const pianoNotesAudio = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
+	const audio = {correctSound, incorrectSound, ...pianoNotesAudio};
+	let audioElements = null;
 	
+	useEffect(() => {
+		console.log('make audio elements');
+		audioElements = makeAudioElements(audio);
+		changeAudioRefs(audioRefs);
+	}, []) 
+
+	function handleUpdate(key) { 
+		audioRefs.push(key);
+	}
+
 	function makeAudioTag(key, value) {
+		handleUpdate(key);
 		return (
 			<audio id={key+"_audio"} key={key}>
 				<source type="audio/mp3" src={value}/>
@@ -32,9 +45,7 @@ const AudioElements = ({audio, changeAudioElements}) => {
 
 	function makeAudioElements(audioObjects) {  
 		return Util.mapObject(audioObjects, makeAudioTag); 
-	} 
-
-	const audioElements = makeAudioElements(audio);  
+	}  
 
 	return (
 		<div className="audioElementContainer">

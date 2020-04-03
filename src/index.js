@@ -5,8 +5,8 @@ import Piano from "./PianoContainer.jsx";
 var root = document.querySelector("#root");
 
 ReactDOM.render(
-	<div>
+	<>
 		<Piano/>
-	</div>,
+	</>,
 	root
 );

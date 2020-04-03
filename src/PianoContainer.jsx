@@ -26,7 +26,13 @@ import Keys from './Keys.jsx'; */
 
 const Piano = () => {
 	const allKeys = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
-	 
+	
+	// Audio Elements
+	let [audioRefs, changeAudioRefs] = React.useState([]);
+	let audioProps = {audioRefs, changeAudioRefs};
+
+	console.log('audioRefs', audioRefs);
+
 	// Props 
 	/*const audio = {correctSound, incorrectSound, ...pianoNotesAudio};
 	const audioProps = {audio};*/
@@ -49,7 +55,7 @@ const Piano = () => {
 
 	return (
 			<div className="pianoContainer" id="pianoContainer"> 
-				<AudioElements/>
+				<AudioElements {...audioProps}/>
 				{/*<div className="piano"> 
 					<div className="topPiano"> 
 						<ModeSelect {...modeProps}/>	
