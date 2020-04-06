@@ -110,7 +110,8 @@ function getAudio(key) {
 	return document.getElementById(key+"_audio");
 }
 
-function setVolume(audioElements, newVolume) {
+function setVolume(audioIDs, newVolume) {
+	let audioElements = getElement(audioIDs);
 	audioElements.forEach(element => element.volume = newVolume);
 }
 
