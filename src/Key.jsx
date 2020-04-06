@@ -3,7 +3,7 @@ import React from 'react';
 import ShowKey from './modes/ShowKey.jsx';
 import SelectKey from './modes/SelectKey.jsx';
 import SelectByEar from './modes/SelectByEar.jsx';
- 
+
 const Key = ({keyColor, left, keyName, mode, targetKey, newTargetKey}) => { 
 	const keyMap = {'a': 'C3', 
 					'w': 'Db3', 
@@ -37,7 +37,7 @@ const Key = ({keyColor, left, keyName, mode, targetKey, newTargetKey}) => {
 		} else if(mode === 'selectKey') {    
 			SelectKey.keyDown(key, targetKey, newTargetKey);
 		} else if(mode === 'selectByEar') {
-			SelectByEar.keyDown(key, targetKey);
+			SelectByEar.keyDown(key, targetKey, newTargetKey);
 		}
 	}
 

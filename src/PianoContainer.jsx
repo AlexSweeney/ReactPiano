@@ -1,6 +1,10 @@
-/* fix select key */
-
 /* add listen and click mode */
+
+/* make so SelectByEar, key plays when click correct key - restart before play key */
+
+/* add click button to hear target key */
+
+
 
 /* style */
 
@@ -11,6 +15,8 @@
 /* show scales */
 
 /* settings - number of ocataves */
+
+/* interval mode */
 
 import React, {Component, useState} from 'react';
 import Util from './Util.jsx';

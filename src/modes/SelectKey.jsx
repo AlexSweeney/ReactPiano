@@ -4,13 +4,12 @@ import Util from '../Util.jsx';
 const {correctColor, incorrectColor} = Util;
 
 // init
-function init(targetKey, newTargetKey) { 
+function init(newTargetKey) { 
 	newTargetKey(true);  
 }
 
 // Click key
-function keyDown(key, targetKey, reset) {   
-	// console.log('SelectKey keyDown', arguments);
+function keyDown(key, targetKey, reset) {    
 	if(key === targetKey) {  
 		correctClick(key, reset);
 	} else {
@@ -20,7 +19,7 @@ function keyDown(key, targetKey, reset) {
 
 // correct
 function correctClick(key, reset) {  
-	flashColor(key, correctColor); 
+	Util.flashColor(key, correctColor); 
 	Util.playAudio('correctSound'); 
 
 	setTimeout(() => {   
@@ -30,19 +29,8 @@ function correctClick(key, reset) {
 
 // incorrect
 function incorrectClick(key) { 
-	flashColor(key, incorrectColor); 
+	Util.flashColor(key, incorrectColor); 
 	Util.playAudio('incorrectSound');
-}
-
-// 
-function flashColor(element, color) { 
-	let target = document.getElementById(element); 
-	let origColor = target.style.backgroundColor;
-	target.style.backgroundColor = color;
-	
-	setTimeout(() => {
-		target.style.backgroundColor = origColor;
-	}, 500);
 }
 
 // export

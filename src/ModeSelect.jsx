@@ -20,9 +20,9 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 		if(newMode === 'showKey') {
 			ShowKey.init();
 		} else if (newMode === 'selectKey') {   
-			SelectKey.init(targetKey, newTargetKey);
+			SelectKey.init(newTargetKey);
 		} else if (newMode === 'selectByEar') {
-			SelectByEar.init(targetKey, newTargetKey);
+			SelectByEar.init(newTargetKey);
 		}
 	} 
 

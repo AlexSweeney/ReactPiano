@@ -5,6 +5,17 @@ const incorrectColor = 'red';
 
 // General 
 
+// Flash Color
+function flashColor(element, color) { 
+	let target = document.getElementById(element); 
+	let origColor = target.style.backgroundColor;
+	target.style.backgroundColor = color;
+	
+	setTimeout(() => {
+		target.style.backgroundColor = origColor;
+	}, 500);
+}
+
 // Objects
 function copyPropertiesAndValues(targetObject, object) {
 	Object.keys(object).forEach((name) => {
@@ -47,10 +58,10 @@ function getElementsFromStorage(id, elements, extra) {
 
 // Radio Elements
 function makeRadioElements(names, clickFunction, defaultChecked) {
-		return names.map((name) => {
-			return makeRadioElement(name, clickFunction, defaultChecked);
-		});
-	}
+	return names.map((name) => {
+		return makeRadioElement(name, clickFunction, defaultChecked);
+	});
+}
 
 function makeRadioElement(value, clickFunction, defaultChecked) { 
 	return (
@@ -106,8 +117,8 @@ function displayKey(key) {
 }
 
 // Audio
-function getAudio(key) {
-	return document.getElementById(key+"_audio");
+function getAudio(id) {
+	return document.getElementById(id+"_audio");
 }
 
 function setVolume(audioIDs, newVolume) {
@@ -115,8 +126,8 @@ function setVolume(audioIDs, newVolume) {
 	audioElements.forEach(element => element.volume = newVolume);
 }
 
-function playAudio(key) {
-	getAudio(key).play();
+function playAudio(id) {
+	getAudio(id).play();
 }
 
 function stopAudio(key) { 
@@ -126,6 +137,7 @@ function stopAudio(key) {
 }
 
 let Util = {
+	flashColor,
 	setInnerHTML,
 	getElement,
 	getElementsFromStorage,
