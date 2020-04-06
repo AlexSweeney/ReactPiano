@@ -19,25 +19,12 @@ import A3 from './audio/piano/mf/3/A3.mp3';
 import Bb3 from './audio/piano/mf/3/Bb3.mp3';
 import B3 from './audio/piano/mf/3/B3.mp3';
 
-const AudioElements = ({audioRefs, changeAudioRefs}) => { 
+const AudioElements = ({changeAudioIDs}) => {  
 	const pianoNotesAudio = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
 	const audio = {correctSound, incorrectSound, ...pianoNotesAudio};
 	const audioElements = makeAudioElements(audio);
 	
-	useEffect(() => {
-		console.log('make audio elements');
-		
-		console.log('audioElements', audioElements);
-		changeAudioRefs(audioElements);
-		console.log('audioRefs', audioRefs);
-	}, []) 
-
-	function handleUpdate(key) { 
-		audioRefs.push(key);
-	}
-
-	function makeAudioTag(key, value) {
-		handleUpdate(key);
+	function makeAudioTag(key, value) { 
 		return (
 			<audio id={key+"_audio"} key={key}>
 				<source type="audio/mp3" src={value}/>
@@ -45,9 +32,17 @@ const AudioElements = ({audioRefs, changeAudioRefs}) => {
 		)
 	}   
 
-	function makeAudioElements(audioObjects) {  
+	function makeAudioElements(audioObjects) {   
 		return Util.mapObject(audioObjects, makeAudioTag); 
-	}  
+	} 
+
+	function getIDsFromElements(elements) {
+		return elements.map(element => element.props.id);
+	}
+
+	useEffect(() => {
+		changeAudioIDs(getIDsFromElements(audioElements));
+	}, []); 
 
 	return (
 		<div className="audioElementContainer">

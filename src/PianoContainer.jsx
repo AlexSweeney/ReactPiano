@@ -1,5 +1,3 @@
-/* fix - add audio */
-
 /* refactor - volumeControl */
 
 /* refactor - split into seperate components */
@@ -25,17 +23,15 @@ import './piano.css';
 // components
 import AudioElements from './AudioElements.jsx';
 import ModeSelect from './ModeSelect.jsx';
-/*import VolumeControl from './VolumeControl.jsx';*/
+import VolumeControl from './VolumeControl.jsx';
 import Keys from './Keys.jsx'; 
 
 const Piano = () => {
 	const allKeys = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 	
 	// Audio Elements
-	let [audioRefs, changeAudioRefs] = React.useState([]);
-	let audioProps = {audioRefs, changeAudioRefs};
-
-	console.log('audioRefs', audioRefs);
+	let [audioIDs, changeAudioIDs] = React.useState([]);
+	let audioProps = {changeAudioIDs}; 
 
 	// Mode Select
 	const [mode, changeMode] = useState('showKey'); 
@@ -50,11 +46,11 @@ const Piano = () => {
 
 	const modeProps = {mode, changeMode, targetKey, newTargetKey};
 	
-
 	// Volume Control
-	// const [volume, changeVolume] = useState(50);
-	// const volumeProps = {audio, volume, changeVolume};  
+	const [volume, changeVolume] = useState(50);
+	const volumeProps = {audioIDs, volume, changeVolume};  
 
+	// Keys
 	const keyProps = {allKeys, mode, targetKey, newTargetKey};
 
 	return (
@@ -64,7 +60,7 @@ const Piano = () => {
 					<div className="topPiano"> 
 						<ModeSelect {...modeProps}/>	
 						<div className="pianoDisplay" id="pianoDisplay"></div>		
-						{/*<VolumeControl {...volumeProps}/>*/}
+						<VolumeControl {...volumeProps}/>
 					</div>
 					 
 					<Keys {...keyProps}/>
