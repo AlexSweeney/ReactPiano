@@ -127,11 +127,12 @@ function setVolume(audioIDs, newVolume) {
 }
 
 function playAudio(id) {
+	stopAudio(id);
 	getAudio(id).play();
 }
 
-function stopAudio(key) { 
-	let audio = getAudio(key); 
+function stopAudio(id) { 
+	let audio = getAudio(id); 
 	audio.pause();
 	audio.currentTime = 0;
 }
