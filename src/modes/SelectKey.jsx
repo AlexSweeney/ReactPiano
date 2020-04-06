@@ -4,12 +4,13 @@ import Util from '../Util.jsx';
 const {correctColor, incorrectColor} = Util;
 
 // init
-function init() {
-	Util.setInnerHTML('', 'pianoDisplay');
+function init(targetKey, newTargetKey) { 
+	newTargetKey(true);  
 }
 
 // Click key
 function keyDown(key, targetKey, reset) {   
+	// console.log('SelectKey keyDown', arguments);
 	if(key === targetKey) {  
 		correctClick(key, reset);
 	} else {

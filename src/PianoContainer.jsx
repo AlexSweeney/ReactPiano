@@ -1,6 +1,4 @@
-/* refactor - volumeControl */
-
-/* refactor - split into seperate components */
+/* fix select key */
 
 /* add listen and click mode */
 
@@ -37,10 +35,10 @@ const Piano = () => {
 	const [mode, changeMode] = useState('showKey'); 
 	const [targetKey, changeTargetKey] = useState(Util.getNewRandomElement(allKeys));
 	
-	const newTargetKey = (show = false) => {   
-		let newKey = Util.getNewRandomElement(allKeys, targetKey);
-		changeTargetKey(newKey);
-		if(show) Util.setInnerHTML(newKey);
+	const newTargetKey = (show = false) => {    
+		let newKey = Util.getNewRandomElement(allKeys, targetKey); 
+		changeTargetKey(newKey); 
+		if(show) Util.setInnerHTML(newKey, 'pianoDisplay');
 		return newKey;
 	} 
 
@@ -54,19 +52,19 @@ const Piano = () => {
 	const keyProps = {allKeys, mode, targetKey, newTargetKey};
 
 	return (
-			<div className="pianoContainer" id="pianoContainer"> 
-				<AudioElements {...audioProps}/>
-				<div className="piano"> 
-					<div className="topPiano"> 
-						<ModeSelect {...modeProps}/>	
-						<div className="pianoDisplay" id="pianoDisplay"></div>		
-						<VolumeControl {...volumeProps}/>
-					</div>
-					 
-					<Keys {...keyProps}/>
+		<div className="pianoContainer" id="pianoContainer"> 
+			<AudioElements {...audioProps}/>
+			<div className="piano"> 
+				<div className="topPiano"> 
+					<ModeSelect {...modeProps}/>	
+					<div className="pianoDisplay" id="pianoDisplay"></div>		
+					<VolumeControl {...volumeProps}/>
 				</div>
+				 
+				<Keys {...keyProps}/>
 			</div>
-		)
+		</div>
+	)
 };  
 
 export default Piano;
