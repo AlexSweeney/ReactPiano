@@ -32,7 +32,7 @@ const Octave = (props) => {
 	function makeKeyElements(keys) {
 		return keys.map((key) => {
 			return (
-				<Key keyType={getKeyColor(key)}
+				<Key keyColor={getKeyColor(key)}
 					left={getLeft(key, props.allKeys)}	
 					keyName={key}
 					key={key}

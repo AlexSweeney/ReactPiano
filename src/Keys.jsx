@@ -10,4 +10,4 @@ const Keys = (props) => {
 	)
 };
 
-export default React;
+export default Keys;

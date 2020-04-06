@@ -1,10 +1,10 @@
 import React from 'react';
 
-import ShowKey from './ShowKey.jsx';
-import SelectKey from './SelectKey.jsx';
-import SelectByEar from './SelectByEar.jsx';
+import ShowKey from './modes/ShowKey.jsx';
+import SelectKey from './modes/SelectKey.jsx';
+import SelectByEar from './modes/SelectByEar.jsx';
  
-const Key = ({keyType, left, keyName, mode, targetKey, newTargetKey}) => { 
+const Key = ({keyColor, left, keyName, mode, targetKey, newTargetKey}) => { 
 	const keyMap = {'a': 'C3', 
 					'w': 'Db3', 
 					's': 'D3',
@@ -63,7 +63,7 @@ const Key = ({keyType, left, keyName, mode, targetKey, newTargetKey}) => {
 	})
 
 	return (  
-		<div className={"key " + keyType}
+		<div className={"key " + keyColor+"Key"}
 			style={{left}} 
 			onMouseOver={() => keyOver(keyName)}
 			onMouseOut={() => keyOut()} 
