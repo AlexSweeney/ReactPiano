@@ -1,3 +1,7 @@
+/* fix - add audio */
+
+/* refactor - volumeControl */
+
 /* refactor - split into seperate components */
 
 /* add listen and click mode */

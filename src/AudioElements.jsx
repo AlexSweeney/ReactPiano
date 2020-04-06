@@ -22,12 +22,14 @@ import B3 from './audio/piano/mf/3/B3.mp3';
 const AudioElements = ({audioRefs, changeAudioRefs}) => { 
 	const pianoNotesAudio = {C3, Db3, D3, Eb3, E3, F3, Gb3, G3, Ab3, A3, Bb3, B3};
 	const audio = {correctSound, incorrectSound, ...pianoNotesAudio};
-	let audioElements = null;
+	const audioElements = makeAudioElements(audio);
 	
 	useEffect(() => {
 		console.log('make audio elements');
-		audioElements = makeAudioElements(audio);
-		changeAudioRefs(audioRefs);
+		
+		console.log('audioElements', audioElements);
+		changeAudioRefs(audioElements);
+		console.log('audioRefs', audioRefs);
 	}, []) 
 
 	function handleUpdate(key) { 
