@@ -5,35 +5,37 @@ const {correctColor, incorrectColor} = Util;
 
 // init
 function init(targetKey, setNewTargetKey) {  
-	targetKey = setNewTargetKey();
-	Util.displayKey(targetKey); 
+	nextTurn(targetKey, setNewTargetKey)
 	Util.deactivatePlayButton(); 
 }
 
+function nextTurn(targetKey, setNewTargetKey) {
+	targetKey = setNewTargetKey();
+	Util.displayKey(targetKey);
+}
+
 // Click key
-function keyDown(/*key, targetKey, reset*/) {    
-	/*if(key === targetKey) {  
-		correctClick(key, reset);
+function keyDown(key, targetKey, setNewTargetKey) {    
+	if(key === targetKey) {  
+		correctClick(key, targetKey, setNewTargetKey);
 	} else {
 		incorrectClick(key);
-	} */
+	} 
 }
 
 // correct
-/*function correctClick(key, reset) {  
+function correctClick(key, targetKey, setNewTargetKey) {  
 	Util.flashColor(key, correctColor); 
 	Util.playAudio('correctSound'); 
 
-	setTimeout(() => {   
-		reset(true);  
-	}, 1000);
+	setTimeout(nextTurn(targetKey, setNewTargetKey), 1000);
 }
-*/
+
 // incorrect
-/*function incorrectClick(key) { 
+function incorrectClick(key) { 
 	Util.flashColor(key, incorrectColor); 
 	Util.playAudio('incorrectSound');
-}*/
+}
 
 // export
 let SelectKey = {	

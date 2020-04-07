@@ -57,7 +57,7 @@ const Piano = () => {
 	const volumeProps = {audioIDs, volume, changeVolume};  
 
 	// Keys
-	const keyProps = {allKeys, mode, targetKey, changeTargetKey};
+	const keyProps = {allKeys, mode, targetKey, setNewTargetKey};
 
 	return (
 		<div className="pianoContainer" id="pianoContainer"> 
