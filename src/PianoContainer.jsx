@@ -1,10 +1,7 @@
-/* fix(SelectByEar.jsx) play targeKey on button click */
-
-/* add click button to hear target key */
-
-/* fix: selectby ear not playing correct target key */
+/* Ears (this) --- eyes (sightreading) */
 
 /* style */
+
 
 /* trim audio in ableton, -> sync start */
 
@@ -12,9 +9,19 @@
 
 /* show scales */
 
-/* settings - number of ocataves */
+/* settings - number of ocataves 
+			- custom number of keys
+*/
 
-/* interval mode */
+
+/* melody mode - listen and play 
+	show sheet music
+
+	bars: 1, 2, 3, 4, 8, 16, 32
+*/
+
+/* chord mode - listen and play, check sheet music */
+	
 
 import React, {Component, useState} from 'react';
 import Util from './Util.jsx';
@@ -65,9 +72,11 @@ const Piano = () => {
 			<AudioElements {...audioProps}/>
 			<div className="piano"> 
 				<div className="topPiano"> 
-					<ModeSelect {...modeProps}/>	
-					<PianoDisplay {...pianoDisplayProps}/>
-					<VolumeControl {...volumeProps}/>
+					<ModeSelect {...modeProps}/>
+					<div className="topPianoRight">	
+						<PianoDisplay {...pianoDisplayProps}/>
+						<VolumeControl {...volumeProps}/>
+					</div>
 				</div>
 				 
 				<Keys {...keyProps}/>

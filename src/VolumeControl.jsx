@@ -11,8 +11,7 @@ function VolumeControl({audioIDs, volume, changeVolume}) {
 		<div className="volumeContainer">
 			<div className="slidecontainer">
 				<input type="range" min="0" max="100" value={volume} onChange={(e) => handleSliderChange(e.target.value)}/>
-			</div> 
-			<p>Volume: {volume}</p> 
+			</div>   
 		</div>
 	)
 }

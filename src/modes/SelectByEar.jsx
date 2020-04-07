@@ -9,8 +9,7 @@ function init(targetKey, setNewTargetKey) {
 	Util.showElement('playButton');
 }
 
-function nextTurn(targetKey, setNewTargetKey) { 
-	console.log('nextTurn');
+function nextTurn(targetKey, setNewTargetKey) {  
 	targetKey = setNewTargetKey();  
 	Util.playAudio(targetKey); 
 }
