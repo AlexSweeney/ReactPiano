@@ -6,7 +6,7 @@ const feedbackSoundDelay = 200;
 function init(targetKey, setNewTargetKey) {  
 	Util.setInnerHTML('', 'keyDisplay');
 	nextTurn(targetKey, setNewTargetKey);
-	Util.activatePlayButton(targetKey);
+	Util.showElement('playButton');
 }
 
 function nextTurn(targetKey, setNewTargetKey) { 

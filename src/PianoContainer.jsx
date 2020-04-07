@@ -1,7 +1,4 @@
-/* individual target keys 
-	* select key
-	* select by Ear
-*/
+/* fix(SelectByEar.jsx) play targeKey on button click */
 
 /* add click button to hear target key */
 
@@ -51,9 +48,12 @@ const Piano = () => {
 	const [mode, changeMode] = useState('showKey'); 
 	
 	const modeProps = {mode, changeMode, targetKey, setNewTargetKey};
+
+	// Piano Display
+	const pianoDisplayProps = {targetKey};
 	
 	// Volume Control
-	const [volume, changeVolume] = useState(50);
+	const [volume, changeVolume] = useState(30);
 	const volumeProps = {audioIDs, volume, changeVolume};  
 
 	// Keys
@@ -66,7 +66,7 @@ const Piano = () => {
 			<div className="piano"> 
 				<div className="topPiano"> 
 					<ModeSelect {...modeProps}/>	
-					<PianoDisplay/>
+					<PianoDisplay {...pianoDisplayProps}/>
 					<VolumeControl {...volumeProps}/>
 				</div>
 				 
@@ -76,12 +76,16 @@ const Piano = () => {
 	)
 };  
 
-const PianoDisplay = () => {
+const PianoDisplay = ({targetKey}) => {
+	function handlePlayButtonClick(targetKey) { 
+		Util.playAudio(targetKey);
+	}
+
 	return (
 		<div className="pianoDisplay" id="pianoDisplay">
 			<div className="keyDisplay" id="keyDisplay"></div>
 			<div className="playButtonContainer">
-				<div className="playButton" id="playButton"></div>
+				<div className="playButton" id="playButton" onClick={() => handlePlayButtonClick(targetKey)}></div>
 			</div>
 		</div>		
 	)

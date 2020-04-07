@@ -6,7 +6,7 @@ const {correctColor, incorrectColor} = Util;
 // init
 function init(targetKey, setNewTargetKey) {  
 	nextTurn(targetKey, setNewTargetKey)
-	Util.deactivatePlayButton(); 
+	Util.hideElement('playButton'); 
 }
 
 function nextTurn(targetKey, setNewTargetKey) {

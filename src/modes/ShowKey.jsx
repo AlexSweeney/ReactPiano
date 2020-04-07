@@ -2,7 +2,7 @@ import Util from '../Util.jsx';
 
 function init() {
 	Util.setInnerHTML('', 'keyDisplay');
-	Util.deactivatePlayButton(); 
+	Util.hideElement('playButton'); 
 }
 
 function keyDown(key) {  

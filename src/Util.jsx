@@ -4,18 +4,12 @@ const correctColor = 'green';
 const incorrectColor = 'red';
 
 // General   
-function activatePlayButton(targetKey) {
-	let playButton = document.getElementById('playButton')
-	playButton.style.display = 'block';  
-
-	playButton.addEventListener('click', () => {
-		playAudio(targetKey);
-	});
+function showElement(id) {
+	document.getElementById(id).style.display = 'block';   
 }
 
-function deactivatePlayButton() {
-	let playButton = document.getElementById('playButton')
-	playButton.style.display = 'none';  
+function hideElement(id) {
+	document.getElementById(id).style.display = 'none';  
 }
 
 // Flash Color
@@ -154,8 +148,8 @@ function stopAudio(id) {
 }
 
 let Util = {
-	activatePlayButton,
-	deactivatePlayButton,
+	showElement,
+	hideElement,
 	flashColor,
 	setInnerHTML,
 	getElement,
