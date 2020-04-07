@@ -1,6 +1,7 @@
 import Util from '../Util.jsx';
 
 let {correctColor, incorrectColor} = Util;
+const feedbackSoundDelay = 100;
 
 function init(targetKey, newTargetKey) { 
 	Util.setInnerHTML('', 'keyDisplay');
@@ -11,23 +12,27 @@ function init(targetKey, newTargetKey) {
 
 // Click key
 function keyDown(clickedKey, targetKey, newTargetKey) { 
+	console.log('clickedKey', clickedKey);
+	console.log('targetKey', targetKey);
 	Util.playAudio(clickedKey); 
-	if(clickedKey === targetKey) { 
+	if(clickedKey === targetKey) {  
 		correctClick(clickedKey, newTargetKey);
-	} else { 
+	} else {  
 		incorrectClick(clickedKey);
 	}
 }
 
 // Correct
 function correctClick(key, newTargetKey) {
+	console.log('correctClick: newTargetKey', newTargetKey)
 	Util.flashColor(key, correctColor); 
 
 	setTimeout(() => { 
 		Util.playAudio('correctSound');  
-	}, 1000); 
+	}, feedbackSoundDelay); 
 
 	setTimeout(() => {
+		console.log('timeout: newTargetKey', newTargetKey);
 		init(newTargetKey);
 	}, 2000);
 }
@@ -38,7 +43,7 @@ function incorrectClick(key) {
 
 	setTimeout(() => {   
 		Util.playAudio('incorrectSound');  
-	}, 100); 
+	}, feedbackSoundDelay);
 }
 
 const SelectByEar = {

@@ -3,22 +3,19 @@ import React from 'react';
 const correctColor = 'green';
 const incorrectColor = 'red';
 
-// General 
-function handlePlayButtonClick(targetKey) {
-	playAudio(targetKey);
-}
-
+// General   
 function activatePlayButton(targetKey) {
 	let playButton = document.getElementById('playButton')
 	playButton.style.display = 'block';  
 
-	playButton.addEventListener('click', handlePlayButtonClick(targetKey));
+	playButton.addEventListener('click', () => {
+		playAudio(targetKey);
+	});
 }
 
 function deactivatePlayButton() {
 	let playButton = document.getElementById('playButton')
-	playButton.style.display = 'none'; 
-	playButton.removeEventListener('click', handlePlayButtonClick);
+	playButton.style.display = 'none';  
 }
 
 // Flash Color
