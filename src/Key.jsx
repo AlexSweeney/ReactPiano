@@ -20,29 +20,29 @@ const Key = ({keyColor, left, keyName, mode, targetKey, setNewTargetKey}) => {
 					};
 
 	function keyOver(key) {   
-		if(mode === 'showKey') { 
+		if(mode === 'Show Key') { 
 			ShowKey.keyOver(key);
 		}
 	}
 
 	function keyOut(key) {
-		if(mode === 'showKey') {
+		if(mode === 'Show Key') {
 			ShowKey.keyOut(key);
 		}
 	}
 
 	function keyDown(key) {
-		if(mode === 'showKey') {
+		if(mode === 'Show Key') {
 			ShowKey.keyDown(key);
-		} else if(mode === 'selectKey') {    
+		} else if(mode === 'Select Key') {    
 			SelectKey.keyDown(key, targetKey, setNewTargetKey);
-		} else if(mode === 'selectByEar') {
+		} else if(mode === 'Select Key by Ear') {
 			SelectByEar.keyDown(key, targetKey, setNewTargetKey);
 		}
 	}
 
 	function keyUp(key) {
-		if(mode === 'showKey') {
+		if(mode === 'Show Key') {
 			ShowKey.keyUp(key);
 		}
 	} 

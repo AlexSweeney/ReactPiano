@@ -1,7 +1,16 @@
 /* Ears (this) --- eyes (sightreading) */
 
-/* style */
+/* style  - basic
+	un camel case modes for display
+	
+	top piano padding 
+	
+	move play button next to volume control
 
+	play button - play style, off style
+
+	key colors when press with keyboard
+*/
 
 /* trim audio in ableton, -> sync start */
 
@@ -13,6 +22,7 @@
 			- custom number of keys
 */
 
+/* skins - https://freefrontend.com/css-radio-buttons/ */
 
 /* melody mode - listen and play 
 	show sheet music
@@ -67,8 +77,7 @@ const Piano = () => {
 	const keyProps = {allKeys, mode, targetKey, setNewTargetKey};
 
 	return (
-		<div className="pianoContainer" id="pianoContainer"> 
-			<p> TargetKey: {targetKey} </p>
+		<div className="pianoContainer" id="pianoContainer">  
 			<AudioElements {...audioProps}/>
 			<div className="piano"> 
 				<div className="topPiano"> 
