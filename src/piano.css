@@ -28,6 +28,7 @@
 
 .pianoDisplay { 
 	display: flex;
+	flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 1.5em;
@@ -36,6 +37,31 @@
 	background-color: white;
 	border: 2px solid black;
 	border-radius: 0.5em;
+}
+
+.keyDisplay { 
+	width: 100%;
+	height: 80%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.playButtonContainer {
+	width: 100%;
+    height: 40%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playButton {
+	width: 1em;
+    height: 1em;
+    border-radius: 100em;
+    background-color: #03A9F4;
+    border: 2px solid black;
+    display: none;
 }
 
 .keys { 

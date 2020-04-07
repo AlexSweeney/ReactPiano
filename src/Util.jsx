@@ -4,6 +4,22 @@ const correctColor = 'green';
 const incorrectColor = 'red';
 
 // General 
+function handlePlayButtonClick(targetKey) {
+	playAudio(targetKey);
+}
+
+function activatePlayButton(targetKey) {
+	let playButton = document.getElementById('playButton')
+	playButton.style.display = 'block';  
+
+	playButton.addEventListener('click', handlePlayButtonClick(targetKey));
+}
+
+function deactivatePlayButton() {
+	let playButton = document.getElementById('playButton')
+	playButton.style.display = 'none'; 
+	playButton.removeEventListener('click', handlePlayButtonClick);
+}
 
 // Flash Color
 function flashColor(element, color) { 
@@ -113,7 +129,7 @@ function getRandomNumber(range) {
 
 // display key
 function displayKey(key) {
-	document.getElementById('pianoDisplay').innerHTML = key;
+	document.getElementById('keyDisplay').innerHTML = key;
 }
 
 // Audio
@@ -128,16 +144,21 @@ function setVolume(audioIDs, newVolume) {
 
 function playAudio(id) {
 	stopAudio(id);
-	getAudio(id).play();
+	let audio = getAudio(id);
+	if(audio) audio.play(); 
 }
 
 function stopAudio(id) { 
 	let audio = getAudio(id); 
-	audio.pause();
-	audio.currentTime = 0;
+	if(audio) {
+		audio.pause();
+		audio.currentTime = 0;
+	} 
 }
 
 let Util = {
+	activatePlayButton,
+	deactivatePlayButton,
 	flashColor,
 	setInnerHTML,
 	getElement,

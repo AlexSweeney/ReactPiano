@@ -5,7 +5,8 @@ const {correctColor, incorrectColor} = Util;
 
 // init
 function init(newTargetKey) { 
-	newTargetKey(true);  
+	newTargetKey(true); 
+	Util.deactivatePlayButton(); 
 }
 
 // Click key

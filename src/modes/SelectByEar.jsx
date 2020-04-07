@@ -2,9 +2,11 @@ import Util from '../Util.jsx';
 
 let {correctColor, incorrectColor} = Util;
 
-function init(newTargetKey) { 
-	let targetKey = newTargetKey();  
+function init(targetKey, newTargetKey) { 
+	Util.setInnerHTML('', 'keyDisplay');
+	newTargetKey();  
 	Util.playAudio(targetKey);
+	Util.activatePlayButton(targetKey);
 }
 
 // Click key
@@ -31,12 +33,12 @@ function correctClick(key, newTargetKey) {
 }
 
 // Incorrect
-function incorrectClick(key) { 
+function incorrectClick(key) {  
 	Util.flashColor(key, incorrectColor); 
 
-	setTimeout(() => { 
+	setTimeout(() => {   
 		Util.playAudio('incorrectSound');  
-	}, 1000); 
+	}, 100); 
 }
 
 const SelectByEar = {

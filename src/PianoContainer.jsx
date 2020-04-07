@@ -1,10 +1,4 @@
-/* add listen and click mode */
-
-/* make so SelectByEar, key plays when click correct key - restart before play key */
-
 /* add click button to hear target key */
-
-
 
 /* style */
 
@@ -44,7 +38,7 @@ const Piano = () => {
 	const newTargetKey = (show = false) => {    
 		let newKey = Util.getNewRandomElement(allKeys, targetKey); 
 		changeTargetKey(newKey); 
-		if(show) Util.setInnerHTML(newKey, 'pianoDisplay');
+		if(show) Util.setInnerHTML(newKey, 'keyDisplay');
 		return newKey;
 	} 
 
@@ -63,7 +57,12 @@ const Piano = () => {
 			<div className="piano"> 
 				<div className="topPiano"> 
 					<ModeSelect {...modeProps}/>	
-					<div className="pianoDisplay" id="pianoDisplay"></div>		
+					<div className="pianoDisplay" id="pianoDisplay">
+						<div className="keyDisplay" id="keyDisplay"></div>
+						<div className="playButtonContainer">
+							<div className="playButton" id="playButton"></div>
+						</div>
+					</div>		
 					<VolumeControl {...volumeProps}/>
 				</div>
 				 

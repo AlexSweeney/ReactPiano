@@ -1,7 +1,8 @@
 import Util from '../Util.jsx';
 
 function init() {
-	Util.setInnerHTML('', 'pianoDisplay');
+	Util.setInnerHTML('', 'keyDisplay');
+	Util.deactivatePlayButton(); 
 }
 
 function keyDown(key) {  
