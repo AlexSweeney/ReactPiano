@@ -4,22 +4,23 @@ import Util from '../Util.jsx';
 const {correctColor, incorrectColor} = Util;
 
 // init
-function init(newTargetKey) { 
-	newTargetKey(true); 
+function init(targetKey, setNewTargetKey) {  
+	targetKey = setNewTargetKey();
+	Util.displayKey(targetKey); 
 	Util.deactivatePlayButton(); 
 }
 
 // Click key
-function keyDown(key, targetKey, reset) {    
-	if(key === targetKey) {  
+function keyDown(/*key, targetKey, reset*/) {    
+	/*if(key === targetKey) {  
 		correctClick(key, reset);
 	} else {
 		incorrectClick(key);
-	} 
+	} */
 }
 
 // correct
-function correctClick(key, reset) {  
+/*function correctClick(key, reset) {  
 	Util.flashColor(key, correctColor); 
 	Util.playAudio('correctSound'); 
 
@@ -27,12 +28,12 @@ function correctClick(key, reset) {
 		reset(true);  
 	}, 1000);
 }
-
+*/
 // incorrect
-function incorrectClick(key) { 
+/*function incorrectClick(key) { 
 	Util.flashColor(key, incorrectColor); 
 	Util.playAudio('incorrectSound');
-}
+}*/
 
 // export
 let SelectKey = {	

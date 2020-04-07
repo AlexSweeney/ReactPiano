@@ -4,7 +4,7 @@ import ShowKey from './modes/ShowKey.jsx';
 import SelectKey from './modes/SelectKey.jsx'; 
 import SelectByEar from './modes/SelectByEar.jsx';
 
-const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {   
+const ModeSelect = ({mode, changeMode, targetKey, setNewTargetKey}) => {   
 	let modes = ['showKey', 'selectKey', 'selectByEar'];
 	let modeRadios = Util.makeRadioElements(modes, clickModeChange, 'showKey'); 
 
@@ -20,9 +20,9 @@ const ModeSelect = ({mode, changeMode, targetKey, newTargetKey}) => {
 		if(newMode === 'showKey') {
 			ShowKey.init();
 		} else if (newMode === 'selectKey') {   
-			SelectKey.init(newTargetKey);
+			SelectKey.init(targetKey, setNewTargetKey);
 		} else if (newMode === 'selectByEar') {
-			SelectByEar.init(targetKey, newTargetKey);
+			SelectByEar.init(targetKey, setNewTargetKey);
 		}
 	} 
 

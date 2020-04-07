@@ -4,7 +4,7 @@ import ShowKey from './modes/ShowKey.jsx';
 import SelectKey from './modes/SelectKey.jsx';
 import SelectByEar from './modes/SelectByEar.jsx';
 
-const Key = ({keyColor, left, keyName, mode, targetKey, newTargetKey}) => { 
+const Key = ({keyColor, left, keyName, mode, targetKey, changeTargetKey}) => { 
 	const keyMap = {'a': 'C3', 
 					'w': 'Db3', 
 					's': 'D3',
@@ -35,9 +35,9 @@ const Key = ({keyColor, left, keyName, mode, targetKey, newTargetKey}) => {
 		if(mode === 'showKey') {
 			ShowKey.keyDown(key);
 		} else if(mode === 'selectKey') {    
-			SelectKey.keyDown(key, targetKey, newTargetKey);
+			SelectKey.keyDown(key, targetKey, changeTargetKey);
 		} else if(mode === 'selectByEar') {
-			SelectByEar.keyDown(key, targetKey, newTargetKey);
+			SelectByEar.keyDown(key, targetKey, changeTargetKey);
 		}
 	}
 
