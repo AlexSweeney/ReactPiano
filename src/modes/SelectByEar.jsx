@@ -1,49 +1,39 @@
 import Util from '../Util.jsx';
 
 let {correctColor, incorrectColor} = Util;
-const feedbackSoundDelay = 100;
+const feedbackSoundDelay = 200;
 
-/*const newTargetKey = (show = false) => {    
-		let newKey = Util.getNewRandomElement(allKeys, targetKey); 
-		changeTargetKey(newKey); 
-		if(show) Util.setInnerHTML(newKey, 'keyDisplay');
-		return newKey;
-	} 
-*/
-function init(targetKey, newTargetKey) {  
+function init(targetKey, setNewTargetKey) {  
 	Util.setInnerHTML('', 'keyDisplay');
-	nextTurn(targetKey, newTargetKey);
+	nextTurn(targetKey, setNewTargetKey);
 	Util.activatePlayButton(targetKey);
 }
 
-function nextTurn(targetKey, newTargetKey) {
-	console.log('nextTurn ------------------------');
-	console.log('targetKey pre', targetKey);
-	newTargetKey();  
-	console.log('targetKey post', targetKey);
-	// Util.playAudio(targetKey);
+function nextTurn(targetKey, setNewTargetKey) { 
+	console.log('nextTurn');
+	targetKey = setNewTargetKey();  
+	Util.playAudio(targetKey); 
 }
 
 // Click key
-function keyDown(clickedKey, targetKey, newTargetKey) {  
-	console.log('xxxx keyDown', arguments);
+function keyDown(clickedKey, targetKey, setNewTargetKey) { 
 	Util.playAudio(clickedKey); 
 	if(clickedKey === targetKey) {  
-		correctClick(clickedKey, targetKey, newTargetKey);
+		correctClick(clickedKey, targetKey, setNewTargetKey);
 	} else {  
 		incorrectClick(clickedKey);
 	}
 }
 
 // Correct
-function correctClick(key, targetKey, newTargetKey) { 
+function correctClick(key, targetKey, setNewTargetKey) { 
 	Util.flashColor(key, correctColor); 
 
 	setTimeout(() => { 
 		Util.playAudio('correctSound');  
 	}, feedbackSoundDelay); 
 	
-	setTimeout(nextTurn(targetKey, newTargetKey), 2000);
+	setTimeout(() => {nextTurn(targetKey, setNewTargetKey)}, 2500);
 }
 
 // Incorrect
