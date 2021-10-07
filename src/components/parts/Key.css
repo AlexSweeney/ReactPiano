@@ -1,0 +1,38 @@
+.key {
+ 	border-left: none;
+ 	box-sizing: border-box;
+}
+
+.key:first-child {
+	border-left: 2px solid black;
+}
+
+.white-key {
+	background: white;
+	border: 2px solid black;
+	border-left: none;
+	height: 127px;
+}
+
+.white-key:hover {
+	background: #6696ff;;
+}
+
+.white-key:active {
+	background: #0d59ff;
+}
+
+.black-key {
+	position: absolute;
+  display: block; 
+	background: black;
+	height: 65%;
+}
+
+.black-key:hover {
+	background: #4646bd;
+}
+
+.black-key:active {
+	background: #212187;
+}

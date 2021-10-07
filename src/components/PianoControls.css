@@ -1,0 +1,7 @@
+.piano-controls { 
+	display: flex;
+	justify-content: space-between;
+	align-items: stretch;
+	padding-bottom: 0.8em;  
+}
+ 
