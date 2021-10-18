@@ -1,8 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom'; 
 import { act, Simulate } from 'react-dom/test-utils'; 
-import Key from './Key.jsx';
-
+import Key from './Key.jsx'; 
 import { 
 	triggerOnSizeChange,
 	getElementHeight,
@@ -22,21 +21,7 @@ style.innerHTML = `
 	overflow: auto;
 }`;
 document.getElementsByTagName('head')[0].appendChild(style);
-
-// const containerStyle = {
-// 	width: '500px', 
-// 	height: '500px', 
-// 	'min-height': '125px', 
-// 	border: '2px solid blue', 
-// 	resize: 'both', 
-// 	overflow: 'auto',
-// };
-
-/*const keyStyle = {
-	height: '500px',
-	width: '100px',
-}*/
-
+  
 function getId(key) {
 	return `#key-${key}-octave-3`;
 }
