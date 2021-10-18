@@ -214,7 +214,9 @@ export default function Piano() {
 	// ================================== Output =========================== //
 	return (
 		<div style={{width: '500px', height: '500px', 'min-height': '125px', border: '2px solid blue', resize: 'both', overflow: 'auto'}} id="box">
-			<Key keyName="C3"/>
+				
+
+			<Keys keyNames={allKeys}/>
 			{/*<AudioElements setAudioIDs={setAudioIDs}/>
 			
 			<div className="piano">  

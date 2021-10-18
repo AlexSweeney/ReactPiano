@@ -61,14 +61,42 @@ export function pxToNumber(string) {
 	return Number(string.replace('px', ''));
 }
 
-export function getElementHeight(id) {
-	const element = document.getElementById(id);
-	return window.getComputedStyle(element).height;
+export function getElementHeight(id,  output = 'px') {
+	let element;
+	
+	if(typeof(id) === 'string') {
+		element = document.getElementById(id);
+	} else {
+		element = id;
+	}
+		
+	const height = pxToNumber(window.getComputedStyle(element).height);
+
+	if(output === 'px') return height + 'px';
+	if(output === 'number') return height;
 }
 
-export function getElementWidth(id) {
-	const element = document.getElementById(id);
-	return window.getComputedStyle(element).width;
+export function getElementWidth(id, output = 'px') {
+	let element;
+	
+	if(typeof(id) === 'string') {
+		element = document.getElementById(id);
+	} else {
+		element = id;
+	} 
+
+	const width = pxToNumber(window.getComputedStyle(element).width);
+	// if(round) {
+	// 	console.log('width', width)
+	// 	console.log('Math.round(width)', Math.round(width))
+	// 	console.log(Math.round(width) + 'px')
+	// 	console.log('window.getComputedStyle(element).width', window.getComputedStyle(element).width)
+	// }
+
+	if(output === 'px') return width + 'px';
+	if(output === 'number') return width;
+	// if(round) return Math.round(width) + 'px';
+	// if(!round) return width + 'px'; 
 }
 
 export function setElementHeight(id, height) { 

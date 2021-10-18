@@ -1,16 +1,19 @@
 .key {
 	box-sizing: border-box;
+	position: absolute;
 }
 
 .white-key { 
 	background: white;
 	border: 2px solid black;  
-	height: 100%;
+	min-width: 25px; 
+	z-index: 1;
 }
 
 .black-key {
 	background: black;
-	height: 65%;
+	min-width: 16.25px; 
+	z-index: 2;
 }
 
 .white-key.key-over {
