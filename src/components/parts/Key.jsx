@@ -94,7 +94,11 @@ export default function Key({
 	const BLACK_HEIGHT_TO_BLACK_WIDTH = getDecimalRatio(realBlackHeight, realBlackWidth);
 
 	const WHITE_HEIGHT_TO_BLACK_WIDTH = getDecimalRatio(realWhiteHeight, realBlackWidth);
+
+	const WHITE_WIDTH_TO_BLACK_WIDTH = getDecimalRatio(realWhiteWidth, realBlackWidth);
 	const BLACK_WIDTH_TO_WHITE_WIDTH = getDecimalRatio(realBlackWidth, realWhiteWidth);
+
+	const BLACK_HEIGHT_TO_WHITE_WIDTH = getDecimalRatio(realBlackHeight, realWhiteWidth);
 
 	function getRatioPercentage(a, b) {
 		const percent = 100 / a;
@@ -163,7 +167,7 @@ export default function Key({
 		setWidth(getKeyWidth())
 
 		const leftOff = getLeftOffset();
-		// console.log('leftOff', leftOff)
+		 console.log('leftOff', leftOff)
 		setLeftOffset(leftOff)
 
 		// setLeft(getOffsetLeft())
@@ -226,13 +230,25 @@ export default function Key({
 		if(KEY_TYPE === 'black-key') return height * BLACK_HEIGHT_TO_BLACK_WIDTH;
 	}
 
-	function getLeftOffset(height) {
-		const blackKeyWidth = getBlackWidth(height);
-		const thisWidth = getKeyWidth();
-
-		if(KEY_TYPE === 'white-key') return Math.ceil(i / 2) * thisWidth;
-		if(KEY_TYPE === 'black-key') return i  * thisWidth;
+	function getWhiteKeyWidth() {
+		const height = getElementHeight(KEY_ID, 'number'); 
+		if(KEY_TYPE === 'white-key') return height * WHITE_HEIGHT_TO_WHITE_WIDTH;
+		if(KEY_TYPE === 'black-key') return height * BLACK_HEIGHT_TO_WHITE_WIDTH;
 	}
+
+	function getLeftOffset() {
+		const whiteKeyWidth = getWhiteKeyWidth();
+		console.log('whiteKeyWidth', whiteKeyWidth)
+		return (i * WHITE_WIDTH_TO_BLACK_WIDTH) * whiteKeyWidth;
+	}
+
+	// function getLeftOffset(height) {
+	// 	const blackKeyWidth = getBlackWidth(height);
+	// 	const thisWidth = getKeyWidth();
+
+	// 	if(KEY_TYPE === 'white-key') return Math.ceil(i / 2) * thisWidth;
+	// 	if(KEY_TYPE === 'black-key') return i  * thisWidth;
+	// }
 
 	function getBlackWidth() {
 		const height = getKeyHeight();
