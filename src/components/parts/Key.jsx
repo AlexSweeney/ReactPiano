@@ -175,7 +175,7 @@ export default function Key({
 		
 
 		// setLeft(getOffsetLeft())
-		// triggerOnSizeChange(KEY_ID, onContainerSizeChange)  
+		triggerOnSizeChange(KEY_ID, onContainerSizeChange)  
 
 		// updateKeyWidth(KEY_ID, KEY_TYPE)
 		// updateLeftOffset(KEY_ID, KEY_TYPE, i)
@@ -192,6 +192,8 @@ export default function Key({
 	}
 
 	function onContainerSizeChange() { 
+		updateWidth()
+		updateLeftOffset()
 		// updateKeyWidth()
 		// updateLeftOffset(KEY_ID, KEY_TYPE, i)
 		// setWidthBasedOnHeight(KEY_ID, widthToHeightRatio)
@@ -256,11 +258,8 @@ export default function Key({
 		if(KEY_TYPE === 'black-key') return height * BLACK_HEIGHT_TO_BLACK_WIDTH;
 	}
  
-	function getLeftOffset(height) {
-		// const blackKeyWidth = getBlackWidth(height);
-		const thisWidth = getKeyWidth();
-		console.log('KEY_TYPE', KEY_TYPE)
-		console.log('thisWidth', thisWidth)
+	function getLeftOffset(height) { 
+		const thisWidth = getKeyWidth(); 
 
 		if(KEY_TYPE === 'white-key') return Math.ceil(i / 2) * thisWidth;
 		if(KEY_TYPE === 'black-key') return i * thisWidth;
