@@ -5,7 +5,8 @@ export default function Key({keyName, i, handleOver, handleOut, handleDown}) {
 	// =========================== const =========================== //   
 	const id = `key-${keyName}`;
 
-	const size = 39;
+	const size = 30;
+	// size = white key width
 
 	const realWhiteWidth = 24;
 	const realBlackWidth = 14;
@@ -15,15 +16,21 @@ export default function Key({keyName, i, handleOver, handleOut, handleDown}) {
 
 	const keyColor = getKeyColor(keyName);
 	const thisWidth = (keyColor === 'white' ? whiteWidth : blackWidth) * size + 'px';
+ 
 
 	const style = {
 		left: (i * blackWidth) * size + 'px',
 		width: thisWidth,
 	}   
+	
 	// =========================== Helper Fns ===================== //
 	// ================ Color
 	function getKeyColor(key) {
 		return (key.indexOf('b') == - 1 ) ? 'white' : 'black';
+	}
+
+	function getLeft(i, whiteWidth, blackToWhiteWidthRatio) { 
+		return (i * blackToWhiteWidthRatio) * whiteWidth + 'px'; 
 	}
 
 	// =========================== Output ===================== //
