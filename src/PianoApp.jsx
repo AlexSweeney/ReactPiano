@@ -2,10 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {getNewRandomArrayElement} from './components/utils.js';
 import AudioElements from './components/AudioElements.jsx';
 import PianoControls from './components/PianoControls.jsx';
-import Keys from './components/Keys.jsx';
-
-import Key from './components/parts/Key.jsx';
-
+import Keys from './components/Keys.jsx'; 
 import './PianoApp.css';  
  
 export default function Piano() {
@@ -13,7 +10,6 @@ export default function Piano() {
 		* show controls with mode selector
 		* show feedback window
 		* show piano keys
-		
 		* handle key events based on mode
 	*/
 
@@ -29,9 +25,7 @@ export default function Piano() {
 	const [displayString, setDisplayString] = useState('');
 
 	// =================== Audio
-	const [audioIDs, setAudioIDs] = useState([
-
-	]);
+	const [audioIDs, setAudioIDs] = useState([]);
 	const correctSound = document.getElementById('correctSound_audio');
 	const incorrectSound = document.getElementById('incorrectSound_audio');
 
@@ -213,9 +207,8 @@ export default function Piano() {
 
 	// ================================== Output =========================== //
 	return (
-		<div style={{width: '500px', height: '500px', 'min-height': '125px', border: '2px solid blue', resize: 'both', overflow: 'auto'}} id="box">
-			<Key keyName="C3"/>
-			{/*<AudioElements setAudioIDs={setAudioIDs}/>
+		<div>
+			<AudioElements setAudioIDs={setAudioIDs}/>
 			
 			<div className="piano">  
 				<PianoControls
@@ -235,7 +228,7 @@ export default function Piano() {
 					handleOut={onKeyOut}
 					handleDown={onKeyDown}
 				/>
-			</div>*/}
+			</div>
 		</div>
 	)
 };
