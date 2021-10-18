@@ -1,3 +1,9 @@
+// import { ResizeObserver as PolyfillResizeObserver } from '@juggle/resize-observer';
+// import { MutationObserver } from 'mutation-observer';
+// console.log('MO')
+// console.log(MutationObserver)
+// import { ResizeObserver } from 'resize-observer-polyfill';
+
 // =================== Object
 export function mapObject(object, fn) { 
 	if(Array.isArray(object)) { 
@@ -31,6 +37,10 @@ function getElement(id) {
 	return document.getElementById(id)
 }
 
+export function getParentId(id) {
+	return document.getElementById(id).parentElement.id;
+}
+
 export function getNewRandomArrayElement(allElements, oldElement = null) {  
 	return getRandomArrayElement(allElements)
 	// let newElement = getRandomArrayElement(allElements);
@@ -45,3 +55,69 @@ export function getRandomArrayElement(array) {
 export function getRandomNumber(range) {
 	return Math.floor(Math.random() * range);
 }
+
+// =================== Element Size
+export function pxToNumber(string) {
+	return Number(string.replace('px', ''));
+}
+
+export function getElementHeight(id) {
+	const element = document.getElementById(id);
+	return window.getComputedStyle(element).height;
+}
+
+export function getElementWidth(id) {
+	const element = document.getElementById(id);
+	return window.getComputedStyle(element).width;
+}
+
+export function setElementHeight(id, height) { 
+	const element = document.getElementById(id);
+	element.style.height = height;
+}
+
+export	function setElementWidth(id, width) { 
+	const element = document.getElementById(id);
+	element.style.width = width;
+}
+
+// =================== Element change
+// export function triggerOnSizeChange(id, fn) {
+// 	const ResizeObserver = Window.ResizeObserver || PolyfillResizeObserver;
+// 	// const MutationObserver = new MutationObserver;
+// 	const element = document.getElementById(id); 
+// 	const ro = new ResizeObserver(fn);
+// 	console.log(ro)
+// 	// ro.observe(element);
+// }
+
+export function triggerOnSizeChange(id, fn) {
+	const element = document.getElementById(id); 
+	new ResizeObserver(fn).observe(element);
+}
+ 
+// Options for the observer (which mutations to observe)
+// const config = { attributes: true, childList: true, subtree: true };
+
+// Callback function to execute when mutations are observed
+// const callback = function(mutationsList, observer) {
+//     // Use traditional 'for loops' for IE 11
+//     for(const mutation of mutationsList) {
+//         if (mutation.type === 'childList') {
+//             console.log('A child node has been added or removed.');
+//         }
+//         else if (mutation.type === 'attributes') {
+//             console.log('The ' + mutation.attributeName + ' attribute was modified.');
+//         }
+//     }
+// };
+
+// // Create an observer instance linked to the callback function
+// const observer = new MutationObserver(callback);
+
+// // Start observing the target node for configured mutations
+// observer.observe(targetNode, config);
+
+// // Later, you can stop observing
+// observer.disconnect();
+// Copy to Clipboard

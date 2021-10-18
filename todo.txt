@@ -1,22 +1,24 @@
 Modes
 
-+ show key mode 	x
-+ select key mode 	
-+ select key by ear
-+ repeat melody:
+* show key mode 	 
+* select key mode 	 
+* select key by ear  
+- repeat melody:
 	1 bar
 	2 bars
 	3 bars
 	4 bars
 
-+ sight read
+- sight read
 
 
 Improve
 
-SASS calculations for key widths
+Select num keys
 
-add sounds
+Resizable
+
+SASS calculations for key widths
 
 midi compatible
 

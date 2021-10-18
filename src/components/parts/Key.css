@@ -1,4 +1,34 @@
 .key {
+	box-sizing: border-box;
+}
+
+.white-key { 
+	background: white;
+	border: 2px solid black;  
+	height: 100%;
+}
+
+.black-key {
+	background: black;
+	height: 65%;
+}
+
+.white-key.key-over {
+	background: #6696ff;
+}
+.black-key.key-over {
+	background: #4646bd;
+}
+
+.white-key.key-down {
+	background: #0d59ff;
+}
+.black-key.key-down {
+	background: #212187;
+}
+
+
+/*.key {
  	border-left: none;
  	box-sizing: border-box;
 }
@@ -15,7 +45,7 @@
 }
 
 .white-key:hover {
-	background: #6696ff;;
+	background: #6696ff;
 }
 
 .white-key:active {
@@ -36,3 +66,4 @@
 .black-key:active {
 	background: #212187;
 }
+*/
