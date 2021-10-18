@@ -1,5 +1,4 @@
-import React from 'react';
-// import Octave from './Octave.jsx';
+import React from 'react'; 
 import Key from './parts/Key.jsx';
 import './Keys.css';
 
@@ -11,40 +10,13 @@ export default function Keys({
 }) {
 	/* 
 		* on render 
-			* make key element for every keyName
-			* give keys correct spacing 
-
-		* on resize 
-			* maintain correct spacing
-	*/
-
-	function old() {
-		// const size = 39;
-
-		// const realWhiteWidth = 24;
-		// const realBlackWidth = 14;
-		// const whiteWidth = realWhiteWidth / 24;
-		// const blackWidth = realBlackWidth / 24;
-
-		// const keyColor = getKeyColor(keyName);
-		// const thisWidth = (keyColor === 'white' ? whiteWidth : blackWidth) * size + 'px';
- 
-		// left: (i * blackWidth) * size + 'px',  
-	}
-
-	// function getOffsetLeft(keyName, i) {
-	// 	// get key width 
-
-
-	// }
+			* make key element for every keyName  
+	*/ 
   
 	return(
 		<div className="keys"> 
 			{
-				keyNames.map((keyName, i) => { 
-					// const offsetLeft = getOffsetLeft(keyName, i);
-			 
-
+				keyNames.map((keyName, i) => {  
 					return (<Key 
 						i={i}
 						keyName={keyName} 
@@ -56,8 +28,4 @@ export default function Keys({
 			}
 		</div>
 	)
-}
-
-/*
-
-				 */
+} 

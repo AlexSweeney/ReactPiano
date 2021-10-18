@@ -213,14 +213,16 @@ export default function Piano() {
 
 	// ================================== Output =========================== //
 	return (
-		<div style={{width: '100px', height: '100px', 'min-height': '125px', border: '2px solid blue', resize: 'both', overflow: 'auto'}} id="box"> 
-				<Keys keyNames={allKeys}/>
+		<div className="piano">  
+			<Keys keyNames={allKeys}/>
 		</div>
 	)
 };
 
 {/*
-				
+					<div style={{width: '100px', height: '100px', 'min-height': '125px', border: '2px solid blue', resize: 'both', overflow: 'auto'}} id="box"> 
+				<Keys keyNames={allKeys}/>
+		</div>
 
 			<Keys keyNames={allKeys}/>
 			{/*<AudioElements setAudioIDs={setAudioIDs}/>

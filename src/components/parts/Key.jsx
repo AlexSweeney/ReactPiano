@@ -185,7 +185,9 @@ export default function Key({
 	}
 
 	function updateLeftOffset() {
+		console.log('updateLeftOffset ------------------')
 		const newOffset = getLeftOffset(); 
+		console.log('newOffset', newOffset)
 		setLeftOffset(newOffset)
 	}
 

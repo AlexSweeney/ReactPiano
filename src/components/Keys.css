@@ -1,5 +1,6 @@
 .keys { 
-  height: 100%;
+  height: 50%;
   display: flex; 
   position: relative;
+  background: red;
 }

@@ -1,12 +1,12 @@
 .key { 
 	position: absolute;
+	box-sizing: border-box;
 	border: 1px solid black;  
+	opacity: 0.5;
 }
 
 .white-key { 
-	background: white;
-	
-	min-width: 25px; 
+	background: white; 
 	z-index: 1;
 }
 

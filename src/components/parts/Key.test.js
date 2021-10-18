@@ -186,6 +186,116 @@ describe('on render', () => {
 			})
 		})
 	})  
+
+	describe('offset', () => {
+		describe('white keys => should have offset value of white key i * white key width (20% of height)', () => {
+			it('C', () => {
+				const C = renderKey('C3', {i: 0});  
+				const whiteWidth = getElementHeight(container, 'number') * 0.2;
+				const left_c = whiteWidth * 0 + 'px';
+				expect(C.style.left).toEqual(left_c)  
+			})
+
+			it('D', () => {
+				const D = renderKey('D3', {i: 2}); 
+				const whiteWidth = getElementHeight(container, 'number') * 0.2;
+				const left_d = whiteWidth * 1 + 'px';
+				expect(D.style.left).toEqual(left_d)
+			})
+
+			it('E', () => {
+				const E = renderKey('E3', {i: 4}); 
+				const whiteWidth = getElementHeight(container, 'number') * 0.2;
+				const left_e = whiteWidth * 2 + 'px';
+				expect(E.style.left).toEqual(left_e)
+			})
+
+			it('F', () => {
+				const F = renderKey('F3', {i: 5}); 
+				const whiteWidth = getElementHeight(container, 'number') * 0.2;
+				const left_f = whiteWidth * 3 + 'px';
+				expect(F.style.left).toEqual(left_f)
+			})
+
+			it('G', () => {
+				const G = renderKey('G3', {i: 7}); 
+				const whiteWidth = getElementHeight(container, 'number') * 0.2;
+				const left_g = whiteWidth * 4 + 'px';
+				expect(G.style.left).toEqual(left_g)
+			})
+
+			it('A', () => {
+				const A = renderKey('A3', {i: 9});  
+				const whiteWidth = getElementHeight(container, 'number') * 0.2;
+				const left_a = whiteWidth * 5 + 'px';
+				expect(A.style.left).toEqual(left_a)
+			})
+
+			it('B', () => {
+				const B = renderKey('B3', {i: 11}); 
+				const whiteWidth = getElementHeight(container, 'number') * 0.2;
+				const left_b = whiteWidth * 6 + 'px';
+				expect(B.style.left).toEqual(left_b)
+			})
+		})
+
+		describe('black keys => should have offset value of  current i * black key width', () => {
+			it('Db', () => { 
+				const Db = renderKey('Db', {i: 1});  
+
+				const containerHeight = getElementHeight(container, 'number');
+				const whiteWidth = containerHeight * 0.2;
+				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
+
+				const left = 1 * blackWidth + 'px'; 
+				expect(Db.style.left).toEqual(left)  
+			})
+
+			it('Eb', () => {   
+				const Eb = renderKey('Eb', {i: 3});  
+
+				const containerHeight = getElementHeight(container, 'number');
+				const whiteWidth = containerHeight * 0.2;
+				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
+ 
+				const left = 3 * blackWidth + 'px'; 
+				expect(Eb.style.left).toEqual(left)  
+			})
+
+			it('Gb', () => {  
+				const Gb = renderKey('Gb', {i: 6});  
+
+				const containerHeight = getElementHeight(container, 'number');
+				const whiteWidth = containerHeight * 0.2;
+				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
+ 
+				const left = 6 * blackWidth + 'px'; 
+				expect(Gb.style.left).toEqual(left)  
+			})
+
+			it('Ab', () => {  
+				const Ab = renderKey('Ab', {i: 8});  
+
+				const containerHeight = getElementHeight(container, 'number');
+				const whiteWidth = containerHeight * 0.2;
+				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
+ 
+				const left = 8 * blackWidth + 'px'; 
+				expect(Ab.style.left).toEqual(left)  
+			})
+
+			it('Bb', () => {  
+				const Bb = renderKey('Bb', {i: 10});
+
+				const containerHeight = getElementHeight(container, 'number');
+				const whiteWidth = containerHeight * 0.2;
+				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
+ 
+				const left = 10 * blackWidth + 'px'; 
+				expect(Bb.style.left).toEqual(left)  
+			})
+		})
+	})
 })
 
 describe('on size change', () => {
