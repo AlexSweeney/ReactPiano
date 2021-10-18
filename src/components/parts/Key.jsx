@@ -31,10 +31,7 @@ export default function Key({
 					* height 65% of container height
 					* height 5833333333333334% of container height
 			
-			- offset
-				- style.left of i * black key width
-			
-			
+			* style.left: make keyboard 
 
 		- on size change
 			* white key 
@@ -44,7 +41,7 @@ export default function Key({
 				- height 65% of container height
 				- width 5833333333333334% of container height
 
-			- style.left of i * black key width
+			* style.left: make keyboard
  
 		* on hover
 			* change color
@@ -403,15 +400,11 @@ export default function Key({
 	// =========================== Listen / Trigger ============== //
 	useEffect(() => {
 		onRender()
-	}, [])
+	}, []) 
 
-/*	useEffect(() => {
-		onKeyWidthChange(width)
-	}, [width])
-*/
-	// useEffect(() => {
-	// 	updateKeyColorClass(isOver, isDown)
-	// }, [isOver, isDown])
+	useEffect(() => {
+		updateKeyColorClass(isOver, isDown)
+	}, [isOver, isDown])
 
 	// =========================== Output ======================== //
 	return (  
