@@ -124,35 +124,3 @@ export default function Key({
 		onMouseUp={onMouseUp}></div>
 	)
 }
-
-/*
-
-	style={style}
-
-
-// const thisWidth = getKeyWidth(keyColor, size);
-
-	// const style = {
-	// 	left: (i * blackWidth) * size + 'px',
-	// 	width: thisWidth,
-	// }   
-
-
-
-
-
-	// function getKeyWidth(keyColor, size) {
-	// 	const realWhiteWidth = 24;
-	// 	const realBlackWidth = 14;
-		
-	// 	const whiteWidth = realWhiteWidth / 24;
-	// 	const blackWidth = realBlackWidth / 24;
-
-	// 	if(keyColor === 'white') return whiteWidth * size + 'px';
-	// 	if(keyColor === 'black') return blackWidth * size + 'px';
-	// }
-
-
-
-
-	*/
