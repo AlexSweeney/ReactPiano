@@ -114,12 +114,12 @@ export default function Key({
 		updateWidth()
 		updateLeftOffset()
  
-		// triggerOnSizeChange(KEY_ID, onContainerSizeChange)   
+		triggerOnSizeChange(KEY_ID, onContainerSizeChange)   
 	}
 
 	function onContainerSizeChange() { 
-		// updateWidth()
-		// updateLeftOffset() 
+		updateWidth()
+		updateLeftOffset() 
 	} 
   
 	function onMouseOver() { 
@@ -154,31 +154,38 @@ export default function Key({
 	}
 
 	function updateLeftOffset() {
-		const newOffset = getLeftOffset(); 
-		console.log('newOffset', newOffset)
+		const newOffset = getLeftOffset();  
 		setLeftOffset(newOffset)
 	}
 
 	function getKeyWidth() {
 		if(KEY_TYPE === 'white-key') {
-			const height = getElementHeight(KEY_ID, 'number'); 
+			const height = getElementHeight(KEY_ID, 'number');  
 			const widthRatio = THIS_WIDTH / 100;
 			const width = height * widthRatio;
 			return width;
 		}
-		// if(KEY_TYPE === 'white-key') return height * WHITE_HEIGHT_TO_WHITE_WIDTH;
+		if(KEY_TYPE === 'black-key') {
+			const widthRatio = THIS_WIDTH / 100;
+			const thisHeight = getElementHeight(KEY_ID, 'number');  
+			const whiteKeyHeight = thisHeight  * (1 + (0.35 / 0.65)); 
+			const width = whiteKeyHeight * widthRatio;
+
+			return width;
+		}
 	}
 
 	function getLeftOffset() {
-		if(KEY_TYPE === 'white-key') {
-			// const whiteKeyWidth = getKeyWidth();
-			// console.log('whiteKeyWidth', whiteKeyWidth)
+		if(KEY_TYPE === 'white-key') { 
 			const height = getElementHeight(KEY_ID, 'number'); 
 			const offsetRatio = WHITE_OFFSETS[KEY_NAME] / 100;
-			const offset = height * offsetRatio;
-			console.log('offset', offset)
-			// const offset = 20 * offsetRatio;
+			const offset = height * offsetRatio; 
 			return offset;
+		}
+
+		if(KEY_TYPE === 'black-key') {
+			const width = getKeyWidth();
+			return i * width;
 		}
 	}
 
@@ -248,7 +255,7 @@ export default function Key({
 	// }, [isOver, isDown])
 
 	// =========================== Output ======================== //
-	if(KEY_TYPE === 'white-key') {
+//if(KEY_TYPE === 'white-key') {
 		return (   
 				<div className={`key ${KEY_TYPE} ${keyColorClass}`} 
 					id={KEY_ID}  
@@ -263,7 +270,7 @@ export default function Key({
 					onMouseUp={onMouseUp}>
 				</div> 
 		)
-	} else {
-		return null;
-	} 
+	// } else {
+	// 	return null;
+	// } 
 } 
