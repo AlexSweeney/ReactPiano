@@ -213,7 +213,13 @@ export default function Piano() {
 
 	// ================================== Output =========================== //
 	return (
-		<div style={{width: '500px', height: '500px', 'min-height': '125px', border: '2px solid blue', resize: 'both', overflow: 'auto'}} id="box">
+		<div style={{width: '100px', height: '100px', 'min-height': '125px', border: '2px solid blue', resize: 'both', overflow: 'auto'}} id="box"> 
+				<Keys keyNames={allKeys}/>
+		</div>
+	)
+};
+
+{/*
 				
 
 			<Keys keyNames={allKeys}/>
@@ -237,7 +243,5 @@ export default function Piano() {
 					handleOut={onKeyOut}
 					handleDown={onKeyDown}
 				/>
-			</div>*/}
-		</div>
-	)
-};
+			</div>
+		</div>*/}

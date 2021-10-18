@@ -1,18 +1,19 @@
 .key {
-	box-sizing: border-box;
+	/*box-sizing: border-box;*/
 	position: absolute;
+	border: 1px solid black;  
 }
 
 .white-key { 
 	background: white;
-	border: 2px solid black;  
+	
 	min-width: 25px; 
 	z-index: 1;
 }
 
 .black-key {
 	background: black;
-	min-width: 16.25px; 
+	/*min-width: 16.25px; */
 	z-index: 2;
 }
 
@@ -21,11 +22,14 @@
 }
 .black-key.key-over {
 	background: #4646bd;
+	border-color: #4646bd;
 }
 
 .white-key.key-down {
 	background: #0d59ff;
+	border-color: #0d59ff;
 }
 .black-key.key-down {
 	background: #212187;
+	border-color: #212187;
 }

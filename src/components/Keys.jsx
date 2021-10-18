@@ -43,7 +43,7 @@ export default function Keys({
 			{
 				keyNames.map((keyName, i) => { 
 					// const offsetLeft = getOffsetLeft(keyName, i);
-					// if(i > 6) return
+			 
 
 					return (<Key 
 						i={i}
