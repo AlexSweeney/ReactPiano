@@ -1,13 +1,13 @@
 .key { 
 	position: absolute;
-	box-sizing: border-box;
-	border: 1px solid black;  
+	box-sizing: border-box; 
 	opacity: 0.5;
 }
 
 .white-key { 
 	background: white; 
 	z-index: 1;
+	border: 0.5px solid black;
 }
 
 .black-key {

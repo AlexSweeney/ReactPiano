@@ -17,6 +17,8 @@ export default function Keys({
 		<div className="keys"> 
 			{
 				keyNames.map((keyName, i) => {  
+					// if(i > 4) return;
+
 					return (<Key 
 						i={i}
 						keyName={keyName} 
