@@ -65,7 +65,7 @@ function getKeyType(keyId) {
 	if(keyName.indexOf('b') !== -1 || keyName.indexOf('#') != -1) return 'black-key';
 }
 
-function renderKey(keyName, props = {}) {
+function renderKey(keyName = 'C3', props = {}) {
 	act(() => { render(<Key keyName={keyName} {...props}/>, container) })
 
 	const keyId = getKeyId(keyName); 
@@ -161,17 +161,87 @@ describe.only('on render', () => {
 	})
 
 	describe('size', () => {
-		describe('white key', () => {
-			it('width with should be 20% of container height', () => {
-				const keyName = 'C3'; 
-				const key = renderKey(keyName);
+		describe('white keys', () => {
+			describe('keys C D E: width should be 20% of container height', () => {
+				it('C', () => {
+					const keyName = 'C3'; 
+					const key = renderKey(keyName);
 
-				const containerHeight = getElementHeight(container, 'number');
-				const keyWidth = getElementWidth(key, 'number');
-				const targetHeight = containerHeight * 0.2;
-		 		 
-				expect(keyWidth).toEqual(targetHeight)
-			})
+					const containerHeight = getElementHeight(container, 'number');
+					const keyWidth = getElementWidth(key, 'number');
+					const targetHeight = containerHeight * 0.2;
+			 		 
+					expect(keyWidth).toEqual(targetHeight)
+				})
+
+				it('D', () => {
+					const keyName = 'D3'; 
+					const key = renderKey(keyName);
+
+					const containerHeight = getElementHeight(container, 'number');
+					const keyWidth = getElementWidth(key, 'number');
+					const targetHeight = containerHeight * 0.2;
+			 		 
+					expect(keyWidth).toEqual(targetHeight)
+				})
+
+				it('E', () => {
+					const keyName = 'E3'; 
+					const key = renderKey(keyName);
+
+					const containerHeight = getElementHeight(container, 'number');
+					const keyWidth = getElementWidth(key, 'number');
+					const targetHeight = containerHeight * 0.2;
+			 		 
+					expect(keyWidth).toEqual(targetHeight)
+				})
+			}) 
+
+			describe('keys F G A B: width should be 21% of container height', () => {
+				it('F', () => {
+					const keyName = 'F3'; 
+					const key = renderKey(keyName);
+
+					const containerHeight = getElementHeight(container, 'number');
+					const keyWidth = getElementWidth(key, 'number');
+					const targetHeight = containerHeight * 0.21;
+			 		 
+					expect(keyWidth).toEqual(targetHeight)
+				})
+
+				it('G', () => {
+					const keyName = 'G3'; 
+					const key = renderKey(keyName);
+
+					const containerHeight = getElementHeight(container, 'number');
+					const keyWidth = getElementWidth(key, 'number');
+					const targetHeight = containerHeight * 0.21;
+			 		 
+					expect(keyWidth).toEqual(targetHeight)
+				})
+
+				it('A', () => {
+					const keyName = 'A3'; 
+					const key = renderKey(keyName);
+
+					const containerHeight = getElementHeight(container, 'number');
+					const keyWidth = getElementWidth(key, 'number');
+					const targetHeight = containerHeight * 0.21;
+			 		 
+					expect(keyWidth).toEqual(targetHeight)
+				})
+
+				it('B', () => {
+					const keyName = 'B3'; 
+					const key = renderKey(keyName);
+
+					const containerHeight = getElementHeight(container, 'number');
+					const keyWidth = getElementWidth(key, 'number');
+					const targetHeight = containerHeight * 0.21;
+			 		 
+					expect(keyWidth).toEqual(targetHeight)
+				})
+			}) 
 
 			it('height should be 100% container height', () => {
 				const keyName = 'C3'; 
@@ -185,7 +255,7 @@ describe.only('on render', () => {
 		})
 
 		describe('black key', () => {
-			it.only('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
+			it('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
 				const keyName = 'C3#';
 				const key = renderKey(keyName); 
 
@@ -193,18 +263,9 @@ describe.only('on render', () => {
 
 				const keyWidth = getElementWidth(key, 'number');
 				const widthToHeightRatio = BLACK_WIDTH / 100;
-		 		const targetKeyWidth = containerHeight * widthToHeightRatio;
-		 		console.log('containerHeight', containerHeight)
-		 		console.log('widthToHeightRatio', widthToHeightRatio)
+		 		const targetKeyWidth = containerHeight * widthToHeightRatio; 
 
-				expect(keyWidth).toEqual(targetKeyWidth)
-
-				/*
-const THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO = (KEY_TYPE === 'white-key') ? WHITE_WIDTHS[KEY_NAME] / 100 : BLACK_WIDTH / 100;
-  
-						const whiteKeyHeight = getWhiteKeyHeight(); 
-						return whiteKeyHeight * THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO;
-				*/
+				expect(keyWidth).toEqual(targetKeyWidth) 
 			})
 
 			it('height be 65% of container height', () => {
@@ -222,111 +283,175 @@ const THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO = (KEY_TYPE === 'white-key') ? WHITE_
 	})  
 
 	describe('offset', () => {
-		describe('white keys => should have offset value of white key i * white key width (20% of height)', () => {
+		describe('white keys => should have offset value of white key i * white key width (20% / 21% of height)', () => {
 			it('C', () => {
-				const C = renderKey('C3', {i: 0});  
-				const whiteWidth = getElementHeight(container, 'number') * 0.2;
-				const left_c = whiteWidth * 0 + 'px';
-				expect(C.style.left).toEqual(left_c)  
+				const keyName = 'C3';
+				const i = 0;
+
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number');
+				const offsetTotal = WHITE_OFFSET_TOTALS[keyName[0]] / 100;
+				const targetLeft = containerHeight * (offsetTotal * 100) / 100 + 'px';
+
+				expect(keyLeft).toEqual(targetLeft); 
 			})
 
 			it('D', () => {
-				const D = renderKey('D3', {i: 2}); 
-				const whiteWidth = getElementHeight(container, 'number') * 0.2;
-				const left_d = whiteWidth * 1 + 'px';
-				expect(D.style.left).toEqual(left_d)
+				const keyName = 'D3';
+				const i = 2;
+				
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number');
+				const offsetTotal = WHITE_OFFSET_TOTALS[keyName[0]] / 100;
+				const targetLeft = containerHeight * (offsetTotal * 100) / 100 + 'px';
+
+				expect(keyLeft).toEqual(targetLeft); 
 			})
 
 			it('E', () => {
-				const E = renderKey('E3', {i: 4}); 
-				const whiteWidth = getElementHeight(container, 'number') * 0.2;
-				const left_e = whiteWidth * 2 + 'px';
-				expect(E.style.left).toEqual(left_e)
+				const keyName = 'E3';
+				const i = 4;
+				
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number');
+				const offsetTotal = WHITE_OFFSET_TOTALS[keyName[0]] / 100;
+				const targetLeft = containerHeight * (offsetTotal * 100) / 100 + 'px';
+
+				expect(keyLeft).toEqual(targetLeft);
 			})
 
 			it('F', () => {
-				const F = renderKey('F3', {i: 5}); 
-				const whiteWidth = getElementHeight(container, 'number') * 0.2;
-				const left_f = whiteWidth * 3 + 'px';
-				expect(F.style.left).toEqual(left_f)
+				const keyName = 'F3';
+				const i = 5;
+				
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number');
+				const offsetTotal = WHITE_OFFSET_TOTALS[keyName[0]] / 100;
+				const targetLeft = containerHeight * (offsetTotal * 100) / 100 + 'px';
+
+				expect(keyLeft).toEqual(targetLeft); 
 			})
 
 			it('G', () => {
-				const G = renderKey('G3', {i: 7}); 
-				const whiteWidth = getElementHeight(container, 'number') * 0.2;
-				const left_g = whiteWidth * 4 + 'px';
-				expect(G.style.left).toEqual(left_g)
+				const keyName = 'G3';
+				const i = 7;
+				
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number');
+				const offsetTotal = WHITE_OFFSET_TOTALS[keyName[0]] / 100;
+				const targetLeft = containerHeight * (offsetTotal * 100) / 100 + 'px';
+
+				expect(keyLeft).toEqual(targetLeft);  
 			})
 
 			it('A', () => {
-				const A = renderKey('A3', {i: 9});  
-				const whiteWidth = getElementHeight(container, 'number') * 0.2;
-				const left_a = whiteWidth * 5 + 'px';
-				expect(A.style.left).toEqual(left_a)
+				const keyName = 'A3';
+				const i = 9;
+				
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number');
+				const offsetTotal = WHITE_OFFSET_TOTALS[keyName[0]] / 100;
+				const targetLeft = containerHeight * (offsetTotal * 100) / 100 + 'px';
+
+				expect(keyLeft).toEqual(targetLeft); 
 			})
 
 			it('B', () => {
-				const B = renderKey('B3', {i: 11}); 
-				const whiteWidth = getElementHeight(container, 'number') * 0.2;
-				const left_b = whiteWidth * 6 + 'px';
-				expect(B.style.left).toEqual(left_b)
+				const keyName = 'B3';
+				const i = 11;
+				
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number');
+				const offsetTotal = WHITE_OFFSET_TOTALS[keyName[0]] / 100;
+				const targetLeft = containerHeight * (offsetTotal * 100) / 100 + 'px';
+
+				expect(keyLeft).toEqual(targetLeft);   
 			})
 		})
 
-		describe('black keys => should have offset value of  current i * black key width', () => {
+		describe('black keys => should have offset value of i * black key width', () => {
 			it('Db', () => { 
-				const Db = renderKey('Db', {i: 1});  
+				const keyName = 'Db3';
+				const i = 1;
 
-				const containerHeight = getElementHeight(container, 'number');
-				const whiteWidth = containerHeight * 0.2;
-				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
 
-				const left = 1 * blackWidth + 'px'; 
-				expect(Db.style.left).toEqual(left)  
+				const containerHeight = getElementHeight(container, 'number'); 
+				const blackKeyWidth = (containerHeight * BLACK_WIDTH) / 100;
+				const targetLeft = blackKeyWidth * i + 'px';
+
+				expect(keyLeft).toEqual(targetLeft)
 			})
 
 			it('Eb', () => {   
-				const Eb = renderKey('Eb', {i: 3});  
+				const keyName = 'Eb3';
+				const i = 3;
 
-				const containerHeight = getElementHeight(container, 'number');
-				const whiteWidth = containerHeight * 0.2;
-				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
- 
-				const left = 3 * blackWidth + 'px'; 
-				expect(Eb.style.left).toEqual(left)  
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number'); 
+				const blackKeyWidth = (containerHeight * BLACK_WIDTH) / 100;
+				const targetLeft = blackKeyWidth * i + 'px';
+
+				expect(keyLeft).toEqual(targetLeft)
 			})
 
 			it('Gb', () => {  
-				const Gb = renderKey('Gb', {i: 6});  
+				const keyName = 'Gb3';
+				const i = 6;
 
-				const containerHeight = getElementHeight(container, 'number');
-				const whiteWidth = containerHeight * 0.2;
-				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
- 
-				const left = 6 * blackWidth + 'px'; 
-				expect(Gb.style.left).toEqual(left)  
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number'); 
+				const blackKeyWidth = (containerHeight * BLACK_WIDTH) / 100;
+				const targetLeft = blackKeyWidth * i + 'px';
+
+				expect(keyLeft).toEqual(targetLeft)  
 			})
 
 			it('Ab', () => {  
-				const Ab = renderKey('Ab', {i: 8});  
+				const keyName = 'Ab3';
+				const i = 8;
 
-				const containerHeight = getElementHeight(container, 'number');
-				const whiteWidth = containerHeight * 0.2;
-				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
- 
-				const left = 8 * blackWidth + 'px'; 
-				expect(Ab.style.left).toEqual(left)  
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number'); 
+				const blackKeyWidth = (containerHeight * BLACK_WIDTH) / 100;
+				const targetLeft = blackKeyWidth * i + 'px';
+
+				expect(keyLeft).toEqual(targetLeft)  
 			})
 
 			it('Bb', () => {  
-				const Bb = renderKey('Bb', {i: 10});
+				const keyName = 'Bb3';
+				const i = 10;
 
-				const containerHeight = getElementHeight(container, 'number');
-				const whiteWidth = containerHeight * 0.2;
-				const blackWidth = whiteWidth * (BLACK_WIDTH / WHITE_WIDTH);
- 
-				const left = 10 * blackWidth + 'px'; 
-				expect(Bb.style.left).toEqual(left)  
+				const key = renderKey(keyName, { i });  
+				const keyLeft = key.style.left;
+
+				const containerHeight = getElementHeight(container, 'number'); 
+				const blackKeyWidth = (containerHeight * BLACK_WIDTH) / 100;
+				const targetLeft = blackKeyWidth * i + 'px';
+
+				expect(keyLeft).toEqual(targetLeft)
 			})
 		})
 	})

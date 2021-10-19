@@ -62,7 +62,7 @@ export default function Key({
 	const KEY_TYPE = getKeyType(keyName);
 	const KEY_NAME = keyName[0];
 	 
-	// ============= Size Numbers - use for ratios 
+	// ============= Size Numbers - use for width as percentage of container heigh
 	const WHITE_WIDTHS = {
 		'C' : 20,  
 		'D' : 20,  
@@ -219,6 +219,7 @@ export default function Key({
 		return (   
 				<div className={`key ${KEY_TYPE} ${keyColorClass}`} 
 					id={KEY_ID}  
+					key={KEY_NAME}
 					style={{ 
 						width: width,
 						height: THIS_HEIGHT,
