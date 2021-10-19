@@ -1,4 +1,11 @@
 import React, {useState, useEffect} from 'react';
+import {
+	WHITE_WIDTHS,
+	WHITE_OFFSET_TOTALS,
+	BLACK_WIDTH,
+	WHITE_HEIGHT,
+	BLACK_HEIGHT,
+} from './../settings/KeySizes.js';
 import { 
 	getElementHeight,
 	getElementWidth,
@@ -15,7 +22,7 @@ export default function Key({
 	handleOut = () => {}, 
 	handleDown = () => {},  
 }) { 
-	/*
+	/* ================================ Key.jsx ================================ //
 		* on Render
 			* color
 				* if keyName contains b or # => class black-key
@@ -64,33 +71,6 @@ export default function Key({
 	const KEY_TYPE = getKeyType(keyName);
 	const KEY_NAME = keyName[0];
 	 
-	// ============= Size Numbers - use for width as percentage of container heigh
-	const WHITE_WIDTHS = {
-		'C' : 20,  
-		'D' : 20,  
-		'E' : 20, 
-		'F' : 21, 
-		'G' : 21, 
-		'A' : 21, 
-		'B' : 21, 
-	}
-
-	const WHITE_OFFSET_TOTALS = {
-		'C' : 0,
-		'D' : 20,
-		'E' : 40,
-		'F' : 60,
-		'G' : 81,
-		'A' : 102,
-		'B' : 123,
-	}
-
-	const BLACK_WIDTH = 12;
-
-	// ============= Height Percentages
-	const WHITE_HEIGHT = 1;
-	const BLACK_HEIGHT = 0.65;
-
 	// ============= Comparative Ratios
 	const BLACK_HEIGHT_TO_WHITE_HEIGHT =  WHITE_HEIGHT / BLACK_HEIGHT;
 
