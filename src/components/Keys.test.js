@@ -33,8 +33,6 @@ const CONTAINER_STYLE = `
 const KEYS_ID = 'keys';
 const KEY_NAMES = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 
-const WHITE_KEY_WIDTH = 100; 
-
 // ============================================ Add style sheet =============================================//
 var style = document.createElement('style');
 style.type = 'text/css';
@@ -55,6 +53,23 @@ function getWhiteKeysWidth(container) {
 	}, 0); 
 
 	return totalWhiteKeysWidth;
+}
+
+function changeContainerSize(newWidth, newHeight) {
+	// set
+	container.style.width = newWidth;
+	container.style.height = newHeight; 
+
+	// update
+	const keys = getElement(KEYS_ID);
+	act(() => { keys.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+	// check
+	const containerHeight = getElementHeight(container);
+	const containerWidth = getElementWidth(container);
+
+	expect(containerWidth).toEqual(newWidth)
+	expect(containerHeight).toEqual(newHeight)
 }
 
 // ============================================ Mocks =======================================================//
@@ -129,6 +144,10 @@ afterEach(() => {
 }) 
 
 // ============================================ Tests ================================================================//
+describe('<MockKey>', () => {
+
+})
+
 describe('<Keys/>', () => {
 	describe('on render', () => {
 		it('should render key for every keyName passed', () => {   
@@ -154,23 +173,14 @@ describe('<Keys/>', () => {
 	}) 
 
 	describe('on change size', () => {
-		describe.only('on shrink', () => {
+		describe('on shrink', () => {
 			it('should shrink to width of white keys', () => {
-				const NEW_WIDTH = '100px';
-				const NEW_HEIGHT = '100px';
+				const newWidth = '100px';
+				const newHeight = '100px';
 
 				act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
-				const keys = getElement(KEYS_ID);
-
-				container.style.width = NEW_WIDTH;
-				container.style.height = NEW_HEIGHT; 
-				act(() => { keys.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
-
-				const containerHeight = getElementHeight(container);
-				const containerWidth = getElementWidth(container);
-
-				expect(containerWidth).toEqual(NEW_WIDTH)
-				expect(containerHeight).toEqual(NEW_HEIGHT)
+			
+				changeContainerSize(newWidth, newHeight)
 
 				const keysWidth = getElementWidth(KEYS_ID, 'number');
 				const totalWhiteKeysWidth = getWhiteKeysWidth(container);
@@ -181,21 +191,12 @@ describe('<Keys/>', () => {
 
 		describe('on expand', () => {
 			it('should expand to width of white keys', () => {
-				const NEW_WIDTH = '1000px';
-				const NEW_HEIGHT = '1000px';
+				const newWidth = '1000px';
+				const newHeight = '1000px';
 
 				act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
-				const keys = getElement(KEYS_ID);
-
-				container.style.width = NEW_WIDTH;
-				container.style.height = NEW_HEIGHT; 
-				act(() => { keys.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
-
-				const containerHeight = getElementHeight(container);
-				const containerWidth = getElementWidth(container);
-
-				expect(containerWidth).toEqual(NEW_WIDTH)
-				expect(containerHeight).toEqual(NEW_HEIGHT)
+			 	
+			 	changeContainerSize(newWidth, newHeight)
 
 				const keysWidth = getElementWidth(KEYS_ID, 'number');
 				const totalWhiteKeysWidth = getWhiteKeysWidth(container);
