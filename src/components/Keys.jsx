@@ -29,6 +29,7 @@ export default function Keys({
 
 	/* ======================== Event Handlers =================== */
 	function onRender() {
+		updateKeysWidth()
 		// listenForWhiteKeyWidthChange() 
 	}
 
@@ -78,6 +79,7 @@ export default function Keys({
 				keyNames.map((keyName, i) => {   
 					return (
 						<Key i={i}
+							id={KEYS_ID}
 							key={`key-${i}`}
 							keyName={keyName} 
 							handleOver={handleOver} 

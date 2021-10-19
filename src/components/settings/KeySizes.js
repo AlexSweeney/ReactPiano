@@ -21,6 +21,9 @@ export const WHITE_OFFSET_TOTALS = {
 
 export const BLACK_WIDTH = 12;
 
-// ============= Height Percentages
+// ============= Container => Height Ratios
 export const WHITE_HEIGHT = 1;
 export const BLACK_HEIGHT = 0.65;
+
+export const CONTAINER_HEIGHT_TO_WHITE_HEIGHT = 1;
+export const CONTAINER_HEIGHT_TO_BLACK_HEIGHT = 0.65;
