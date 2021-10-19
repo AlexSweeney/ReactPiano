@@ -124,7 +124,7 @@ afterEach(() => {
 })
 
 // ============================================ on Render ==========================================//
-describe.only('on render', () => { 
+describe('on render', () => { 
 	describe('key color', () => {
 		it('should have class "white-key" if natural key', () => {
 			const keyName = 'C3';
@@ -459,140 +459,356 @@ describe.only('on render', () => {
 
 describe('on size change', () => {
 	describe('expand', () => {
-		describe('white key', () => {
-			it('width should be 20% of height', () => {
-				const keyName = 'C3'; 
-				const key = renderKey(keyName); 
-		 
-				container.style.width = '1000px';
-				container.style.height = '1000px';
+		describe('white keys', () => {
+			describe('width', () => {
+				describe('keys C D E: width should be 20% of container height', () => {
+					it('C', () => {
+						const keyName = 'C3'; 
+						const key = renderKey(keyName);
 
-				act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
-				const keyWidth = getElementWidth(key);
-				const targetWidth = 1000 * 0.2 + 'px';
+						container.style.width = '1000px';
+						container.style.height = '1000px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
 
-				expect(keyWidth).toEqual(targetWidth)
-			})
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.2;
+				 		
+				 		expect(containerHeight).toEqual(1000)
+						expect(keyWidth).toEqual(targetHeight)
+					})
 
-			it('height should be 100% of container', () => {
-				const keyName = 'C3'; 
-				const key = renderKey(keyName); 
-		 
-				container.style.width = '1000px';
-				container.style.height = '1000px';
+					it('D', () => {
+						const keyName = 'D3'; 
+						const key = renderKey(keyName);
 
-				act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
-				const keyHeight = getElementHeight(key);
-				const targetHeight = '1000px';
+						container.style.width = '1000px';
+						container.style.height = '1000px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
 
-				expect(keyHeight).toEqual(targetHeight)
-			})
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.2;
+				 		
+				 		expect(containerHeight).toEqual(1000)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+
+					it('E', () => {
+						const keyName = 'E3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '1000px';
+						container.style.height = '1000px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.2;
+				 		
+				 		expect(containerHeight).toEqual(1000)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+				}) 
+
+				describe('keys F G A B: width should be 21% of container height', () => {
+					it('F', () => {
+						const keyName = 'F3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '1000px';
+						container.style.height = '1000px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.21;
+				 		
+				 		expect(containerHeight).toEqual(1000)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+
+					it('G', () => {
+						const keyName = 'G3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '1000px';
+						container.style.height = '1000px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.21;
+				 		
+				 		expect(containerHeight).toEqual(1000)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+
+					it('A', () => {
+						const keyName = 'A3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '1000px';
+						container.style.height = '1000px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.21;
+				 		
+				 		expect(containerHeight).toEqual(1000)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+
+					it('B', () => {
+						const keyName = 'B3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '1000px';
+						container.style.height = '1000px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.21;
+				 		
+				 		expect(containerHeight).toEqual(1000)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+				}) 
+			}) 
+			
+			describe('height', () => {
+				it('height should be 100% container height', () => {
+					const keyName = 'C3'; 
+					const key = renderKey(keyName);
+
+					container.style.width = '1000px';
+					container.style.height = '1000px'; 
+					act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+					const containerHeight = getElementHeight(container, 'number');
+					const keyHeight = getElementHeight(key, 'number');
+			 		
+			 		expect(containerHeight).toEqual(1000)
+			 		expect(containerHeight).toEqual(keyHeight) 
+				})
+			}) 
 		})
 
-		describe('black key', () => {
+		describe('black keys', () => {
 			describe('black key', () => {
-				it('width should be whiteWidth (20% of height) * (blackWidth/whiteWidth)', () => {
+				it('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
 					const keyName = 'C3#';
-					const key = renderKey(keyName);
+					const key = renderKey(keyName); 
 
 					container.style.width = '1000px';
-					container.style.height = '1000px';
-
+					container.style.height = '1000px'; 
 					act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
 
-					const containerHeight = getElementHeight(container, 'number');
-					
-					const keyWidth = getElementWidth(key, 'number').toFixed(4);
-					const targetKeyWidth = (containerHeight * 0.2 * (BLACK_WIDTH / WHITE_WIDTH)).toFixed(4);
-			 		 
-					expect(keyWidth).toEqual(targetKeyWidth)
+					const containerHeight = getElementHeight(container, 'number');  
+
+					const keyWidth = getElementWidth(key, 'number');
+					const widthToHeightRatio = BLACK_WIDTH / 100;
+		 			const targetKeyWidth = containerHeight * widthToHeightRatio; 
+
+		 			expect(containerHeight).toEqual(1000)
+					expect(keyWidth).toEqual(targetKeyWidth) 
 				})
 
-				it('height be 65% of container height', () => {
+				it('height should  be 65% of container height', () => { 
 					const keyName = 'C3#';
 					const key = renderKey(keyName);
 
 					container.style.width = '1000px';
-					container.style.height = '1000px';
-
+					container.style.height = '1000px'; 
 					act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
 
 					const containerHeight = getElementHeight(container, 'number');
-					
+				
 					const keyHeight = getElementHeight(key, 'number');
 					const targetHeight = containerHeight * 0.65;
-			 		 
-					expect(keyHeight).toEqual(targetHeight)
+		 		 	
+		 		 	expect(containerHeight).toEqual(1000)
+					expect(keyHeight).toEqual(targetHeight) 
 				})
 			})
 		}) 
 	})
 
 	describe('shrink', () => {
-		 describe('white key', () => {
-			it('width should be 20% of height', () => {
-				const keyName = 'C3'; 
-				const key = renderKey(keyName); 
-		 
-				container.style.width = '100px';
-				container.style.height = '100px';
+		describe('white keys', () => {
+			describe('width', () => {
+				describe('keys C D E: width should be 20% of container height', () => {
+					it('C', () => {
+						const keyName = 'C3'; 
+						const key = renderKey(keyName);
 
-				act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
-				const keyWidth = getElementWidth(key);
-				const targetWidth = 100 * 0.2 + 'px';
+						container.style.width = '100px';
+						container.style.height = '100px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
 
-				expect(keyWidth).toEqual(targetWidth)
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.2;
+				 		
+				 		expect(containerHeight).toEqual(100)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+
+					it('D', () => {
+						const keyName = 'D3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '100px';
+						container.style.height = '100px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.2;
+				 		
+				 		expect(containerHeight).toEqual(100)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+
+					it('E', () => {
+						const keyName = 'E3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '100px';
+						container.style.height = '100px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.2;
+				 		
+				 		expect(containerHeight).toEqual(100)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+				}) 
+
+				describe('keys F G A B: width should be 21% of container height', () => {
+					it('F', () => {
+						const keyName = 'F3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '100px';
+						container.style.height = '100px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.21;
+				 		
+				 		expect(containerHeight).toEqual(100)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+
+					it('G', () => {
+						const keyName = 'G3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '100px';
+						container.style.height = '100px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.21;
+				 		
+				 		expect(containerHeight).toEqual(100)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+
+					it('A', () => {
+						const keyName = 'A3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '100px';
+						container.style.height = '100px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.21;
+				 		
+				 		expect(containerHeight).toEqual(100)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+
+					it('B', () => {
+						const keyName = 'B3'; 
+						const key = renderKey(keyName);
+
+						container.style.width = '100px';
+						container.style.height = '100px'; 
+						act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+
+						const containerHeight = getElementHeight(container, 'number');
+						const keyWidth = getElementWidth(key, 'number');
+						const targetHeight = containerHeight * 0.21;
+				 		
+				 		expect(containerHeight).toEqual(100)
+						expect(keyWidth).toEqual(targetHeight)
+					})
+				})  
 			})
 
-			it('height should be 100% of container', () => {
-				const keyName = 'C3'; 
-				const key = renderKey(keyName); 
-		 
-				container.style.width = '1000px';
-				container.style.height = '1000px';
+			describe('height', () => {
+				it('height should be 100% container height', () => {
+					const keyName = 'C3'; 
+					const key = renderKey(keyName);
 
-				act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
-				const keyHeight = getElementHeight(key);
-				const targetHeight = '1000px';
+					container.style.width = '100px';
+					container.style.height = '100px'; 
+					act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
 
-				expect(keyHeight).toEqual(targetHeight)
-			})
+					const containerHeight = getElementHeight(container, 'number');
+					const keyHeight = getElementHeight(key, 'number');
+			 		
+			 		expect(containerHeight).toEqual(100)
+			 		expect(containerHeight).toEqual(keyHeight) 
+				}) 
+			}) 
 		})
 
-		describe('black key', () => {
+		describe('black keys', () => {
 			describe('black key', () => {
-				it('width should be whiteWidth (20% of container height) * (blackWidth/whiteWidth)', () => {
+				it('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
 					const keyName = 'C3#';
-					const key = renderKey(keyName);
+					const key = renderKey(keyName); 
 
 					container.style.width = '100px';
-					container.style.height = '100px';
-
+					container.style.height = '100px'; 
 					act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
 
-					const containerHeight = getElementHeight(container, 'number');
-					
-					const keyWidth = getElementWidth(key, 'number').toFixed(4);
-					const targetKeyWidth = (containerHeight * 0.2 * (BLACK_WIDTH / WHITE_WIDTH)).toFixed(4);
-			 		 
-					expect(keyWidth).toEqual(targetKeyWidth)
+					const containerHeight = getElementHeight(container, 'number');  
+
+					const keyWidth = getElementWidth(key, 'number');
+					const widthToHeightRatio = BLACK_WIDTH / 100;
+		 			const targetKeyWidth = containerHeight * widthToHeightRatio; 
+
+		 			expect(containerHeight).toEqual(100)
+					expect(keyWidth).toEqual(targetKeyWidth) 
 				})
 
-				it('height be 65% of container height', () => {
+				it('height should  be 65% of container height', () => { 
 					const keyName = 'C3#';
 					const key = renderKey(keyName);
 
 					container.style.width = '100px';
-					container.style.height = '100px';
-
+					container.style.height = '100px'; 
 					act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
 
 					const containerHeight = getElementHeight(container, 'number');
-					
+				
 					const keyHeight = getElementHeight(key, 'number');
 					const targetHeight = containerHeight * 0.65;
-			 		 
-					expect(keyHeight).toEqual(targetHeight)
+		 		 	
+		 		 	expect(containerHeight).toEqual(100)
+					expect(keyHeight).toEqual(targetHeight) 
 				})
 			})
 		}) 

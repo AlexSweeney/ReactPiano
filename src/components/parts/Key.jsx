@@ -53,6 +53,8 @@ export default function Key({
 		* on out
 			* change color
 			* call handleOut
+
+		-- move up Key conts => use in test
 	*/
 
 	// =========================== const =========================== //    
