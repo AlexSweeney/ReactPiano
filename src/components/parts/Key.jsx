@@ -28,26 +28,26 @@ export default function Key({
 				* if keyName contains b or # => class black-key
 				* if keyName doesn't contain b or # => white key
 			
-			- size
-				- white key 
+			* size
+				 white key 
 					* height 100% of container height
 					* width 20% of container height
 
-				- black key 
+				* black key 
 					* height 65% of container height
-					* height 5833333333333334% of container height
+					* width = based on proportions from passed sizes
 			
-			- style.left: make keyboard 
+			* style.left: end of previous white key
 
-		- on size change
-			- white key 
-				- height 100% of container height
-				- width 20% of container height
-			- black key 
-				- height 65% of container height
-				- width 5833333333333334% of container height
+		* on size change
+			* white key 
+				* height 100% of container height
+				* width 20% of container height
+			* black key 
+				* height 65% of container height
+				* width = based on proportions from passed sizes
 
-			- style.left: make keyboard
+			* style.left: i * black key width
  
 		* on hover
 			* change color

@@ -33,7 +33,7 @@ export function getElements(ids) {
 	return ids.map(id => getElement(id))
 }
 
-function getElement(id) {
+export function getElement(id) {
 	return document.getElementById(id)
 }
 
@@ -85,18 +85,10 @@ export function getElementWidth(id, output = 'px') {
 		element = id;
 	} 
 
-	const width = pxToNumber(window.getComputedStyle(element).width);
-	// if(round) {
-	// 	console.log('width', width)
-	// 	console.log('Math.round(width)', Math.round(width))
-	// 	console.log(Math.round(width) + 'px')
-	// 	console.log('window.getComputedStyle(element).width', window.getComputedStyle(element).width)
-	// }
+	const width = pxToNumber(window.getComputedStyle(element).width); 
 
 	if(output === 'px') return width + 'px';
-	if(output === 'number') return width;
-	// if(round) return Math.round(width) + 'px';
-	// if(!round) return width + 'px'; 
+	if(output === 'number') return width; 
 }
 
 export function setElementHeight(id, height) { 
