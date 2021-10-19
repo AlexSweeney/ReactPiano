@@ -199,7 +199,7 @@ export default function Key({
 
 	// =========================== Output ======================== // 
 		return (   
-				<div className={`key ${KEY_TYPE} ${keyColorClass}`} 
+			<div className={`key ${KEY_TYPE} ${keyColorClass}`} 
 					id={KEY_ID}  
 					key={KEY_NAME}
 					style={{ 
@@ -213,4 +213,4 @@ export default function Key({
 					onMouseUp={onMouseUp}>
 				</div> 
 		) 
-} 
+}

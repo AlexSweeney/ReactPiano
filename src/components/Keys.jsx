@@ -14,26 +14,28 @@ export default function Keys({
 	handleOut  = () => {}, 
 	handleDown = () => {},
 }) {
-	/* ======================== Keys ======================== */
+	/* ======================== <Keys> =========================== */
 	/*
 		* on render 
 			* make key element for every keyName
-			- width same as total white key width
+			* width same as total white key width
 
-		- on size change
-			- width same as total white key width
+		* on size change
+			* width same as total white key width
 	*/ 
+	/* ======================== Constants ======================== */
 	const KEYS_ID = 'keys';
 	const [width, setWidth] = useState(0);
 
+	/* ======================== Event Handlers =================== */
 	function onRender() {
-		listenForWhiteKeyWidthChange() 
+		// listenForWhiteKeyWidthChange() 
 	}
 
 	function onWhiteKeyWidthChange() { 
 		updateKeysWidth()
 	}
-
+	/* ======================== Helper Fns ======================= */
 	function listenForWhiteKeyWidthChange() {
 		const keysElement = getElement(KEYS_ID);
 		const whiteKeys = Array.from(keysElement.querySelectorAll('.white-key')); 
@@ -64,21 +66,25 @@ export default function Keys({
 		return totalWidth;
 	} 
 
+	/* ======================== Listen / Trigger =================== */
   useEffect(() => {
   	onRender()
   }, [])
 
+  /* ======================== Output ============================= */
 	return(
 		<div className="keys" id={KEYS_ID} style={{ width: width }}> 
 			{
 				keyNames.map((keyName, i) => {   
-					return (<Key 
-						i={i}
-						keyName={keyName} 
-						handleOver={handleOver} 
-						handleOut={handleOut}
-						handleDown={handleDown}
-					/>)
+					return (
+						<Key i={i}
+							key={`key-${i}`}
+							keyName={keyName} 
+							handleOver={handleOver} 
+							handleOut={handleOut}
+							handleDown={handleDown}
+						/>
+					)
 				})
 			}
 		</div>
