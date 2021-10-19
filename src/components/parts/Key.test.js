@@ -12,9 +12,32 @@ import {
 // ============================================ Vars =========================================================//
 let key;
 let container;
-let iframe;
-const WHITE_WIDTH = 24;
-const BLACK_WIDTH = 14;
+let iframe; 
+
+const WHITE_WIDTHS = {
+	'C' : 20,  
+	'D' : 20,  
+	'E' : 20, 
+	'F' : 21, 
+	'G' : 21, 
+	'A' : 21, 
+	'B' : 21, 
+}
+
+const WHITE_OFFSET_TOTALS = {
+		'C' : 0,
+		'D' : 20,
+		'E' : 40,
+		'F' : 60,
+		'G' : 81,
+		'A' : 102,
+		'B' : 123,
+	}
+
+const BLACK_WIDTH = 12;
+
+const WHITE_HEIGHT = 1;
+const BLACK_HEIGHT = 0.65;
 
 // ============================================ Add style sheet =============================================//
 var style = document.createElement('style');
@@ -101,7 +124,7 @@ afterEach(() => {
 })
 
 // ============================================ on Render ==========================================//
-describe('on render', () => { 
+describe.only('on render', () => { 
 	describe('key color', () => {
 		it('should have class "white-key" if natural key', () => {
 			const keyName = 'C3';
@@ -162,15 +185,26 @@ describe('on render', () => {
 		})
 
 		describe('black key', () => {
-			it('width should be whiteWidth (20% of height) * (blackWidth/whiteWidth)', () => {
+			it.only('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
 				const keyName = 'C3#';
 				const key = renderKey(keyName); 
 
-				const containerHeight = getElementHeight(container, 'number'); 
-				const keyWidth = getElementWidth(key, 'number').toFixed(4);
-				const targetKeyWidth = (containerHeight * 0.2 * (BLACK_WIDTH / WHITE_WIDTH)).toFixed(4);
-		 		 
+				const containerHeight = getElementHeight(container, 'number');  
+
+				const keyWidth = getElementWidth(key, 'number');
+				const widthToHeightRatio = BLACK_WIDTH / 100;
+		 		const targetKeyWidth = containerHeight * widthToHeightRatio;
+		 		console.log('containerHeight', containerHeight)
+		 		console.log('widthToHeightRatio', widthToHeightRatio)
+
 				expect(keyWidth).toEqual(targetKeyWidth)
+
+				/*
+const THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO = (KEY_TYPE === 'white-key') ? WHITE_WIDTHS[KEY_NAME] / 100 : BLACK_WIDTH / 100;
+  
+						const whiteKeyHeight = getWhiteKeyHeight(); 
+						return whiteKeyHeight * THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO;
+				*/
 			})
 
 			it('height be 65% of container height', () => {

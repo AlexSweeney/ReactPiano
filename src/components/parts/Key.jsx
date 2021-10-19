@@ -62,7 +62,7 @@ export default function Key({
 	const KEY_TYPE = getKeyType(keyName);
 	const KEY_NAME = keyName[0];
 	 
-	// ============= Size  
+	// ============= Size Numbers - use for ratios 
 	const WHITE_WIDTHS = {
 		'C' : 20,  
 		'D' : 20,  
@@ -85,14 +85,17 @@ export default function Key({
 
 	const BLACK_WIDTH = 12;
 
+	// ============= Height Percentages
 	const WHITE_HEIGHT = 1;
 	const BLACK_HEIGHT = 0.65;
 
+	// ============= Comparative Ratios
 	const BLACK_HEIGHT_TO_WHITE_HEIGHT =  WHITE_HEIGHT / BLACK_HEIGHT;
 
 	const THIS_HEIGHT = (KEY_TYPE === 'white-key') ? '100%' : '65%'; 
 	const THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO = (KEY_TYPE === 'white-key') ? WHITE_WIDTHS[KEY_NAME] / 100 : BLACK_WIDTH / 100;
-  	
+  
+  // ============= Styles	
  	const [width, setWidth] = useState(0); 
  	const [height, setHeight] = useState(THIS_HEIGHT);
 	const [leftOffset, setLeftOffset] = useState(0);
@@ -162,19 +165,19 @@ export default function Key({
 
 	function getWhiteKeyWidth() { 
 		const whiteKeyHeight = getWhiteKeyHeight();  
-		return whiteKeyHeight * THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO;
+		return whiteKeyHeight * (THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO * 100) / 100;
 	}
 
-	function getBlackKeyWidth() { 
-		const whiteKeyHeight = getWhiteKeyHeight(); 
-		return whiteKeyHeight * THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO;
+	function getBlackKeyWidth() {  
+		const whiteKeyHeight = getWhiteKeyHeight();  
+		return whiteKeyHeight * (THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO * 100) / 100;
 	} 
 
-	function getWhiteKeyHeight() {
-		const thisKeyHeight = getThisKeyHeight();
+	function getWhiteKeyHeight() { 
+		const thisKeyHeight = getThisKeyHeight(); 
 
 		if(KEY_TYPE === 'white-key') return thisKeyHeight;
-		if(KEY_TYPE === 'black-key')  return thisKeyHeight * BLACK_HEIGHT_TO_WHITE_HEIGHT; 
+		if(KEY_TYPE === 'black-key')  return thisKeyHeight * (BLACK_HEIGHT_TO_WHITE_HEIGHT * 100) / 100; 
 	}
  
 	function getLeftOffset() {
@@ -185,7 +188,7 @@ export default function Key({
 	function getOffsetForWhiteKey() {
 		const whiteKeyHeight = getThisKeyHeight();
 		const offsetTotal = WHITE_OFFSET_TOTALS[KEY_NAME] / 100;
-		return whiteKeyHeight * offsetTotal; 
+		return whiteKeyHeight * (offsetTotal * 100) / 100; 
 	}
 
 	function getOffsetForBlackKey() {
