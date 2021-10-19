@@ -73,10 +73,11 @@ function changeContainerSize(newWidth, newHeight) {
 }
 
 // ============================================ Mocks =======================================================//
-function MockKey({keyName}) {
+function MockWhiteKey({keyName}) {
 	const KEY_LETTER = keyName[0];
 	const KEY_TYPE = getKeyType(keyName);
 	const KEY_ID = `key-${keyName}`;
+	if(KEY_TYPE === 'black-key') return;
 
 	const height = getHeight() + 'px';
 	const width = getWidth() + 'px';
@@ -87,24 +88,14 @@ function MockKey({keyName}) {
 	}
 
 	function getHeight() {
-		if(KEY_TYPE === 'white-key') return getWhiteKeyHeight(); 
-		if(KEY_TYPE === 'black-key') return getBlackKeyHeight();
-	}
-
-	function getWhiteKeyHeight() {
 		return CONTAINER_HEIGHT * CONTAINER_HEIGHT_TO_WHITE_HEIGHT; 
 	}
 
-	function getBlackKeyHeight() {
-		return CONTAINER_HEIGHT * CONTAINER_HEIGHT_TO_BLACK_HEIGHT;
-	}
-
 	function getWidth() {
-		if(KEY_TYPE === 'black-key') return (CONTAINER_HEIGHT * BLACK_WIDTH) / 100;
-		if(KEY_TYPE === 'white-key') return (CONTAINER_HEIGHT * WHITE_WIDTHS[KEY_LETTER]) / 100;
+		return (CONTAINER_HEIGHT * BLACK_WIDTH) / 100;
 	}
 
-	return (<div className={`key ${KEY_TYPE}`} style={{height: height, width: width}} id={KEY_ID}>{keyName}</div>)
+	return (<div className={`key white-key`} style={{height: height, width: width}} id={KEY_ID}>{keyName}</div>)
 }
   
 function mockTriggerOnSizeChange(id, fn) { 
@@ -129,7 +120,7 @@ jest.mock('./utils.js', () => {
 })
 
 jest.mock('./parts/Key.jsx', () => {
-	return MockKey;
+	return MockWhiteKey;
 }); 
 
 // ============================================ Set up / Tear down ====================================================//
@@ -145,7 +136,181 @@ afterEach(() => {
 
 // ============================================ Tests ================================================================//
 describe('<MockKey>', () => {
+	describe('onRender', () => {
+		describe('color classes', () => {
+			describe('should render natural keys with className "white-key"', () => {
+				it('C', () => {
+					const keyName = 'C3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('white-key')
+				})
+			
+				it('D', () => {
+					const keyName = 'D3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('white-key')
+				})
 
+				it('E', () => {
+					const keyName = 'E3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('white-key')
+				})
+
+				it('F', () => {
+					const keyName = 'F3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('white-key')
+				})
+
+				it('G', () => {
+					const keyName = 'G3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('white-key')
+				})
+
+				it('A', () => {
+					const keyName = 'A3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('white-key')
+				})
+
+				it('B', () => {
+					const keyName = 'B3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('white-key')
+				})
+			})
+
+			describe('should not render sharp keys', () => {
+				it('C#', () => {
+					const keyName = 'C#3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				})
+
+				it('D#', () => {
+					const keyName = 'D#3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				})
+
+				it('F#', () => {
+					const keyName = 'F#3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				})
+
+				it('G#', () => {
+					const keyName = 'G#3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				}) 
+
+				it('A#', () => {
+					const keyName = 'A#3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				}) 
+			})
+
+			describe('should not render flat keys', () => {
+				it('Db', () => {
+					const keyName = 'Db3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				})
+
+				it('Eb', () => {
+					const keyName = 'Eb3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				})
+
+				it('Gb', () => {
+					const keyName = 'Gb3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				})
+
+				it('Ab', () => {
+					const keyName = 'Ab3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				}) 
+
+				it('Bb', () => {
+					const keyName = 'Bb3';
+					const testRenderer = TestRenderer.create(<MockKey keyName={keyName}/>);
+		 
+					const className = testRenderer.toJSON().props.className;
+					expect(className).toContain('black-key')
+				}) 
+			})
+		})
+		
+		describe('width', () => {
+			describe('natural keys', () => {
+				describe('should render keys C D E with width 20% of container height ', () => {
+
+				})
+
+				describe('should render keys F G A B with width 21% of container height ', () => {
+
+				})
+			})
+			
+			it('should render black keys with 65% container height', () => {
+				
+			})
+		})
+
+		describe('height', () => {
+			it('should render white keys with 100% container height', () => {
+
+			})
+
+			it('should render black keys with 65% container height', () => {
+				
+			})
+		})
+	})
+
+	describe('onContainerSizeChange', () => {
+
+	})
 })
 
 describe('<Keys/>', () => {
