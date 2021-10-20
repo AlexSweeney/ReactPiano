@@ -19,7 +19,7 @@ export const WHITE_OFFSET_TOTALS = {
 	'B' : 123,
 };
 
-export const BLACK_WIDTH = 12;
+export const BLACK_KEY_WIDTH = 12;
 
 // ============= Container => Height Ratios
 export const WHITE_HEIGHT = 1;

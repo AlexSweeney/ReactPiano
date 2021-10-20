@@ -5,7 +5,7 @@ import Key from './Key.jsx';
 import {
 	WHITE_KEY_WIDTHS,
 	WHITE_OFFSET_TOTALS,
-	BLACK_WIDTH,
+	BLACK_KEY_WIDTH,
 	WHITE_HEIGHT,
 	BLACK_HEIGHT,
 } from './../settings/KeySizes.js';
@@ -234,7 +234,7 @@ describe('test functions', () => {
 		})
 	})
 
-	describe.only('getWhiteOffset()', () => {
+	describe('getWhiteOffset()', () => {
 		it('C D E should have offset of 0% / 20% / 40% / 60%  of container height', () => {
 			const targetValues = {
 				'C3' : 0,
@@ -344,7 +344,7 @@ describe('<Key>', () => {
 					BLACK_KEYS.forEach(keyName => { 
 						const key = renderKey(keyName);   
 						const keyWidth = getElementWidth(key, 'number');
-						const widthToHeightRatio = BLACK_WIDTH / 100;
+						const widthToHeightRatio = BLACK_KEY_WIDTH / 100;
 				 		const targetKeyWidth = CONTAINER_HEIGHT * widthToHeightRatio; 
 
 						expect(keyWidth).toEqual(targetKeyWidth) 
@@ -364,47 +364,39 @@ describe('<Key>', () => {
 		})  
 
 		describe('offset', () => {
-			it('white keys => should have offset value of the total width of previous white keys', () => {
+			describe.only('white keys => should have offset value of the total width of previous white keys', () => {
 				WHITE_KEYS.forEach((keyName, whiteKeyI) => {
-					// if(whiteKeyI === 0) return;
-					if(whiteKeyI > 1) return;
 					/* 
 						white keys have different widths 
 							C D E = 20% of container height 
 							F G A B = 21% of container height 
-					*/  
-					const i = OCTAVE_KEYS_SHARP.indexOf(keyName);
-					const key = renderKey(keyName, { i });  
-					const keyLeft = key.style.left;	 
+					*/   
+					it(`${keyName} should have left of ${getWhiteOffset(keyName) + 'px'}`, () => {
+						const i = OCTAVE_KEYS_SHARP.indexOf(keyName); 
+						const key = renderKey(keyName, {i});  
+						const keyLeft = key.style.left;	 
 
-					const targetLeft = getWhiteOffset(keyName);
-				 	expect(keyLeft).toEqual(totalWidth)
+						const targetLeft = getWhiteOffset(keyName) + 'px';
+
+						if(keyLeft !== targetLeft) console.log('ERROR', keyName)
+					 	expect(keyLeft).toEqual(targetLeft)
+					})   
 				})
 			})
 
-			it('black keys => should have offset value of i * black key width', () => {
-				SHARP_KEYS.forEach(keyName => {
-					const i = OCTAVE_KEYS_SHARP.indexOf(keyName);
+			describe('black keys => should have offset value of i * black key width', () => {
+				BLACK_KEYS.forEach((keyName, blackI) => {
+					it(`${keyName} should have a left of ${(CONTAINER_HEIGHT *	BLACK_KEY_WIDTH) / 100}`, () => { 
+						const i = OCTAVE_KEYS_SHARP.indexOf(keyName); 
+						const key = renderKey(keyName, { i });  
 
-					const key = renderKey(keyName, { i });  
-					const keyLeft = key.style.left;	
- 
-					const offsetTotal = WHITE_OFFSET_TOTALS[keyName[0]] / 100;
-					const targetLeft = CONTAINER_HEIGHT * (offsetTotal * 100) / 100 + 'px';
+						const keyLeft = key.style.left;	
 
-					expect(keyLeft).toEqual(targetLeft); 
-				})
-
-				FLAT_KEYS.forEach(keyName => {
-					const i = OCTAVE_KEYS_FLAT.indexOf(keyName);
-
-					const key = renderKey(keyName, { i });  
-					const keyLeft = key.style.left;	
- 
-					const offsetTotal = WHITE_OFFSET_TOTALS[keyName[0]] / 100;
-					const targetLeft = CONTAINER_HEIGHT * (offsetTotal * 100) / 100 + 'px';
-
-					expect(keyLeft).toEqual(targetLeft); 
+						const keyWidth = (CONTAINER_HEIGHT *	BLACK_KEY_WIDTH) / 100;
+						const targetLeft = keyWidth * i + 'px';
+						
+						expect(keyLeft).toEqual(targetLeft); 
+					})
 				}) 
 			})
 		})
@@ -562,7 +554,7 @@ describe('<Key>', () => {
 						const containerHeight = getElementHeight(container, 'number');  
 
 						const keyWidth = getElementWidth(key, 'number');
-						const widthToHeightRatio = BLACK_WIDTH / 100;
+						const widthToHeightRatio = BLACK_KEY_WIDTH / 100;
 			 			const targetKeyWidth = containerHeight * widthToHeightRatio; 
 
 			 			expect(containerHeight).toEqual(1000)
@@ -740,7 +732,7 @@ describe('<Key>', () => {
 						const containerHeight = getElementHeight(container, 'number');  
 
 						const keyWidth = getElementWidth(key, 'number');
-						const widthToHeightRatio = BLACK_WIDTH / 100;
+						const widthToHeightRatio = BLACK_KEY_WIDTH / 100;
 			 			const targetKeyWidth = containerHeight * widthToHeightRatio; 
 
 			 			expect(containerHeight).toEqual(100)
