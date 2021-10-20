@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom'; 
-import { act, Simulate } from 'react-dom/test-utils'; 
+import { act, isElementOfType } from 'react-dom/test-utils';  
 import Key from './Key.jsx'; 
 import {
 	WHITE_WIDTHS,
@@ -11,6 +11,7 @@ import {
 } from './../settings/KeySizes.js';
 
 import { 
+	getElement,
 	getElementHeight,
 	getElementWidth,
 	pxToNumber,
@@ -19,10 +20,31 @@ import {
 
 // ============================================ Vars =========================================================//
 let key;
-let container;
-const CONTAINER_STYLES = {
-	width:  '500px',
-	height: '500px',
+let keyContainer; 
+const NATURAL_KEYS = [
+	'C3',  'D3',  'E3',  'F3',  'G3', 'A3', 'B3',
+];
+
+const SHARP_KEYS = [
+	'C#3', 'D#3', 'E#3', 'G#3', 'A#3',
+];
+
+const FLAT_KEYS = [
+	'Cb3', 'Db3', 'Eb3', 'Gb3', 'Ab3',
+];
+
+const ALL_KEYS = [
+	...NATURAL_KEYS,
+	...SHARP_KEYS,
+	...FLAT_KEYS,
+];
+
+const CONTAINER_WIDTH = 500;
+const CONTAINER_HEIGHT = 500;
+
+const KEY_CONTAINER_STYLES = {
+	width:  `${CONTAINER_WIDTH}px`,
+	height: `${CONTAINER_HEIGHT}px`, 
 	resize: 'both',
 	overflow: 'auto',
 }; 
@@ -36,7 +58,7 @@ function addInlineStyles(element, stylesObject)  {
 
 function getKeyId(keyName) {
 	const idKeyName = keyName.replace('#', 'sharp');
-	return `#key-${idKeyName}`;
+	return `key-${idKeyName}`;
 }
 
 function getKeyType(keyId) {
@@ -44,57 +66,56 @@ function getKeyType(keyId) {
 
 	if(keyName.indexOf('b') === -1 && keyName.indexOf('#') === -1) return 'white-key';
 	if(keyName.indexOf('b') !== -1 || keyName.indexOf('#') != -1) return 'black-key';
-}
+} 
+ 
+function renderKey(keyName = 'C3', props = {}) {  
+	act(() => { render(<Key keyName={keyName} {...props}/>, keyContainer)})
 
-/*function appendContainer(containerWidth, containerHeight) {
-	const containerStyle = {
-		width: containerWidth,
-		height: containerHeight,
-		resize: 'both',
-		overflow: 'auto',
-	};
+	const keyId = getKeyId(keyName);
+ 	updateKeyHeight(keyId)   
 
-	container = document.createElement('div'); 
-	container.classList.add('container') 
-	document.body.appendChild(container);
-}*/
-
-
-function renderKey(keyName = 'C3', props = {}) {
-	act(() => { render(<Key keyName={keyName} {...props}/>, container) })
-
-	const keyId = getKeyId(keyName); 
-	const key = container.querySelector(keyId);  
-	// act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
-
+  const key = keyContainer.querySelector(`#${keyId}`);
 	return key;
 }
 
-/*function updateKeyHeight(id, container) {
-	const keyType = getKeyType(id);
-	const element = document.getElementById(id);
-	const containerHeight = getElementHeight(container, 'number');
+function updateKeyHeight(id) { 
+	const keyColor = getKeyType(id); 
+	const element = document.getElementById(id); 
+	const containerHeight = getElementHeight(keyContainer, 'number');
 
-	if(keyType === 'white-key') {
+	if(keyColor === 'white-key') {
 		element.style.height = containerHeight + 'px';
 	}
 
-	if(keyType === 'black-key') {
+	if(keyColor === 'black-key') {
 		element.style.height = containerHeight * 0.65 + 'px';
-	}
-}*/
+	} 
+}
 
 // ============================================ Mocks =============================================//
 function mockTriggerOnSizeChange(id, fn) { 
-	// listen for custom event, in code trigger on size change
-	const element = document.getElementById(id);
-	element.addEventListener('resizetrigger', () => {
-		// set height manually, in code use css style
-		updateKeyHeight(id, container)
+	/*
+		Real function 
+			* listens for size change on id
+			* calls fn() on size change
+
+		Instance use
+			* key height = 100% for white, 65% for black
+			* key width = fn() call sets width based on height
+
+		Mock function 
+			* listens for setkeysize event
+			* on resizekey event 
+				* set height of key to height parent manually
+				* call fn() => sets width based on height
+	*/
+ 
+	document.addEventListener('setkeysize', () => {  
+		updateKeyHeight(id)
 	
 		// call width calculate fn
-		fn(id)
-	})
+		fn()
+	}) 
 }
 
 jest.mock('./../utils.js', () => { 
@@ -108,34 +129,80 @@ jest.mock('./../utils.js', () => {
 
 // ============================================ Set up / tear down ===============================//
 beforeEach(() => {
-	container = document.createElement('div');
-	addInlineStyles(container, CONTAINER_STYLES) 
-	document.body.appendChild(container);
+	keyContainer = document.createElement('div');
+	addInlineStyles(keyContainer, KEY_CONTAINER_STYLES) 
+	document.body.appendChild(keyContainer); 
 })
 
 afterEach(() => {
-	document.body.removeChild(container);
-	container = null;
+	document.body.removeChild(keyContainer); 
+	keyContainer = null;
 })
 
-// ============================================ on Render ==========================================//
-describe('container (test)', () => {
-	it.only('should have inline styles from containerStyle object', () => {
-		Object.keys(CONTAINER_STYLES).forEach(key => {
-			expect(container.style[key]).toEqual(CONTAINER_STYLES[key])
+// ============================================ prepare ============================================//
+describe('test functions', () => {
+	describe('keyContainer (test)', () => {
+		it('should have inline styles from KEY_CONTAINER_STYLES object', () => {
+			Object.keys(KEY_CONTAINER_STYLES).forEach(key => {
+				expect(keyContainer.style[key]).toEqual(KEY_CONTAINER_STYLES[key])
+			})
+		})
+	})
+
+	describe('renderKey()', () => { 
+		it('should render all keys', () => {
+			ALL_KEYS.forEach(keyName => { 
+				const key = renderKey(keyName);
+				expect(isElementOfType(key, Key)) 
+ 			})
+		})  
+	}) 
+
+	describe('updateKeyHeight() (called on render)', () => { 
+		it('should set natural keys to 100% of container height', () => {
+			NATURAL_KEYS.forEach(keyName => {
+				const key = renderKey(keyName);
+				const keyHeight = getElementHeight(key, 'number');
+
+				expect(keyHeight).toEqual(CONTAINER_HEIGHT)
+			})
+		})
+
+		it('should set sharp and flat keys to 65% of container height', () => {
+			SHARP_KEYS.forEach(keyName => {
+				const key = renderKey(keyName);
+				const keyHeight = getElementHeight(key, 'number');
+
+				expect(keyHeight).toEqual(CONTAINER_HEIGHT * 0.65)
+			})
+
+			FLAT_KEYS.forEach(keyName => {
+				const key = renderKey(keyName);
+				const keyHeight = getElementHeight(key, 'number');
+
+				expect(keyHeight).toEqual(CONTAINER_HEIGHT * 0.65)
+			})
 		})
 	})
 })
 
+// ============================================ on Render ==========================================//
 describe('<Key>', () => {
 	describe('on render', () => { 
 		describe('key color', () => {
-			it.only('should have class "white-key" if natural key', () => {
-				// const keyName = 'C3';
-				// const key = renderKey(keyName);
+			it('should have class "white-key" if natural key', () => {
+				const keyName = 'C3';
+				const key = renderKey(keyName);
+ 				
+ 				// console.log(getElementWidth(key))
+			 	// console.log(getElementHeight(key))
 
-				console.log(getElementWidth(container))
-				console.log(getElementHeight(container))
+			 // const child = getElement('demo-key-child');
+				// console.log(window.getComputedStyle(child))
+			  // console.log(window.getComputedStyle(child))
+			 // 	console.log(getElementWidth(child))
+			 //	console.log(getElementHeight(child))
+
 				// expect(key.className).toContain('white-key')
 				// expect(key.className).not.toContain('black-key')
 			})

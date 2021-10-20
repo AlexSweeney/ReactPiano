@@ -89,15 +89,15 @@ export default function Key({
 
 	// =========================== Event Handlers ================== //
 	function onRender() {  
-		updateWidth()
-		updateLeftOffset()
+		// updateWidth()
+		// updateLeftOffset()
  
 		triggerOnSizeChange(KEY_ID, onContainerSizeChange)   
 	}
 
 	function onContainerSizeChange() { 
-		updateWidth()
-		updateLeftOffset() 
+		// updateWidth()
+		// updateLeftOffset() 
 	} 
   
 	function onMouseOver() { 

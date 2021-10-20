@@ -3,7 +3,7 @@
   "name": "react-piano",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {  
+  "dependencies": {
     "gh-pages": "^3.2.3",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
@@ -34,6 +34,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": { 
-  }
+  "devDependencies": {}
 }
