@@ -20,22 +20,20 @@ import {
 // ============================================ Vars =========================================================//
 let key;
 let container;
-let iframe; 
-
-// ============================================ Add style sheet =============================================//
-var style = document.createElement('style');
-style.type = 'text/css';
-style.innerHTML = `
-.container { 
-	width:  500px;
-	height: 500px; 
-	resize: both;
-	overflow: auto;
-}
-`;
-document.getElementsByTagName('head')[0].appendChild(style);
+const containerStyle = {
+	width:  '500px',
+	height: '500px',
+	resize: 'both',
+	overflow: 'auto',
+}; 
 
 // ============================================ Helper Fns =============================================//
+function addStyles(element, stylesObject)  {
+	Object.keys(stylesObject).forEach(key => {
+		element.style[key] = stylesObject[key];
+	})
+}
+
 function getKeyId(keyName) {
 	const idKeyName = keyName.replace('#', 'sharp');
 	return `#key-${idKeyName}`;
@@ -48,17 +46,31 @@ function getKeyType(keyId) {
 	if(keyName.indexOf('b') !== -1 || keyName.indexOf('#') != -1) return 'black-key';
 }
 
+/*function appendContainer(containerWidth, containerHeight) {
+	const containerStyle = {
+		width: containerWidth,
+		height: containerHeight,
+		resize: 'both',
+		overflow: 'auto',
+	};
+
+	container = document.createElement('div'); 
+	container.classList.add('container') 
+	document.body.appendChild(container);
+}*/
+
+
 function renderKey(keyName = 'C3', props = {}) {
 	act(() => { render(<Key keyName={keyName} {...props}/>, container) })
 
 	const keyId = getKeyId(keyName); 
 	const key = container.querySelector(keyId);  
-	act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
+	// act(() => { key.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
 
 	return key;
 }
 
-function updateKeyHeight(id, container) {
+/*function updateKeyHeight(id, container) {
 	const keyType = getKeyType(id);
 	const element = document.getElementById(id);
 	const containerHeight = getElementHeight(container, 'number');
@@ -70,7 +82,7 @@ function updateKeyHeight(id, container) {
 	if(keyType === 'black-key') {
 		element.style.height = containerHeight * 0.65 + 'px';
 	}
-}
+}*/
 
 // ============================================ Mocks =============================================//
 function mockTriggerOnSizeChange(id, fn) { 
@@ -95,28 +107,45 @@ jest.mock('./../utils.js', () => {
 })
 
 // ============================================ Set up / tear down ===============================//
-beforeEach(() => {
+/*beforeEach(() => {
 	container = document.createElement('div'); 
 	container.classList.add('container') 
+	document.body.appendChild(container); 
+})
+*/
+beforeEach(() => {
+	/*const containerStyle = {
+		width: containerWidth,
+		height: containerHeight,
+		resize: 'both',
+		overflow: 'auto',
+	};
+*/
+	container = document.createElement('div');
+	addStyles(container, containerStyle) 
+	// container.style.height = '500px';
+	// container.style.width = '10px';
+	// container.classList.add('container')
 	document.body.appendChild(container);
-
 })
 
 afterEach(() => {
-	document.body.removeChild(container);
-	container = null;
+	// document.body.removeChild(container);
+	// container = null;
 })
 
 // ============================================ on Render ==========================================//
-describe.skip('<Key>', () => {
+describe('<Key>', () => {
 	describe('on render', () => { 
 		describe('key color', () => {
-			it('should have class "white-key" if natural key', () => {
-				const keyName = 'C3';
-				const key = renderKey(keyName);
+			it.only('should have class "white-key" if natural key', () => {
+				// const keyName = 'C3';
+				// const key = renderKey(keyName);
 
-				expect(key.className).toContain('white-key')
-				expect(key.className).not.toContain('black-key')
+				console.log(getElementWidth(container))
+				console.log(getElementHeight(container))
+				// expect(key.className).toContain('white-key')
+				// expect(key.className).not.toContain('black-key')
 			})
 
 			it('should have class "black-key" if flat key (b)', () => {
