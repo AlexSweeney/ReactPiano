@@ -20,7 +20,7 @@ import {
 // ============================================ Vars =========================================================//
 let key;
 let container;
-const containerStyle = {
+const CONTAINER_STYLES = {
 	width:  '500px',
 	height: '500px',
 	resize: 'both',
@@ -28,7 +28,7 @@ const containerStyle = {
 }; 
 
 // ============================================ Helper Fns =============================================//
-function addStyles(element, stylesObject)  {
+function addInlineStyles(element, stylesObject)  {
 	Object.keys(stylesObject).forEach(key => {
 		element.style[key] = stylesObject[key];
 	})
@@ -107,34 +107,26 @@ jest.mock('./../utils.js', () => {
 })
 
 // ============================================ Set up / tear down ===============================//
-/*beforeEach(() => {
-	container = document.createElement('div'); 
-	container.classList.add('container') 
-	document.body.appendChild(container); 
-})
-*/
 beforeEach(() => {
-	/*const containerStyle = {
-		width: containerWidth,
-		height: containerHeight,
-		resize: 'both',
-		overflow: 'auto',
-	};
-*/
 	container = document.createElement('div');
-	addStyles(container, containerStyle) 
-	// container.style.height = '500px';
-	// container.style.width = '10px';
-	// container.classList.add('container')
+	addInlineStyles(container, CONTAINER_STYLES) 
 	document.body.appendChild(container);
 })
 
 afterEach(() => {
-	// document.body.removeChild(container);
-	// container = null;
+	document.body.removeChild(container);
+	container = null;
 })
 
 // ============================================ on Render ==========================================//
+describe('container (test)', () => {
+	it.only('should have inline styles from containerStyle object', () => {
+		Object.keys(CONTAINER_STYLES).forEach(key => {
+			expect(container.style[key]).toEqual(CONTAINER_STYLES[key])
+		})
+	})
+})
+
 describe('<Key>', () => {
 	describe('on render', () => { 
 		describe('key color', () => {
