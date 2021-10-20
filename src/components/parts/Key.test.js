@@ -177,7 +177,7 @@ afterEach(() => {
 })
 
 // ============================================ prepare ============================================//
-describe('test functions', () => {
+describe.only('test functions', () => {
 	describe('keyContainer (test)', () => {
 		it('should have inline styles from KEY_CONTAINER_STYLES object', () => {
 			Object.keys(KEY_CONTAINER_STYLES).forEach(key => {
@@ -187,55 +187,71 @@ describe('test functions', () => {
 	})
 
 	describe('renderKey(keyName, props)', () => { 
-			it('should render all keys', () => {
-				ALL_KEYS.forEach(keyName => {  
+		describe('should render all keys', () => {
+			ALL_KEYS.forEach(keyName => {  
+				it(`${keyName}`, () => {
 					const key = renderKey(keyName);
-					triggerResize(key)
 					expect(isElementOfType(key, Key)) 
- 				})
-			})  
-		it('should render when i value passed as prop', () => {
-			OCTAVE_KEYS_FLAT.forEach((keyName, i) => {  
-				const key = renderKey(keyName, {i});
-				expect(isElementOfType(key, Key))  
+				})
+			})
+		})  
+
+		describe('should render when i value passed as prop', () => {
+			describe('octave using flat keys', () => {
+				OCTAVE_KEYS_FLAT.forEach((keyName, i) => {  
+					it(`${keyName}`, () => {
+						const key = renderKey(keyName, {i});
+						expect(isElementOfType(key, Key))  
+					}) 
+				})
 			})
 
-			OCTAVE_KEYS_SHARP.forEach((keyName, i) => {  
-				const key = renderKey(keyName, {i});
-				expect(isElementOfType(key, Key))  
-			})  
+			describe('octave using sharp keys', () => {
+				OCTAVE_KEYS_SHARP.forEach((keyName, i) => {  
+					it(`${keyName}`, () => {
+						const key = renderKey(keyName, {i});
+						expect(isElementOfType(key, Key))  
+					}) 
+				})  	
+			}) 
 		}) 
 	}) 
 
 	describe('updateKeyHeight() (called on render)', () => { 
-		it('should set natural keys to 100% of container height', () => {
+		describe('should set natural keys to 100% of container height', () => {
 			WHITE_KEYS.forEach(keyName => {
-				const key = renderKey(keyName);
-				const keyHeight = getElementHeight(key, 'number');
+				it(`${keyName}`, () => {
+					const key = renderKey(keyName);
+					const keyHeight = getElementHeight(key, 'number');
 
-				expect(keyHeight).toEqual(CONTAINER_HEIGHT)
+					expect(keyHeight).toEqual(CONTAINER_HEIGHT)
+				}) 
 			})
 		})
 
-		it('should set sharp and flat keys to 65% of container height', () => {
+		describe('should set sharp and flat keys to 65% of container height', () => {
 			SHARP_KEYS.forEach(keyName => {
-				const key = renderKey(keyName);
-				const keyHeight = getElementHeight(key, 'number');
+				it(`${keyName}`, () => {
+					const key = renderKey(keyName);
+					const keyHeight = getElementHeight(key, 'number');
 
-				expect(keyHeight).toEqual(CONTAINER_HEIGHT * 0.65)
+					expect(keyHeight).toEqual(CONTAINER_HEIGHT * 0.65)
+				})
 			})
 
 			FLAT_KEYS.forEach(keyName => {
-				const key = renderKey(keyName);
-				const keyHeight = getElementHeight(key, 'number');
+				it(`${keyName}`, () => {
+					const key = renderKey(keyName);
+					const keyHeight = getElementHeight(key, 'number');
 
-				expect(keyHeight).toEqual(CONTAINER_HEIGHT * 0.65)
+					expect(keyHeight).toEqual(CONTAINER_HEIGHT * 0.65)
+				})
 			})
 		})
 	})
 
 	describe('getWhiteOffset()', () => {
-		it('C D E should have offset of 0% / 20% / 40% / 60%  of container height', () => {
+		describe('C D E should have offset of 0% / 20% / 40% / 60%  of container height', () => {
 			const targetValues = {
 				'C3' : 0,
 				'D3' : 0.2,
@@ -244,15 +260,17 @@ describe('test functions', () => {
 			};
 
 			for(const keyName in targetValues) {
-				const key = renderKey(keyName);
-				const value = getWhiteOffset(keyName);
-				const target = CONTAINER_HEIGHT * targetValues[keyName];
+				it(`${keyName}`, () => {
+					const key = renderKey(keyName);
+					const value = getWhiteOffset(keyName);
+					const target = CONTAINER_HEIGHT * targetValues[keyName];
 
-				expect(value).toEqual(target)
+					expect(value).toEqual(target)
+				}) 
 			} 
 		})
 
-		it('F G A B should have offset of 81% / 102% / 123% of container height', () => {
+		describe('F G A B should have offset of 81% / 102% / 123% of container height', () => {
 			const targetValues = { 
 				'G3' : 0.81,
 				'A3' : 1.02,
@@ -260,11 +278,13 @@ describe('test functions', () => {
 			};
 
 			for(const keyName in targetValues) {
-				const key = renderKey(keyName);
-				const value = getWhiteOffset(keyName);
-				const target = CONTAINER_HEIGHT * targetValues[keyName];
+				it(`${keyName}`, () => {
+					const key = renderKey(keyName);
+					const value = getWhiteOffset(keyName);
+					const target = CONTAINER_HEIGHT * targetValues[keyName];
 
-				expect(value).toEqual(target)
+					expect(value).toEqual(target)
+				})
 			} 
 		})
 	})
@@ -272,99 +292,115 @@ describe('test functions', () => {
 
 // ============================================ on Render ==========================================//
 describe('<Key>', () => {
-	describe('on render', () => { 
+	describe.only('on render', () => { 
 		// passed unescaped # = should render
 
 		describe('key color', () => {
-			it('white keys should have class "white-key" and not "black-key', () => {
+			describe('white keys should have class "white-key" and not "black-key', () => {
 				WHITE_KEYS.forEach(keyName => {
-					const key = renderKey(keyName);
+					it(`${keyName}`, () => {
+						const key = renderKey(keyName);
 
-					expect(key.className).toContain('white-key')
-					expect(key.className).not.toContain('black-key')
+						expect(key.className).toContain('white-key')
+						expect(key.className).not.toContain('black-key')
+					}) 
 				})  
 			})
 
-			it('black keys should have class "black-key" and not "white-key', () => {
+			describe('black keys should have class "black-key" and not "white-key', () => {
 				BLACK_KEYS.forEach(keyName => {
-					const key = renderKey(keyName);
+					it(`${keyName}`, () => {
+						const key = renderKey(keyName);
 
-					expect(key.className).toContain('black-key')
-					expect(key.className).not.toContain('white-key') 
+						expect(key.className).toContain('black-key')
+						expect(key.className).not.toContain('white-key') 
+					})
 				})  
 			}) 
 		})
 		
 		describe('cursor class', () => {
-			it('should have class "key-out"', () => {
+			describe('should have class "key-out"', () => {
 				ALL_KEYS.forEach(keyName => {
-					const key = renderKey(keyName); 
-					expect(key.className).toContain('key-out')
+					it(`${keyName}`, () => {
+						const key = renderKey(keyName); 
+						expect(key.className).toContain('key-out')
+					})
 				}) 
 			}) 
 		})
 
 		describe('size', () => {
 			describe('white keys', () => {
-				it('keys C D E: width should be 20% of container height', () => {
+				describe('keys C D E: width should be 20% of container height', () => {
 					['C3', 'D3', 'E3'].forEach(keyName => {
-						const key = renderKey(keyName); 
+						it(`${keyName}`, () => {
+							const key = renderKey(keyName); 
 
-						const keyHeight = getElementHeight(key, 'number');
-						console.log('keyHeight', keyHeight)
-						const keyWidth = getElementWidth(key, 'number');
-						const targetHeight = CONTAINER_HEIGHT * 0.2;
-				 		 
-						expect(keyWidth).toEqual(targetHeight)
+							const keyHeight = getElementHeight(key, 'number');
+							console.log('keyHeight', keyHeight)
+							const keyWidth = getElementWidth(key, 'number');
+							const targetHeight = CONTAINER_HEIGHT * 0.2;
+					 		 
+							expect(keyWidth).toEqual(targetHeight)
+						})
 					}) 
 				}) 
 
-				it('keys F G A B: width should be 21% of container height', () => {
+				describe('keys F G A B: width should be 21% of container height', () => {
 					['F3', 'G3', 'A3', 'B3'].forEach(keyName => {
-						const key = renderKey(keyName); 
-						const keyWidth = getElementWidth(key, 'number');
-						const targetHeight = CONTAINER_HEIGHT * 0.21;
-				 		 
-						expect(keyWidth).toEqual(targetHeight)
+						it(`${keyName}`, () => {
+							const key = renderKey(keyName); 
+							const keyWidth = getElementWidth(key, 'number');
+							const targetHeight = CONTAINER_HEIGHT * 0.21;
+					 		 
+							expect(keyWidth).toEqual(targetHeight)
+						})
 					})
 				}) 
 
-				it('height should be 100% container height', () => {
+				describe('height should be 100% container height', () => {
 					WHITE_KEYS.forEach(keyName => { 
-						const key = renderKey(keyName); 
-						const keyHeight = getElementHeight(key);
-				 		
-				 		expect(CONTAINER_HEIGHT).toEqual(keyHeight)
+						it(`${keyName}`, () => {
+							const key = renderKey(keyName); 
+							const keyHeight = getElementHeight(key);
+					 		
+					 		expect(CONTAINER_HEIGHT).toEqual(keyHeight)
+				 		})
 					}) 
 				})
 			})
 
 			describe('black keys', () => {
-				it('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
+				describe('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
 					BLACK_KEYS.forEach(keyName => { 
-						const key = renderKey(keyName);   
-						const keyWidth = getElementWidth(key, 'number');
-						const widthToHeightRatio = BLACK_KEY_WIDTH / 100;
-				 		const targetKeyWidth = CONTAINER_HEIGHT * widthToHeightRatio; 
+						it(`${keyName}`, () => {
+							const key = renderKey(keyName);   
+							const keyWidth = getElementWidth(key, 'number');
+							const widthToHeightRatio = BLACK_KEY_WIDTH / 100;
+					 		const targetKeyWidth = CONTAINER_HEIGHT * widthToHeightRatio; 
 
-						expect(keyWidth).toEqual(targetKeyWidth) 
+							expect(keyWidth).toEqual(targetKeyWidth) 
+						})
 					}) 
 				})
 
-				it('height be 65% of container height', () => {
-					BLACK_KEYS.forEach(keyName => {  
-						const key = renderKey(keyName); 
-						const keyHeight = getElementHeight(key, 'number');
-						const targetHeight = CONTAINER_HEIGHT * 0.65;
-				 		 
-						expect(keyHeight).toEqual(targetHeight)
+				describe('height be 65% of container height', () => {
+					BLACK_KEYS.forEach(keyName => { 
+						it(`${keyName}`, () => { 
+							const key = renderKey(keyName); 
+							const keyHeight = getElementHeight(key, 'number');
+							const targetHeight = CONTAINER_HEIGHT * 0.65;
+					 		 
+							expect(keyHeight).toEqual(targetHeight)
+						})
 					})
 				})
 			})
 		})  
 
 		describe('offset', () => {
-			describe.only('white keys => should have offset value of the total width of previous white keys', () => {
+			describe('white keys => should have offset value of the total width of previous white keys', () => {
 				WHITE_KEYS.forEach((keyName, whiteKeyI) => {
 					/* 
 						white keys have different widths 
