@@ -79,7 +79,7 @@ export default function Keys({
 				keyNames.map((keyName, i) => {   
 					return (
 						<Key i={i}
-							id={KEYS_ID}
+							allKeys={keyNames}
 							key={`key-${i}`}
 							keyName={keyName} 
 							handleOver={handleOver} 

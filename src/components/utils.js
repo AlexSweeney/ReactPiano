@@ -33,7 +33,7 @@ export function getElements(ids) {
 	return ids.map(id => getElement(id))
 }
 
-export function getElement(id) {
+export function getElement(id) { 
 	return document.getElementById(id)
 }
 

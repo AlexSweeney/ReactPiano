@@ -1,5 +1,5 @@
 // ============= Size Numbers - use for width as percentage of container heigh
-export const WHITE_WIDTHS = {
+export const WHITE_KEY_WIDTHS = {
 	'C' : 20,  
 	'D' : 20,  
 	'E' : 20, 
