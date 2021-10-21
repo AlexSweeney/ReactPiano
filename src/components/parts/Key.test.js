@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom'; 
-import { act, isElementOfType } from 'react-dom/test-utils';  
+import { act, Simulate, isElementOfType } from 'react-dom/test-utils';  
 import Key from './Key.jsx'; 
 import {
 	WHITE_KEY_WIDTHS,
@@ -498,7 +498,7 @@ describe('<Key>', () => {
 		})
 	})
 
-	describe.only('on size change', () => {
+	describe('on container resize', () => {
 		describe('expand', () => {
 			describe('white keys', () => {
 				describe('width', () => {
@@ -706,112 +706,151 @@ describe('<Key>', () => {
 		}) 
 	})
 
-	/*describe('on over', () => {
-		it('should have class "key-over"', () => {
-			const keyName = 'C3';
-			const key = renderKey(keyName);   
+	describe('on over', () => {
+		describe('should have class "key-over"', () => {
+			ALL_KEYS.forEach(keyName => {
+				it('${keyName}', () => {
+					const key = renderKey(keyName);   
 	 
-			act(() => { Simulate.mouseOver(key) })
-	  	expect(key.className).toContain('key-over') 
+					act(() => { Simulate.mouseOver(key) })
+		  		expect(key.className).toContain('key-over')
+				}) 
+			}) 
 		})
 
-		it('should call handleOver function', () => {
-			const handleOver = jest.fn();
-			const keyName = 'C3';
-			const key = renderKey(keyName, {handleOver}); 
+		describe('should call handleOver function', () => {
+			ALL_KEYS.forEach(keyName => {
+				it('${keyName}', () => {
+					const handleOver = jest.fn(); 
+					const key = renderKey(keyName, {handleOver}); 
 
-			act(() => { Simulate.mouseOver(key) })
-			expect(handleOver).toHaveBeenCalled()
+					act(() => { Simulate.mouseOver(key) })
+					expect(handleOver).toHaveBeenCalled()
+				})
+			}) 
 		})
 	})
 
 	describe('on out', () => {
 		describe('mouse up', () => {
-			it('should have class "key-out"', () => {
-				const keyName = 'C3';
-				const handleOver = jest.fn();
-				const key = renderKey(keyName, {handleOver});   
-		 	
-		 		act(() => { Simulate.mouseOver(key) })
-				act(() => { Simulate.mouseOut(key) })
-		  	expect(key.className).toContain('key-out') 
+			describe('should have class "key-out"', () => {
+				ALL_KEYS.forEach(keyName => {
+					it(`${keyName}`, () => {  
+						const key = renderKey(keyName);   
+				 	
+				 		act(() => { Simulate.mouseOver(key) })
+						act(() => { Simulate.mouseOut(key) })
+				  	expect(key.className).toContain('key-out') 
+					})
+				}) 
+			}) 
+
+			describe('should call handleOut function', () => {
+				ALL_KEYS.forEach(keyName => {
+					it(`${keyName}`, () => {  
+						const handleOut = jest.fn();
+						const key = renderKey(keyName, {handleOut});   
+				 		
+				 		act(() => { Simulate.mouseOver(key) })
+						act(() => { Simulate.mouseOut(key) })
+				  	expect(handleOut).toHaveBeenCalled()
+					})
+				}) 
 			}) 
 		})
 
 		describe('mouse down', () => {
-			it('should have class "key-out"', () => {
-				const keyName = 'C3';
-				const handleOver = jest.fn();
-				const key = renderKey(keyName, {handleOver}); 
-		 		
-		 		act(() => { Simulate.mouseOver(key) })
-		 		act(() => { Simulate.mouseDown(key) })
-				act(() => { Simulate.mouseOut(key) })
-		  	expect(key.className).toContain('key-out') 
-			})	
-		})
-		
-		it('should call handleOut function', () => {
-				const keyName = 'C3';
-				const handleOut = jest.fn();
-				const key = renderKey(keyName, {handleOut});  
-
-				act(() => { Simulate.mouseOver(key) })
-				act(() => { Simulate.mouseOut(key) })
-				expect(handleOut).toHaveBeenCalled()
+			describe('should have class "key-out"', () => {
+				ALL_KEYS.forEach(keyName => {
+					it(`${keyName}`, () => {  
+						const key = renderKey(keyName);   
+				 	
+				 		act(() => { Simulate.mouseOver(key) })
+				 		act(() => { Simulate.mouseDown(key) })
+						act(() => { Simulate.mouseOut(key) })
+				  	expect(key.className).toContain('key-out') 
+					})
+				}) 
 			}) 
+
+			describe('should call handleOut function', () => {
+				ALL_KEYS.forEach(keyName => {
+					it(`${keyName}`, () => {  
+						const handleOut = jest.fn();
+						const key = renderKey(keyName, {handleOut});   
+				 		
+				 		act(() => { Simulate.mouseOver(key) })
+				 		act(() => { Simulate.mouseDown(key) })
+						act(() => { Simulate.mouseOut(key) })
+				  	expect(handleOut).toHaveBeenCalled()
+					})
+				}) 
+			}) 
+		}) 
 	})
 
 	describe('on down', () => {
-		it('should have class "key-down"', () => {
-			const keyName = 'C3';
-			const handleOver = jest.fn();
-			const key = renderKey(keyName, {handleOver});   
-	 	
-	 		act(() => { Simulate.mouseOver(key) })
-			act(() => { Simulate.mouseDown(key) })
-	  	expect(key.className).toContain('key-down') 
+		describe('should have class "key-down"', () => {
+			ALL_KEYS.forEach(keyName => {
+				it(`${keyName}`, () => { 
+					const handleOver = jest.fn();
+					const key = renderKey(keyName, {handleOver});   
+			 	
+			 		act(() => { Simulate.mouseOver(key) })
+					act(() => { Simulate.mouseDown(key) })
+			  	expect(key.className).toContain('key-down') 
+				})
+			}) 
 		}) 
 		 
-		it('should call handleDown function', () => {
-				const keyName = 'C3';
-				const handleDown = jest.fn();
-				const key = renderKey(keyName, {handleDown});  
+		describe('should call handleDown function', () => {
+			ALL_KEYS.forEach(keyName => {
+				it(`${keyName}`, () => {
+					const handleDown = jest.fn();
+					const key = renderKey(keyName, {handleDown});  
 
-				act(() => { Simulate.mouseOver(key) })
-				act(() => { Simulate.mouseDown(key) })
-				expect(handleDown).toHaveBeenCalled()
-			}) 
+					act(() => { Simulate.mouseOver(key) })
+					act(() => { Simulate.mouseDown(key) })
+					expect(handleDown).toHaveBeenCalled()
+				})  
+			})
+		}) 
 	})
 
 	describe('on up', () => {
 		describe('on mouse over', () => {
-			it('should have class "key-over"', () => {
-				const keyName = 'C3'; 
-				const key = renderKey(keyName);    
+			describe('should have class "key-over"', () => {
+				ALL_KEYS.forEach(keyName => {
+					it(`${keyName}`, () => { 
+						const key = renderKey(keyName);    
 
-				act(() => { Simulate.mouseOver(key) })
-				act(() => { Simulate.mouseDown(key) })
-				act(() => { Simulate.mouseUp(key) })
+						act(() => { Simulate.mouseOver(key) })
+						act(() => { Simulate.mouseDown(key) })
+						act(() => { Simulate.mouseUp(key) })
 
-		  	expect(key.className).toContain('key-over') 
+				  	expect(key.className).toContain('key-over') 
+					})
+				}) 
 			}) 
 		})
 
 		describe('on mouse out', () => {
-			it('should have class "key-out"', () => {
-				const keyName = 'C3'; 
-				const key = renderKey(keyName);    
+			describe('should have class "key-out"', () => {
+				ALL_KEYS.forEach(keyName => {
+					it(`${keyName}`, () => {
+						const key = renderKey(keyName);    
 				
-				act(() => { Simulate.mouseOver(key) })
-				act(() => { Simulate.mouseDown(key) }) 
-				act(() => { Simulate.mouseOut(key) })
-				act(() => { Simulate.mouseUp(key) })
+						act(() => { Simulate.mouseOver(key) })
+						act(() => { Simulate.mouseDown(key) }) 
+						act(() => { Simulate.mouseOut(key) })
+						act(() => { Simulate.mouseUp(key) })
 
-		  	expect(key.className).toContain('key-out') 
+				  	expect(key.className).toContain('key-out') 
+					})
+				}) 
 			}) 
 		}) 
-	})*/
+	})
 })
 
 
