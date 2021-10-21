@@ -9,9 +9,7 @@ function updateKeyHeight(keyId) {
 
 	const containerId = getParentId(keyId);
 	const container = getElement(containerId); 
-
-	console.log('key.parentElement', key.parentElement)
-	console.log('containerId', containerId)
+ 
 	const containerHeight = getElementHeight(container, 'number'); 
 
 	if(keyColor === 'white-key') {

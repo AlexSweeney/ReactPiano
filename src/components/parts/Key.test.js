@@ -18,12 +18,19 @@ import {
 	FLAT_KEYS,
 	BLACK_KEYS,
 	ALL_KEYS,
+	addInlineStyles,
+	getKeyId,
+	renderKey,
+	triggerKeyResize,
+	getWhiteOffset,
+	resizeElement,
 } from './../testUtils.js';
 
-// ============================================ Vars =========================================================//
+// ============================================ Vars ==============================================//
 let key;
 let container;
 
+// ============================================ Consts ============================================//
 const CONTAINER_ID = 'container'; 
 const CONTAINER_WIDTH = 500;
 const CONTAINER_HEIGHT = 500; 
@@ -33,58 +40,6 @@ const KEY_CONTAINER_STYLES = {
 	resize: 'both',
 	overflow: 'auto',
 }; 
-
-// ============================================ Helper Fns =============================================//
-function addInlineStyles(element, stylesObject)  {
-	Object.keys(stylesObject).forEach(key => {
-		element.style[key] = stylesObject[key];
-	})
-}
-
-function getKeyId(keyName) { 
-	return `key-${keyName}`;
-}
- 
-function renderKey(keyName = 'C3', props = {}) {  
-	act(() => { render(<Key keyName={keyName} allKeys={OCTAVE_KEYS_SHARP} {...props}/>, container)})
-
-	const keyId = getKeyId(keyName); 
- 	const key = getElement(keyId);
-
- 	triggerKeyResize(key)
-
-	return key;
-}
-
-function triggerKeyResize(key) {
-	// trigger setkeysize 
- 		// => triggers updateKeyHeight() to set height in px
- 		// => then triggers key fn() to set width based on new height 
- 	act(() => { key.dispatchEvent(new CustomEvent("setkeysize", { bubbles: true })) })
-} 
-
-function getWhiteOffset(keyName) {
-	const whiteKeyNum = WHITE_KEYS.indexOf(keyName);
-
-	const previousWidths = WHITE_KEYS.map((keyName, i) => {
- 		if(i < whiteKeyNum) {
- 			if(i <  3)  return CONTAINER_HEIGHT * 0.2;
- 			if(i >= 3)  return CONTAINER_HEIGHT * 0.21;
- 		}
- 		if(i >= whiteKeyNum) return null;
- 	}).filter(val => val); 
-
- 	const totalWidth = previousWidths.reduce((a, b) => a + b, 0);
- 	return totalWidth;
-}
-
-function resizeContainer(newWidth, newHeight) {
-	newHeight = (typeof(newHeight) === 'number') ? newHeight + 'px' : newHeight;
-	newWidth  = (typeof(newWidth) === 'number')  ? newWidth + 'px' : newWidth;
-
-	container.style.width = newWidth;
-	container.style.height = newHeight;
-}
 
 // ============================================ Mocks =============================================//
 jest.mock('./../utils.js'); 
@@ -103,7 +58,7 @@ afterEach(() => {
 })
 
 // ============================================ prepare ============================================//
-describe('test functions', () => {
+/*describe('test functions', () => {
 	describe('container (test)', () => {
 		it('should have inline styles from KEY_CONTAINER_STYLES object', () => {
 			Object.keys(KEY_CONTAINER_STYLES).forEach(key => {
@@ -116,7 +71,7 @@ describe('test functions', () => {
 		describe('should render all keys', () => {
 			ALL_KEYS.forEach(keyName => {  
 				it(`${keyName}`, () => {
-					const key = renderKey(keyName);
+					const key = renderKey(container, keyName);
 					expect(isElementOfType(key, Key)) 
 				})
 			})
@@ -147,7 +102,7 @@ describe('test functions', () => {
 		describe('should set natural keys to 100% of container height', () => {
 			WHITE_KEYS.forEach(keyName => {
 				it(`${keyName}`, () => {
-					const key = renderKey(keyName);
+					const key = renderKey(container, keyName);
 					const keyHeight = getElementHeight(key, 'number');
 
 					expect(keyHeight).toEqual(CONTAINER_HEIGHT)
@@ -158,7 +113,7 @@ describe('test functions', () => {
 		describe('should set sharp and flat keys to 65% of container height', () => {
 			SHARP_KEYS.forEach(keyName => {
 				it(`${keyName}`, () => {
-					const key = renderKey(keyName);
+					const key = renderKey(container, keyName);
 					const keyHeight = getElementHeight(key, 'number');
 
 					expect(keyHeight).toEqual(CONTAINER_HEIGHT * 0.65)
@@ -167,7 +122,7 @@ describe('test functions', () => {
 
 			FLAT_KEYS.forEach(keyName => {
 				it(`${keyName}`, () => {
-					const key = renderKey(keyName);
+					const key = renderKey(container, keyName);
 					const keyHeight = getElementHeight(key, 'number');
 
 					expect(keyHeight).toEqual(CONTAINER_HEIGHT * 0.65)
@@ -187,7 +142,7 @@ describe('test functions', () => {
 
 			for(const keyName in targetValues) {
 				it(`${keyName}`, () => {
-					const key = renderKey(keyName);
+					const key = renderKey(container, keyName);
 					const value = getWhiteOffset(keyName);
 					const target = CONTAINER_HEIGHT * targetValues[keyName];
 
@@ -205,7 +160,7 @@ describe('test functions', () => {
 
 			for(const keyName in targetValues) {
 				it(`${keyName}`, () => {
-					const key = renderKey(keyName);
+					const key = renderKey(container, keyName);
 					const value = getWhiteOffset(keyName);
 					const target = CONTAINER_HEIGHT * targetValues[keyName];
 
@@ -215,12 +170,12 @@ describe('test functions', () => {
 		})
 	})
 
-	describe('resizeContainer()', () => {
+	describe('resizeElement()', () => {
 		describe('passed string', () => {
 			it('should expand container', () => {
 				const newWidth = '2000px';
 				const newHeight = '2000px'; 
-				resizeContainer(newWidth, newHeight)
+				resizeElement(container, newWidth, newHeight)
 
 				const containerHeight = getElementHeight(container);
 				const containerWidth = getElementWidth(container);
@@ -232,7 +187,7 @@ describe('test functions', () => {
 			it('should shrink container', () => {
 				const newWidth = '100px';
 				const newHeight = '100px'; 
-				resizeContainer(newWidth, newHeight)
+				resizeElement(container, newWidth, newHeight)
 
 				const containerHeight = getElementHeight(container);
 				const containerWidth = getElementWidth(container);
@@ -246,7 +201,7 @@ describe('test functions', () => {
 			it('should shrink container', () => {
 				const newWidth = 100;
 				const newHeight = 100;
-				resizeContainer(newWidth, newHeight)
+				resizeElement(container, newWidth, newHeight)
 
 				const containerHeight = getElementHeight(container, 'number');
 				const containerWidth = getElementWidth(container, 'number');
@@ -258,7 +213,7 @@ describe('test functions', () => {
 			it('should shrink container', () => {
 				const newWidth = 2000;
 				const newHeight = 2000;
-				resizeContainer(newWidth, newHeight)
+				resizeElement(container, newWidth, newHeight)
 
 				const containerHeight = getElementHeight(container, 'number');
 				const containerWidth = getElementWidth(container, 'number');
@@ -268,7 +223,7 @@ describe('test functions', () => {
 			})
 		}) 
 	})
-})
+})*/
 
 // ============================================ on Render ==========================================//
 describe('<Key>', () => {
@@ -276,7 +231,7 @@ describe('<Key>', () => {
 		describe('white keys', () => {
 			WHITE_KEYS.forEach(keyName => {
 				it(`${keyName}`, () => {
-					const key = renderKey(keyName);
+					const key = renderKey(container, keyName);
 					expect(isElementOfType(key, Key))  
 				})
 			})
@@ -286,7 +241,7 @@ describe('<Key>', () => {
 			describe('unescaped # character', () => {
 				UNESCAPED_SHARP_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {
-						const key = renderKey(keyName);
+						const key = renderKey(container, keyName);
 						expect(isElementOfType(key, Key))  
 					})
 				})
@@ -295,7 +250,7 @@ describe('<Key>', () => {
 			describe('escaped # character', () => {
 				SHARP_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {
-						const key = renderKey(keyName);
+						const key = renderKey(container, keyName);
 						expect(isElementOfType(key, Key))  
 					})
 				})
@@ -305,7 +260,7 @@ describe('<Key>', () => {
 		describe('flat keys', () => {
 			FLAT_KEYS.forEach(keyName => {
 				it(`${keyName}`, () => {
-					const key = renderKey(keyName);
+					const key = renderKey(container, keyName);
 					expect(isElementOfType(key, Key))  
 				})
 			})
@@ -317,7 +272,7 @@ describe('<Key>', () => {
 			describe('white keys should have class "white-key" and not "black-key', () => {
 				WHITE_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {
-						const key = renderKey(keyName);
+						const key = renderKey(container, keyName);
 
 						expect(key.className).toContain('white-key')
 						expect(key.className).not.toContain('black-key')
@@ -328,7 +283,7 @@ describe('<Key>', () => {
 			describe('black keys should have class "black-key" and not "white-key', () => {
 				BLACK_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {
-						const key = renderKey(keyName);
+						const key = renderKey(container, keyName);
 
 						expect(key.className).toContain('black-key')
 						expect(key.className).not.toContain('white-key') 
@@ -341,7 +296,7 @@ describe('<Key>', () => {
 			describe('should have class "key-out"', () => {
 				ALL_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {
-						const key = renderKey(keyName); 
+						const key = renderKey(container, keyName); 
 						expect(key.className).toContain('key-out')
 					})
 				}) 
@@ -353,7 +308,7 @@ describe('<Key>', () => {
 				describe('keys C D E: width should be 20% of container height', () => {
 					['C3', 'D3', 'E3'].forEach(keyName => {
 						it(`${keyName}`, () => {
-							const key = renderKey(keyName); 
+							const key = renderKey(container, keyName); 
 
 							const keyHeight = getElementHeight(key, 'number'); 
 							const keyWidth = getElementWidth(key, 'number');
@@ -367,7 +322,7 @@ describe('<Key>', () => {
 				describe('keys F G A B: width should be 21% of container height', () => {
 					['F3', 'G3', 'A3', 'B3'].forEach(keyName => {
 						it(`${keyName}`, () => {
-							const key = renderKey(keyName); 
+							const key = renderKey(container, keyName); 
 							const keyWidth = getElementWidth(key, 'number');
 							const targetHeight = CONTAINER_HEIGHT * 0.21;
 					 		 
@@ -379,7 +334,7 @@ describe('<Key>', () => {
 				describe('height should be 100% container height', () => {
 					WHITE_KEYS.forEach(keyName => { 
 						it(`${keyName}`, () => {
-							const key = renderKey(keyName); 
+							const key = renderKey(container, keyName); 
 							const keyHeight = getElementHeight(key, 'number');
 					 		
 					 		expect(CONTAINER_HEIGHT).toEqual(keyHeight)
@@ -392,7 +347,7 @@ describe('<Key>', () => {
 				describe('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
 					BLACK_KEYS.forEach(keyName => { 
 						it(`${keyName}`, () => {
-							const key = renderKey(keyName);   
+							const key = renderKey(container, keyName);   
 							const keyWidth = getElementWidth(key, 'number');
 							const widthToHeightRatio = BLACK_KEY_WIDTH / 100;
 					 		const targetKeyWidth = CONTAINER_HEIGHT * widthToHeightRatio; 
@@ -405,7 +360,7 @@ describe('<Key>', () => {
 				describe('height be 65% of container height', () => {
 					BLACK_KEYS.forEach(keyName => { 
 						it(`${keyName}`, () => { 
-							const key = renderKey(keyName); 
+							const key = renderKey(container, keyName); 
 							const keyHeight = getElementHeight(key, 'number');
 							const targetHeight = CONTAINER_HEIGHT * 0.65;
 					 		 
@@ -424,12 +379,12 @@ describe('<Key>', () => {
 							C D E = 20% of container height 
 							F G A B = 21% of container height 
 					*/   
-					it(`${keyName} should have left of ${getWhiteOffset(keyName) + 'px'}`, () => {
+					it(`${keyName} should have left of ${getWhiteOffset(keyName, CONTAINER_HEIGHT) + 'px'}`, () => {
 						const i = OCTAVE_KEYS_SHARP.indexOf(keyName); 
-						const key = renderKey(keyName, {i});  
+						const key = renderKey(container, keyName, {i});  
 						const keyLeft = key.style.left;	 
 
-						const targetLeft = getWhiteOffset(keyName) + 'px';
+						const targetLeft = getWhiteOffset(keyName, CONTAINER_HEIGHT) + 'px';
  
 					 	expect(keyLeft).toEqual(targetLeft)
 					})   
@@ -440,7 +395,7 @@ describe('<Key>', () => {
 				BLACK_KEYS.forEach((keyName, blackI) => {
 					it(`${keyName} should have a left of ${(CONTAINER_HEIGHT *	BLACK_KEY_WIDTH) / 100}`, () => { 
 						const i = OCTAVE_KEYS_SHARP.indexOf(keyName); 
-						const key = renderKey(keyName, { i });  
+						const key = renderKey(container, keyName, { i });  
 
 						const keyLeft = key.style.left;	
 
@@ -464,9 +419,9 @@ describe('<Key>', () => {
 								const newWidth = 1000;
 								const newHeight = 1000;
 
-								const key = renderKey(keyName); 
+								const key = renderKey(container, keyName); 
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyWidth = getElementWidth(key, 'number'); 
@@ -482,9 +437,9 @@ describe('<Key>', () => {
 								const newWidth = 1000;
 								const newHeight = 1000;
 
-								const key = renderKey(keyName);
+								const key = renderKey(container, keyName);
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyWidth = getElementWidth(key, 'number');
@@ -502,9 +457,9 @@ describe('<Key>', () => {
 								const newWidth = 1000;
 								const newHeight = 1000;
 
-								const key = renderKey(keyName);
+								const key = renderKey(container, keyName);
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyHeight = getElementHeight(key, 'number'); 
@@ -522,9 +477,9 @@ describe('<Key>', () => {
 							it(`${keyName}`, () => {
 								const newWidth = 1000;
 								const newHeight = 1000;
-								const key = renderKey(keyName); 
+								const key = renderKey(container, keyName); 
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyWidth = getElementWidth(key, 'number');
@@ -542,9 +497,9 @@ describe('<Key>', () => {
 							it(`${keyName}`, () => {
 								const newWidth = 1000;
 								const newHeight = 1000;
-								const key = renderKey(keyName);
+								const key = renderKey(container, keyName);
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyHeight = getElementHeight(key, 'number');
@@ -567,9 +522,9 @@ describe('<Key>', () => {
 								const newWidth = 100;
 								const newHeight = 100;
 
-								const key = renderKey(keyName); 
+								const key = renderKey(container, keyName); 
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyWidth = getElementWidth(key, 'number'); 
@@ -585,9 +540,9 @@ describe('<Key>', () => {
 								const newWidth = 100;
 								const newHeight = 100;
 
-								const key = renderKey(keyName);
+								const key = renderKey(container, keyName);
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyWidth = getElementWidth(key, 'number');
@@ -605,9 +560,9 @@ describe('<Key>', () => {
 								const newWidth = 100;
 								const newHeight = 100;
 
-								const key = renderKey(keyName);
+								const key = renderKey(container, keyName);
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyHeight = getElementHeight(key, 'number'); 
@@ -625,9 +580,9 @@ describe('<Key>', () => {
 							it(`${keyName}`, () => {
 								const newWidth = 100;
 								const newHeight = 100;
-								const key = renderKey(keyName); 
+								const key = renderKey(container, keyName); 
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyWidth = getElementWidth(key, 'number');
@@ -642,13 +597,12 @@ describe('<Key>', () => {
 
 					describe('height should  be 65% of container height', () => { 
 						BLACK_KEYS.forEach((keyName, i) => {
-							it(`${keyName}`, () => {
-								if(i > 0) return;
+							it(`${keyName}`, () => { 
 								const newWidth = 100;
 								const newHeight = 100;
-								const key = renderKey(keyName);
+								const key = renderKey(container, keyName);
 
-								resizeContainer(newWidth, newHeight)
+								resizeElement(container, newWidth, newHeight)
 								triggerKeyResize(key)
 
 								const keyHeight = getElementHeight(key, 'number');
@@ -667,7 +621,7 @@ describe('<Key>', () => {
 		describe('should have class "key-over"', () => {
 			ALL_KEYS.forEach(keyName => {
 				it('${keyName}', () => {
-					const key = renderKey(keyName);   
+					const key = renderKey(container, keyName);   
 	 
 					act(() => { Simulate.mouseOver(key) })
 		  		expect(key.className).toContain('key-over')
@@ -679,7 +633,7 @@ describe('<Key>', () => {
 			ALL_KEYS.forEach(keyName => {
 				it('${keyName}', () => {
 					const handleOver = jest.fn(); 
-					const key = renderKey(keyName, {handleOver}); 
+					const key = renderKey(container, keyName, {handleOver}); 
 
 					act(() => { Simulate.mouseOver(key) })
 					expect(handleOver).toHaveBeenCalled()
@@ -693,7 +647,7 @@ describe('<Key>', () => {
 			describe('should have class "key-out"', () => {
 				ALL_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {  
-						const key = renderKey(keyName);   
+						const key = renderKey(container, keyName);   
 				 	
 				 		act(() => { Simulate.mouseOver(key) })
 						act(() => { Simulate.mouseOut(key) })
@@ -706,7 +660,7 @@ describe('<Key>', () => {
 				ALL_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {  
 						const handleOut = jest.fn();
-						const key = renderKey(keyName, {handleOut});   
+						const key = renderKey(container, keyName, {handleOut});   
 				 		
 				 		act(() => { Simulate.mouseOver(key) })
 						act(() => { Simulate.mouseOut(key) })
@@ -720,7 +674,7 @@ describe('<Key>', () => {
 			describe('should have class "key-out"', () => {
 				ALL_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {  
-						const key = renderKey(keyName);   
+						const key = renderKey(container, keyName);   
 				 	
 				 		act(() => { Simulate.mouseOver(key) })
 				 		act(() => { Simulate.mouseDown(key) })
@@ -734,7 +688,7 @@ describe('<Key>', () => {
 				ALL_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {  
 						const handleOut = jest.fn();
-						const key = renderKey(keyName, {handleOut});   
+						const key = renderKey(container, keyName, {handleOut});   
 				 		
 				 		act(() => { Simulate.mouseOver(key) })
 				 		act(() => { Simulate.mouseDown(key) })
@@ -751,7 +705,7 @@ describe('<Key>', () => {
 			ALL_KEYS.forEach(keyName => {
 				it(`${keyName}`, () => { 
 					const handleOver = jest.fn();
-					const key = renderKey(keyName, {handleOver});   
+					const key = renderKey(container, keyName, {handleOver});   
 			 	
 			 		act(() => { Simulate.mouseOver(key) })
 					act(() => { Simulate.mouseDown(key) })
@@ -764,7 +718,7 @@ describe('<Key>', () => {
 			ALL_KEYS.forEach(keyName => {
 				it(`${keyName}`, () => {
 					const handleDown = jest.fn();
-					const key = renderKey(keyName, {handleDown});  
+					const key = renderKey(container, keyName, {handleDown});  
 
 					act(() => { Simulate.mouseOver(key) })
 					act(() => { Simulate.mouseDown(key) })
@@ -779,7 +733,7 @@ describe('<Key>', () => {
 			describe('should have class "key-over"', () => {
 				ALL_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => { 
-						const key = renderKey(keyName);    
+						const key = renderKey(container, keyName);    
 
 						act(() => { Simulate.mouseOver(key) })
 						act(() => { Simulate.mouseDown(key) })
@@ -795,7 +749,7 @@ describe('<Key>', () => {
 			describe('should have class "key-out"', () => {
 				ALL_KEYS.forEach(keyName => {
 					it(`${keyName}`, () => {
-						const key = renderKey(keyName);    
+						const key = renderKey(container, keyName);    
 				
 						act(() => { Simulate.mouseOver(key) })
 						act(() => { Simulate.mouseDown(key) }) 
