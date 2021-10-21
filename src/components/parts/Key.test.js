@@ -42,6 +42,9 @@ const KEY_CONTAINER_STYLES = {
 }; 
 
 const WHITE_KEYS_TABLE = makeTable(WHITE_KEYS);
+const UNESCAPED_SHARP_KEYS_TABLE = makeTable(UNESCAPED_SHARP_KEYS);
+const SHARP_KEYS_TABLE = makeTable(SHARP_KEYS);
+const FLAT_KEYS_TABLE = makeTable(FLAT_KEYS);
 
 // ============================================ Helper Fns ========================================//
 function makeTable(array) {
@@ -66,53 +69,43 @@ afterEach(() => {
 
 // ============================================ <Key> tests ==========================================//
 describe('<Key>', () => {
-	describe('render', () => {
-		describe.only('white keys', () => {
+	describe.only('can render', () => {
+		describe('white keys', () => {
 			test.each(WHITE_KEYS_TABLE)('%s',
-				(keyName) => {
-					console.log(keyName)
-					expect(true)
+				(keyName) => { 
 					const key = renderKey(container, keyName);
 					expect(isElementOfType(key, Key))  
 				}
 			)
-		})
-		/*describe.only('white keys', () => {
-			WHITE_KEYS.forEach(keyName => {
-				it(`${keyName}`, () => {
-					const key = renderKey(container, keyName);
-					expect(isElementOfType(key, Key))  
-				})
-			})
-		})*/
+		}) 
 
 		describe('sharp keys', () => {
-			describe('unescaped # character', () => {
-				UNESCAPED_SHARP_KEYS.forEach(keyName => {
-					it(`${keyName}`, () => {
+			describe('sharp keys width unescaped # character', () => {
+				test.each(UNESCAPED_SHARP_KEYS_TABLE)('%s', 
+					(keyName) => {
 						const key = renderKey(container, keyName);
 						expect(isElementOfType(key, Key))  
-					})
-				})
+					}
+				) 
 			})
 
-			describe('escaped # character', () => {
-				SHARP_KEYS.forEach(keyName => {
-					it(`${keyName}`, () => {
+			describe('sharp keys width escaped # character', () => {
+				test.each(SHARP_KEYS_TABLE)('%s', 
+					(keyName) => {
 						const key = renderKey(container, keyName);
 						expect(isElementOfType(key, Key))  
-					})
-				})
+					}
+				)
 			})
 		})
 
 		describe('flat keys', () => {
-			FLAT_KEYS.forEach(keyName => {
-				it(`${keyName}`, () => {
+			test.each(FLAT_KEYS_TABLE)('%s', 
+				(keyName) => {
 					const key = renderKey(container, keyName);
 					expect(isElementOfType(key, Key))  
-				})
-			})
+				}
+			)  
 		})
 	})
 

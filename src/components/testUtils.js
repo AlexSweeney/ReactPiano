@@ -5,7 +5,7 @@ import Key from './parts/Key.jsx';
 
 // ====================================== Consts ====================================== //
 export const UNESCAPED_SHARP_KEYS = [
-	'C3', 'C#3',  'D3', 'D#3', 'E3',  'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3',
+	'C#3', 'D#3', 'F#3', 'G#3', 'A#3',
 ];
 
 // Key = escapes # automatically => need to use escaped for reference
@@ -26,11 +26,11 @@ export const WHITE_KEYS = [
 ];
 
 export const SHARP_KEYS = [
-	'C\#3', 'D\#3', 'E\#3', 'G\#3', 'A\#3',
+	'C\#3', 'D\#3', 'F\#3', 'G\#3', 'A\#3',
 ];
 
 export const FLAT_KEYS = [
-	'Cb3', 'Db3', 'Eb3', 'Gb3', 'Ab3',
+	'Db3', 'Eb3', 'Gb3', 'Ab3', 'Bb3',
 ];
 
 export const BLACK_KEYS = [

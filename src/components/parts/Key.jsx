@@ -168,7 +168,7 @@ export default function Key({
 		}  
 
 		if(KEY_TYPE === 'black-key') { 
-			const thisWidth = getThisKeyWidth();
+			const thisWidth = getKeyWidth('black-key');
 			// console.log('thisWidth', thisWidth)
 			newOffset =  i * thisWidth;
 		} 
