@@ -1,8 +1,8 @@
-// import { ResizeObserver as PolyfillResizeObserver } from '@juggle/resize-observer';
-// import { MutationObserver } from 'mutation-observer';
-// console.log('MO')
-// console.log(MutationObserver)
-// import { ResizeObserver } from 'resize-observer-polyfill';
+// =================== Key Type
+export function getKeyType(keyName) { 
+	if(keyName.indexOf('b') === -1 && keyName.indexOf('#') === -1) return 'white-key';
+	if(keyName.indexOf('b') !== -1 || keyName.indexOf('#') != -1) return 'black-key';
+} 
 
 // =================== Object
 export function mapObject(object, fn) { 
@@ -38,7 +38,9 @@ export function getElement(id) {
 }
 
 export function getParentId(id) {
-	return document.getElementById(id).parentElement.id;
+	const parentId = document.getElementById(id).parentElement.id;
+	if(parentId) return parentId;
+	if(!parentId) throw new Error(`getParentId(${id}) - parent element doesn\'t have an id`)
 }
 
 export function getNewRandomArrayElement(allElements, oldElement = null) {  

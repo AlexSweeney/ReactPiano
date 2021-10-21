@@ -11,6 +11,7 @@ import {
 } from './../settings/KeySizes.js';
 
 import { 
+	getKeyType,
 	getElement,
 	getElementHeight,
 	getElementWidth,
@@ -78,11 +79,6 @@ function addInlineStyles(element, stylesObject)  {
 function getKeyId(keyName) { 
 	return `key-${keyName}`;
 }
-
-function getKeyType(keyName) { 
-	if(keyName.indexOf('b') === -1 && keyName.indexOf('#') === -1) return 'white-key';
-	if(keyName.indexOf('b') !== -1 || keyName.indexOf('#') != -1) return 'black-key';
-} 
  
 function renderKey(keyName = 'C3', props = {}) {  
 	act(() => { render(<Key keyName={keyName} allKeys={OCTAVE_KEYS_SHARP} {...props}/>, container)})
@@ -102,7 +98,7 @@ function triggerKeyResize(key) {
  	act(() => { key.dispatchEvent(new CustomEvent("setkeysize", { bubbles: true })) })
 }
 
-function updateKeyHeight(id) {     
+/*function updateKeyHeight(id) {     
 	const keyColor = getKeyType(id); 
 	const element = getElement(id);
 	const containerHeight = getElementHeight(container, 'number'); 
@@ -114,7 +110,7 @@ function updateKeyHeight(id) {
 	if(keyColor === 'black-key') {
 		element.style.height = containerHeight * 0.65 + 'px';
 	}   
-}
+}*/
 
 function getWhiteOffset(keyName) {
 	const whiteKeyNum = WHITE_KEYS.indexOf(keyName);
@@ -140,44 +136,47 @@ function resizeContainer(newWidth, newHeight) {
 }
 
 // ============================================ Mocks =============================================//
-function mockTriggerOnSizeChange(id, fn) { 
-	/*
-		Real function 
-			* listens for size change on id
-			* calls fn() on size change
+jest.mock('./../utils.js'); 
 
-		Instance use
-			* key height = 100% for white, 65% for black
-			* key width = fn() call sets width based on height
-
-		Mock function 
-			* listens for setkeysize event
-			* on resizekey event 
-				* set height of key that triggered event  manually
-				* call fn() => sets width based on height
-	*/
-	const element = getElement(id);
- 
-	element.addEventListener('setkeysize', (e) => {  
-		updateKeyHeight(e.srcElement.id)
+// function mockTriggerOnSizeChange(id, fn) { 
 	
-		// call fn to update width based on new height
-		fn()
-	}) 
-}
+// 		Real function 
+// 			* listens for size change on id
+// 			* calls fn() on size change
 
-jest.mock('./../utils.js', () => { 
-	const allUtils = jest.requireActual('./../utils.js');
+// 		Instance use
+// 			* key height = 100% for white, 65% for black
+// 			* key width = fn() call sets width based on height
 
-	return {
-		...allUtils,
-		triggerOnSizeChange: mockTriggerOnSizeChange,
-	} 
-})
+// 		Mock function 
+// 			* listens for setkeysize event
+// 			* on resizekey event 
+// 				* set height of key that triggered event  manually
+// 				* call fn() => sets width based on height
+	
+// 	const element = getElement(id);
+ 
+// 	element.addEventListener('setkeysize', (e) => {  
+// 		updateKeyHeight(e.srcElement.id)
+	
+// 		// call fn to update width based on new height
+// 		fn()
+// 	}) 
+// }
+
+// jest.mock('./../utils.js', () => { 
+// 	const allUtils = jest.requireActual('./../utils.js');
+
+// 	return {
+// 		...allUtils,
+// 		triggerOnSizeChange: mockTriggerOnSizeChange,
+// 	} 
+// })
 
 // ============================================ Set up / tear down ===============================//
 beforeEach(() => {
 	container = document.createElement('div');
+	container.id = 'container';
 	addInlineStyles(container, KEY_CONTAINER_STYLES) 
 	document.body.appendChild(container); 
 })
