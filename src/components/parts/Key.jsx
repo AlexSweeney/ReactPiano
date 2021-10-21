@@ -69,16 +69,16 @@ export default function Key({
 
 	// =========================== const =========================== //    
 	// ============= Ids
-	const ID_LETTER_NAME = keyName.replace('#', '\#');  // can't use # in ID for tests
-	const KEY_ID = `key-${ID_LETTER_NAME}`; 
+	const ID_KEY_NAME = keyName.replace('#', '\#');  // can't use # in ID for tests
+	const KEY_ID = `key-${ID_KEY_NAME}`; 
 	const KEY_TYPE = getKeyType(keyName);
-	const LETTER_NAME = keyName[0];
+	const KEY_LETTER = keyName[0];
 	 
 	// ============= Comparative Ratios
-	const BLACK_HEIGHT_TO_WHITE_HEIGHT =  WHITE_HEIGHT / BLACK_HEIGHT;
+	const BLACK_HEIGHT_TO_WHITE_HEIGHT =  WHITE_HEIGHT / BLACK_HEIGHT; 
 
 	const THIS_HEIGHT = (KEY_TYPE === 'white-key') ? '100%' : '65%'; 
-	const THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO = (KEY_TYPE === 'white-key') ? WHITE_KEY_WIDTHS[LETTER_NAME] / 100 : BLACK_KEY_WIDTH / 100;
+	// const THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO = (KEY_TYPE === 'white-key') ? WHITE_KEY_WIDTHS[LETTER_NAME] / 100 : BLACK_KEY_WIDTH / 100;
   
   // ============= Styles	
  	const [width, setWidth] = useState(0); 
@@ -132,9 +132,25 @@ export default function Key({
 
 	function updateWidth() {
 		console.log('updateWidth ---------------')
-		const newWidth = getThisKeyWidth();
+		const newWidth = getKeyWidth();
 		console.log('newWidth', newWidth)
 		setWidth(newWidth)
+	}
+
+	function getKeyWidth(keyType = KEY_TYPE) {
+		console.log('getThisKeyWidth -----------')
+		const whiteKeyHeight = getWhiteKeyHeight();
+		console.log('whiteKeyHeight', whiteKeyHeight)
+		let thisWidth; 
+
+		if(keyType === 'white-key') {
+			thisWidth =  (whiteKeyHeight * WHITE_KEY_WIDTHS[KEY_LETTER]) / 100;
+		}    
+		if(keyType === 'black-key') {
+			thisWidth = (whiteKeyHeight * BLACK_KEY_WIDTH) / 100;
+		}
+
+		return thisWidth;
 	}
 
 	function updateLeftOffset() {
@@ -144,7 +160,7 @@ export default function Key({
 		if(KEY_TYPE === 'white-key') {
 			const previousWhiteKeys = getPreviousWhiteKeys();
 			const previousWhiteKeyWidths = previousWhiteKeys.map(whiteKey => {
-				return getWhiteKeyWidth(whiteKey);
+				return getKeyWidth('white-key');
 			}); 
 			// console.log('previousWhiteKeys', previousWhiteKeys)
 			// console.log('previousWhiteKeyWidths', previousWhiteKeyWidths)
@@ -170,19 +186,7 @@ export default function Key({
 		}).filter(val => val)
 	}
 
-	function getThisKeyWidth() {
-		const whiteKeyHeight = getWhiteKeyHeight();
-		let thisWidth; 
-
-		if(KEY_TYPE === 'white-key') {
-			thisWidth = whiteKeyHeight * (WHITE_KEY_WIDTHS[KEY_LETTER]) / 100;
-		}    
-		if(KEY_TYPE === 'black-key') {
-			thisWidth = whiteKeyHeight * (THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO * 100) / 100;
-		}
-
-		return thisWidth;
-	}
+	
 
 /*	function getThisKeyWidth() {
 		if(KEY_TYPE === 'white-key') return getWhiteKeyWidth();  
@@ -242,7 +246,7 @@ export default function Key({
 		return (   
 			<div className={`key ${KEY_TYPE} ${keyColorClass}`} 
 					id={KEY_ID}  
-					key={LETTER_NAME}
+					key={KEY_ID}
 					style={{ 
 						width: width,
 						height: THIS_HEIGHT,

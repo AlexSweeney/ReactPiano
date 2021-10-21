@@ -41,6 +41,13 @@ const KEY_CONTAINER_STYLES = {
 	overflow: 'auto',
 }; 
 
+const WHITE_KEYS_TABLE = makeTable(WHITE_KEYS);
+
+// ============================================ Helper Fns ========================================//
+function makeTable(array) {
+	return array.map(item => [item]);
+}
+
 // ============================================ Mocks =============================================//
 jest.mock('./../utils.js'); 
 
@@ -58,16 +65,26 @@ afterEach(() => {
 })
 
 // ============================================ <Key> tests ==========================================//
-describe.skip('<Key>', () => {
+describe('<Key>', () => {
 	describe('render', () => {
-		describe('white keys', () => {
+		describe.only('white keys', () => {
+			test.each(WHITE_KEYS_TABLE)('%s',
+				(keyName) => {
+					console.log(keyName)
+					expect(true)
+					const key = renderKey(container, keyName);
+					expect(isElementOfType(key, Key))  
+				}
+			)
+		})
+		/*describe.only('white keys', () => {
 			WHITE_KEYS.forEach(keyName => {
 				it(`${keyName}`, () => {
 					const key = renderKey(container, keyName);
 					expect(isElementOfType(key, Key))  
 				})
 			})
-		})
+		})*/
 
 		describe('sharp keys', () => {
 			describe('unescaped # character', () => {
