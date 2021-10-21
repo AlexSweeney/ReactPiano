@@ -1,14 +1,4 @@
-/* import { 
-	getElement,
-	getElementHeight,
-	getElementWidth,
-	pxToNumber,
-	triggerOnSizeChange,
-} from './../utils.js';*/
-
-let allUtils = jest.requireActual('./../utils.js');
-// const getElement = allUtils.getElement; 
-  
+let allUtils = jest.requireActual('./../utils.js');  
 Object.keys(allUtils).map(key => { 
 	window[key] = allUtils[key];
 }) 
@@ -58,64 +48,9 @@ function mockTriggerOnSizeChange(id, fn) {
 		fn()
 	})  
 }
- 
-// let allUtils = {};
+  
 allUtils.triggerOnSizeChange = mockTriggerOnSizeChange;
- 
 
 Object.keys(allUtils).forEach(key => {
 	exports[key] = allUtils[key];	
-}) 
-// allUtils.forEach(util => {
-// 	exports[utile] = allUtils[util];
-// })
-
-
-/*
-export default {
-	...allUtils,
-	getElementHeight: () => console.log('get height mock'),
-	triggerOnSizeChange: mockTriggerOnSizeChange,
-}
-*/
-/*jest.mock('./../utils.js', () => { 
-	const allUtils = jest.requireActual('./../utils.js');
-
-	return {
-		...allUtils,
-		triggerOnSizeChange: mockTriggerOnSizeChange,
-	} 
-})*/
-
- 
-
-// function mockTriggerOnSizeChange(id, fn) { 
-// 	/*
-// 		* actual function 
-// 			* listen for element size change
-// 			* call function on size change
-
-// 		* mock function
-// 			* listen for custom event 'resizetrigger'
-// 			* call function on 'resizetrigger' event
-// 	*/
-
-// 	// listen for custom event, in code trigger on size change
-// 	const element = document.getElementById(id);
-// 	element.addEventListener('resizetrigger', () => {
-// 		// set height manually, in code use css style
-// 		updateKeyHeight(id, container)
-	
-// 		// call width calculate fn
-// 		fn()
-// 	})
-// }
-
-// jest.mock('./../utils.js', () => { 
-// 	const allUtils = jest.requireActual('./../utils.js');
-
-// 	return {
-// 		...allUtils,
-// 		triggerOnSizeChange: mockTriggerOnSizeChange,
-// 	} 
-// })
+})
