@@ -30,7 +30,7 @@ export default function Keys({
 	/* ======================== Event Handlers =================== */
 	function onRender() {
 		updateKeysWidth()
-		// listenForWhiteKeyWidthChange() 
+		listenForWhiteKeyWidthChange() 
 	}
 
 	function onWhiteKeyWidthChange() { 

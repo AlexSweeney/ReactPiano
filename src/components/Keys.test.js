@@ -1,47 +1,184 @@
 import React, {useEffect, useState} from 'react';
 import {render} from 'react-dom';
-import {act} from 'react-dom/test-utils';
+import {act, isElementOfType} from 'react-dom/test-utils';
 import TestRenderer from 'react-test-renderer'; 
-import {
+/*import {
 	CONTAINER_HEIGHT_TO_WHITE_HEIGHT,
 	CONTAINER_HEIGHT_TO_BLACK_HEIGHT,
 	WHITE_HEIGHT_TO_BLACK_WIDTH,
 	WHITE_WIDTHS,
 	BLACK_WIDTH,
-} from './settings/keySizes.js';
+} from './settings/keySizes.js';*/
 import {
-	getElement,
-	getElementWidth,
-	getElementHeight,
-	pxToNumber,
-} from './utils.js';
+	addInlineStyles,
+	getKeyId,
+	triggerKeyResize,
+} from './testUtils.js';
 import Keys from './Keys.jsx';
+import Key from './parts/Key.jsx';
+
+jest.mock('./utils.js')
 
 // ============================================ Constants ===================================================//
 let container;
-const CONTAINER_ID = 'container';
-let containerWidth = 500;
-let containerHeight = 500;
- 
+const CONTAINER_ID = 'container'; 
+const CONTAINER_WIDTH = 1000;
+const CONTAINER_HEIGHT = 1000;
+
 const CONTAINER_STYLES = `
-.container { 
-	width:  ${containerWidth}px;
-	height: ${containerHeight}px; 
+.container {  
 	resize: both;
 	overflow: auto;
+	width: ${CONTAINER_WIDTH}px;
+	height: ${CONTAINER_HEIGHT}px;
 }`;
 
 const KEYS_ID = 'keys';
 const KEY_NAMES = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 
+// ============================================ Set up / Tear down ==========================================//
+beforeEach(() => {
+	container = document.createElement('div');
+	container.id = CONTAINER_ID;
+	addInlineStyles(container, CONTAINER_STYLES) 
+	document.body.appendChild(container); 
+})
+
+afterEach(() => {
+	document.body.removeChild(container); 
+	container = null;
+})
+
+// ============================================ Helper Fns =================================================//
+function renderKeys() { 
+	act(() => { render(<Keys keyNames={['C3', 'Db3']}/>, container) })
+	const keys = getElement(KEYS_ID);
+	
+	const keyElements = keys.querySelectorAll('.key');
+	keyElements.forEach(keyElement => {
+		triggerKeyResize(keyElement)
+	})
+
+	return keys;
+}
+
+// ============================================ Tests ======================================================//
+describe('<Keys/>', () => {
+	describe('on render', () => {
+		it('should render key element for every keyName passed', () => {   
+			const keys = renderKeys(container);
+
+			KEY_NAMES.forEach(keyName => {
+				const keyId = getKeyId(keyName);
+				const thisKey = getElement(keyId);
+
+				expect(isElementOfType(thisKey, Key))
+			})
+		})
+
+		describe('should show a keyboard with correctly spaced keys', () => {
+			it.only('white keys should be adjacent to each other', () => {
+				const keys = renderKeys(container);
+				const whiteKeys = keys.querySelectorAll('.white-key');
+			 
+				whiteKeys.forEach((thisKey, i) => {
+					if(i > 1) return;
+					if(i === 0) expect(thisKey.style.left).toEqual('0px')
+					if(i > 0) {
+						const previousKey = whiteKeys[i - 1];
+						const previousLeft = previousKey.style.left;
+						// console.log('previousKey', previousKey)
+						console.log('previousKey.style', previousKey.style)
+						/*
+						const previousWidth = getElementWidth(previousKey)
+						
+						const target = previousLeft + previousWidth + 'px';
+
+						expect(thisKey.left).toEqual(target)*/
+					}
+				})
+			})
+
+			it('black keys should have left value of i * black key width', () => {
+				const keys = renderKeys(container);
+				const blackKeys = keys.querySelectorAll('.black-key');
+
+				blackKeys.forEach(thisKey => {
+					expect(isElementOfType(thisKey, Key))
+				})
+			})
+		}) 
+
+		it('should expand to width of white keys', () => {
+			act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
+			
+			const keysWidth = getElementWidth(KEYS_ID, 'number');	 
+			const totalWhiteKeysWidth = getWhiteKeysWidth(container);
+
+ 			expect(keysWidth).toEqual(totalWhiteKeysWidth)
+		})
+	}) 
+
+	describe('on change size', () => {
+		describe('on shrink', () => {
+			it('should shrink to width of white keys', () => {
+				const newWidth = '100px';
+				const newHeight = '100px';
+
+				act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
+			
+				changeContainerSize(newWidth, newHeight)
+
+				const keysWidth = getElementWidth(KEYS_ID, 'number');
+				const totalWhiteKeysWidth = getWhiteKeysWidth(container);
+
+				expect(keysWidth).toEqual(totalWhiteKeysWidth)
+			}) 
+		})
+
+		describe('on expand', () => {
+			it('should expand to width of white keys', () => {
+				const newWidth = '1000px';
+				const newHeight = '1000px';
+
+				act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
+			 	
+			 	changeContainerSize(newWidth, newHeight)
+
+				const keysWidth = getElementWidth(KEYS_ID, 'number');
+				const totalWhiteKeysWidth = getWhiteKeysWidth(container);
+
+				expect(keysWidth).toEqual(totalWhiteKeysWidth)
+			})
+		})
+	})
+}) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ============================================ Add style sheet =============================================//
-var style = document.createElement('style');
+/*var style = document.createElement('style');
 style.type = 'text/css';
 style.innerHTML = `${CONTAINER_STYLES}`;
-document.getElementsByTagName('head')[0].appendChild(style);
+document.getElementsByTagName('head')[0].appendChild(style);*/
 
 // ============================================ Helper Fns ==================================================//
-function getKeyType(key) {
+
+
+/*function getKeyType(key) {
 	if (key.indexOf('b') === -1 && key.indexOf('#') === -1) return 'white-key';
 	if (key.indexOf('b') !== -1 || key.indexOf('#') != -1) return 'black-key';
 }
@@ -77,7 +214,7 @@ function callOnResizeTrigger(id, fn) {
 function triggerResize(id) {
 	const element = getElement(id);
 	act(() => { element.dispatchEvent(new CustomEvent("resizetrigger", { bubbles: true })) })
-}
+}*/
 
 // ============================================ Mocks =======================================================//
 // function MockKey({keyName}) {
@@ -152,7 +289,7 @@ function triggerResize(id) {
 // 	} 
 // }
   
-function mockTriggerOnSizeChange(id, fn) {  
+/*function mockTriggerOnSizeChange(id, fn) {  
 	// listen for custom event, in code trigger on size change
 	const element = document.getElementById(id);
 	element.addEventListener('resizetrigger', () => {
@@ -162,8 +299,8 @@ function mockTriggerOnSizeChange(id, fn) {
 		// call width calculate fn
 		fn(id)
 	})
-}
-
+}*/
+/*
 jest.mock('./utils.js', () => { 
 	const allUtils = jest.requireActual('./utils.js');
 
@@ -172,22 +309,12 @@ jest.mock('./utils.js', () => {
 		triggerOnSizeChange: mockTriggerOnSizeChange,
 	} 
 })
-
+*/
 // jest.mock('./parts/Key.jsx', () => {
 // 	return MockKey;
 // }); 
 
-// ============================================ Set up / Tear down ====================================================//
-beforeEach(() => {
-	container = document.createElement('div');
-	container.id = CONTAINER_ID;
-	document.body.appendChild(container)
-})
 
-afterEach(() => {
-	document.body.removeChild(container)
-	container = null;
-}) 
 
 // ============================================ Tests ================================================================//
 // describe('<MockKey>', () => {
@@ -515,72 +642,3 @@ afterEach(() => {
 // 		}) 
 // 	})
 // })
-
-describe.skip('<Keys/>', () => {
-	describe('on render', () => {
-		it('should render key for every keyName passed', () => {   
-			const testRenderer = TestRenderer.create(<Keys keyNames={KEY_NAMES}/>); 
-
-			const numKeyNames = KEY_NAMES.length;
-
-			const numRenderedKeys = testRenderer.toJSON().children.filter((child, i) => { 
-				return child.props.className.includes('key') && child.props.id === `key-${KEY_NAMES[i]}`;
-			}).length;
-
-			expect(numRenderedKeys).toEqual(numKeyNames)
-		})
-
-		describe('should show a keyboard with correctly spaced keys', () => {
-			describe('white keys should be adjacent to each other', () => {
-
-			})
-
-			describe('black keys should have left value of i * black key width', () => {
-
-			})
-		})
-
-		it('should expand to width of white keys', () => {
-			act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
-			
-			const keysWidth = getElementWidth(KEYS_ID, 'number');	 
-			const totalWhiteKeysWidth = getWhiteKeysWidth(container);
-
- 			expect(keysWidth).toEqual(totalWhiteKeysWidth)
-		})
-	}) 
-
-	describe('on change size', () => {
-		describe('on shrink', () => {
-			it('should shrink to width of white keys', () => {
-				const newWidth = '100px';
-				const newHeight = '100px';
-
-				act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
-			
-				changeContainerSize(newWidth, newHeight)
-
-				const keysWidth = getElementWidth(KEYS_ID, 'number');
-				const totalWhiteKeysWidth = getWhiteKeysWidth(container);
-
-				expect(keysWidth).toEqual(totalWhiteKeysWidth)
-			}) 
-		})
-
-		describe('on expand', () => {
-			it('should expand to width of white keys', () => {
-				const newWidth = '1000px';
-				const newHeight = '1000px';
-
-				act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
-			 	
-			 	changeContainerSize(newWidth, newHeight)
-
-				const keysWidth = getElementWidth(KEYS_ID, 'number');
-				const totalWhiteKeysWidth = getWhiteKeysWidth(container);
-
-				expect(keysWidth).toEqual(totalWhiteKeysWidth)
-			})
-		})
-	})
-}) 

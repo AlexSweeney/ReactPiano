@@ -131,11 +131,14 @@ export default function Key({
 	}
 
 	function updateWidth() {
+		console.log('updateWidth ---------------')
 		const newWidth = getThisKeyWidth();
+		console.log('newWidth', newWidth)
 		setWidth(newWidth)
 	}
 
 	function updateLeftOffset() {
+		// console.log('updateLeftOffset -----------', KEY_ID)
 		let newOffset; 
 
 		if(KEY_TYPE === 'white-key') {
@@ -143,14 +146,18 @@ export default function Key({
 			const previousWhiteKeyWidths = previousWhiteKeys.map(whiteKey => {
 				return getWhiteKeyWidth(whiteKey);
 			}); 
+			// console.log('previousWhiteKeys', previousWhiteKeys)
+			// console.log('previousWhiteKeyWidths', previousWhiteKeyWidths)
 			newOffset = previousWhiteKeyWidths.reduce((a, b) => a + b, 0); 
 		}  
 
 		if(KEY_TYPE === 'black-key') { 
 			const thisWidth = getThisKeyWidth();
+			// console.log('thisWidth', thisWidth)
 			newOffset =  i * thisWidth;
 		} 
 
+	// 	console.log('newOffset', newOffset)
 		setLeftOffset(newOffset)
 	}
 
@@ -164,18 +171,32 @@ export default function Key({
 	}
 
 	function getThisKeyWidth() {
-		if(KEY_TYPE === 'white-key') return getWhiteKeyWidth();  
-		if(KEY_TYPE === 'black-key') return getBlackKeyWidth();  
+		const whiteKeyHeight = getWhiteKeyHeight();
+		let thisWidth; 
+
+		if(KEY_TYPE === 'white-key') {
+			thisWidth = whiteKeyHeight * (WHITE_KEY_WIDTHS[KEY_LETTER]) / 100;
+		}    
+		if(KEY_TYPE === 'black-key') {
+			thisWidth = whiteKeyHeight * (THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO * 100) / 100;
+		}
+
+		return thisWidth;
 	}
 
-	function getThisKeyHeight() {
+/*	function getThisKeyWidth() {
+		if(KEY_TYPE === 'white-key') return getWhiteKeyWidth();  
+		if(KEY_TYPE === 'black-key') return getBlackKeyWidth();  
+	}*/
+
+	/*function getThisKeyHeight() {
 		const element = document.getElementById(KEY_ID)
 		const height = getElementHeight(element, 'number');
 
 		return height;
-	} 
+	} */
 
-	function getWhiteKeyWidth(whiteKeyName) {  
+	/*function getWhiteKeyWidth(whiteKeyName) {  
 		if(!whiteKeyName) {
 			if(KEY_TYPE === 'black-key') throw new Error('called getWhiteKeyWidth() with a black key')
 			if(KEY_TYPE === 'white-key') whiteKeyName = keyName;
@@ -189,10 +210,10 @@ export default function Key({
 	function getBlackKeyWidth() {  
 		const whiteKeyHeight = getWhiteKeyHeight();  
 		return whiteKeyHeight * (THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO * 100) / 100;
-	} 
+	} */
 
 	function getWhiteKeyHeight() {  
-		const thisKeyHeight = getThisKeyHeight();  
+		const thisKeyHeight = getElementHeight(KEY_ID, 'number');  
 
 		if(KEY_TYPE === 'white-key') return thisKeyHeight;
 		if(KEY_TYPE === 'black-key')  return thisKeyHeight * (BLACK_HEIGHT_TO_WHITE_HEIGHT * 100) / 100; 
