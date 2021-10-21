@@ -9,59 +9,24 @@ import {
 	WHITE_HEIGHT,
 	BLACK_HEIGHT,
 } from './../settings/KeySizes.js';
-
-import { 
-	getKeyType,
-	getElement,
-	getElementHeight,
-	getElementWidth,
-	pxToNumber,
-	triggerOnSizeChange,
-} from './../utils.js';
+import {
+	UNESCAPED_SHARP_KEYS,
+	OCTAVE_KEYS_SHARP,
+	OCTAVE_KEYS_FLAT,
+	WHITE_KEYS,
+	SHARP_KEYS,
+	FLAT_KEYS,
+	BLACK_KEYS,
+	ALL_KEYS,
+} from './../testUtils.js';
 
 // ============================================ Vars =========================================================//
 let key;
 let container;
 
-const UNESCAPED_SHARP_KEYS = [
-	'C3', 'C#3',  'D3', 'D#3', 'E3',  'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3',
-];
-
-// Key = escapes # automatically => need to use escaped for reference
-const OCTAVE_KEYS_SHARP = [
-	'C3', 'C\#3',  'D3', 'D\#3', 'E3',  'F3', 'F\#3', 'G3', 'G\#3', 'A3', 'A\#3', 'B3',
-];
-
-const OCTAVE_KEYS_FLAT = [
-	'C3',  'Db3', 'D3',  'Eb3', 'E3', 'F3',  'Gb3', 'G3', 'A3', 'Bb3', 'B3',
-];
-
-const WHITE_KEYS = [
-	'C3',  'D3',  'E3',  'F3',  'G3', 'A3', 'B3',
-];
-
-const SHARP_KEYS = [
-	'C\#3', 'D\#3', 'E\#3', 'G\#3', 'A\#3',
-];
-
-const FLAT_KEYS = [
-	'Cb3', 'Db3', 'Eb3', 'Gb3', 'Ab3',
-];
-
-const BLACK_KEYS = [
-	...SHARP_KEYS,
-	...FLAT_KEYS,
-];
-
-const ALL_KEYS = [
-	...WHITE_KEYS,
-	...SHARP_KEYS,
-	...FLAT_KEYS,
-];
-
+const CONTAINER_ID = 'container'; 
 const CONTAINER_WIDTH = 500;
-const CONTAINER_HEIGHT = 500;
-
+const CONTAINER_HEIGHT = 500; 
 const KEY_CONTAINER_STYLES = {
 	width:  `${CONTAINER_WIDTH}px`,
 	height: `${CONTAINER_HEIGHT}px`, 
@@ -127,7 +92,7 @@ jest.mock('./../utils.js');
 // ============================================ Set up / tear down ===============================//
 beforeEach(() => {
 	container = document.createElement('div');
-	container.id = 'container';
+	container.id = CONTAINER_ID;
 	addInlineStyles(container, KEY_CONTAINER_STYLES) 
 	document.body.appendChild(container); 
 })
@@ -178,7 +143,7 @@ describe('test functions', () => {
 		}) 
 	}) 
 
-	describe('updateKeyHeight() (called on render)', () => { 
+	describe('updateKeyHeight() (called on renderKey)', () => { 
 		describe('should set natural keys to 100% of container height', () => {
 			WHITE_KEYS.forEach(keyName => {
 				it(`${keyName}`, () => {

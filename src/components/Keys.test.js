@@ -23,7 +23,7 @@ const CONTAINER_ID = 'container';
 let containerWidth = 500;
 let containerHeight = 500;
  
-const CONTAINER_STYLE = `
+const CONTAINER_STYLES = `
 .container { 
 	width:  ${containerWidth}px;
 	height: ${containerHeight}px; 
@@ -37,7 +37,7 @@ const KEY_NAMES = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','
 // ============================================ Add style sheet =============================================//
 var style = document.createElement('style');
 style.type = 'text/css';
-style.innerHTML = `${CONTAINER_STYLE}`;
+style.innerHTML = `${CONTAINER_STYLES}`;
 document.getElementsByTagName('head')[0].appendChild(style);
 
 // ============================================ Helper Fns ==================================================//
