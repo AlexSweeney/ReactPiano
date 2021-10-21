@@ -22,6 +22,10 @@ import {
 let key;
 let container;
 
+const UNESCAPED_SHARP_KEYS = [
+	'C3', 'C#3',  'D3', 'D#3', 'E3',  'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3',
+];
+
 // Key = escapes # automatically => need to use escaped for reference
 const OCTAVE_KEYS_SHARP = [
 	'C3', 'C\#3',  'D3', 'D\#3', 'E3',  'F3', 'F\#3', 'G3', 'G\#3', 'A3', 'A\#3', 'B3',
@@ -353,9 +357,47 @@ describe('test functions', () => {
 
 // ============================================ on Render ==========================================//
 describe('<Key>', () => {
-	describe('on render', () => { 
-		// passed unescaped # = should render
+	describe('render', () => {
+		describe('white keys', () => {
+			WHITE_KEYS.forEach(keyName => {
+				it(`${keyName}`, () => {
+					const key = renderKey(keyName);
+					expect(isElementOfType(key, Key))  
+				})
+			})
+		})
 
+		describe('sharp keys', () => {
+			describe('unescaped # character', () => {
+				UNESCAPED_SHARP_KEYS.forEach(keyName => {
+					it(`${keyName}`, () => {
+						const key = renderKey(keyName);
+						expect(isElementOfType(key, Key))  
+					})
+				})
+			})
+
+			describe('escaped # character', () => {
+				SHARP_KEYS.forEach(keyName => {
+					it(`${keyName}`, () => {
+						const key = renderKey(keyName);
+						expect(isElementOfType(key, Key))  
+					})
+				})
+			})
+		})
+
+		describe('flat keys', () => {
+			FLAT_KEYS.forEach(keyName => {
+				it(`${keyName}`, () => {
+					const key = renderKey(keyName);
+					expect(isElementOfType(key, Key))  
+				})
+			})
+		})
+	})
+
+	describe('on render', () => {  
 		describe('key color', () => {
 			describe('white keys should have class "white-key" and not "black-key', () => {
 				WHITE_KEYS.forEach(keyName => {
@@ -394,7 +436,7 @@ describe('<Key>', () => {
 		describe('size', () => {
 			describe('white keys', () => {
 				describe('keys C D E: width should be 20% of container height', () => {
-					['C3'/*, 'D3', 'E3'*/].forEach(keyName => {
+					['C3', 'D3', 'E3'].forEach(keyName => {
 						it(`${keyName}`, () => {
 							const key = renderKey(keyName); 
 
@@ -473,8 +515,7 @@ describe('<Key>', () => {
 						const keyLeft = key.style.left;	 
 
 						const targetLeft = getWhiteOffset(keyName) + 'px';
-
-						if(keyLeft !== targetLeft) console.log('ERROR', keyName)
+ 
 					 	expect(keyLeft).toEqual(targetLeft)
 					})   
 				})
