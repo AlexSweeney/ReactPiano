@@ -44,10 +44,9 @@ export function getParentId(id) {
 }
 
 export function getNewRandomArrayElement(allElements, oldElement = null) {  
-	return getRandomArrayElement(allElements)
-	// let newElement = getRandomArrayElement(allElements);
-	// if(newElement === oldElement) return getNewRandomArrayElement(allElements, oldElement);
-	//(newElement !== oldElement) return newElement;
+	const newElement = getRandomArrayElement(allElements);
+	if(newElement === oldElement) return getNewRandomArrayElement(allElements, oldElement);
+	if(newElement !== oldElement) return newElement;
 }
 
 export function getRandomArrayElement(array) { 
@@ -103,43 +102,8 @@ export	function setElementWidth(id, width) {
 	element.style.width = width;
 }
 
-// =================== Element change
-// export function triggerOnSizeChange(id, fn) {
-// 	const ResizeObserver = Window.ResizeObserver || PolyfillResizeObserver;
-// 	// const MutationObserver = new MutationObserver;
-// 	const element = document.getElementById(id); 
-// 	const ro = new ResizeObserver(fn);
-// 	console.log(ro)
-// 	// ro.observe(element);
-// }
-
+// =================== Element change 
 export function triggerOnSizeChange(id, fn) {
 	const element = document.getElementById(id); 
 	new ResizeObserver(fn).observe(element);
 }
- 
-// Options for the observer (which mutations to observe)
-// const config = { attributes: true, childList: true, subtree: true };
-
-// Callback function to execute when mutations are observed
-// const callback = function(mutationsList, observer) {
-//     // Use traditional 'for loops' for IE 11
-//     for(const mutation of mutationsList) {
-//         if (mutation.type === 'childList') {
-//             console.log('A child node has been added or removed.');
-//         }
-//         else if (mutation.type === 'attributes') {
-//             console.log('The ' + mutation.attributeName + ' attribute was modified.');
-//         }
-//     }
-// };
-
-// // Create an observer instance linked to the callback function
-// const observer = new MutationObserver(callback);
-
-// // Start observing the target node for configured mutations
-// observer.observe(targetNode, config);
-
-// // Later, you can stop observing
-// observer.disconnect();
-// Copy to Clipboard

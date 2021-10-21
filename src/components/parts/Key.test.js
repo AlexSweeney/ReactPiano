@@ -96,21 +96,7 @@ function triggerKeyResize(key) {
  		// => triggers updateKeyHeight() to set height in px
  		// => then triggers key fn() to set width based on new height 
  	act(() => { key.dispatchEvent(new CustomEvent("setkeysize", { bubbles: true })) })
-}
-
-/*function updateKeyHeight(id) {     
-	const keyColor = getKeyType(id); 
-	const element = getElement(id);
-	const containerHeight = getElementHeight(container, 'number'); 
-
-	if(keyColor === 'white-key') {
-		element.style.height = containerHeight + 'px';
-	}
-
-	if(keyColor === 'black-key') {
-		element.style.height = containerHeight * 0.65 + 'px';
-	}   
-}*/
+} 
 
 function getWhiteOffset(keyName) {
 	const whiteKeyNum = WHITE_KEYS.indexOf(keyName);
@@ -137,41 +123,6 @@ function resizeContainer(newWidth, newHeight) {
 
 // ============================================ Mocks =============================================//
 jest.mock('./../utils.js'); 
-
-// function mockTriggerOnSizeChange(id, fn) { 
-	
-// 		Real function 
-// 			* listens for size change on id
-// 			* calls fn() on size change
-
-// 		Instance use
-// 			* key height = 100% for white, 65% for black
-// 			* key width = fn() call sets width based on height
-
-// 		Mock function 
-// 			* listens for setkeysize event
-// 			* on resizekey event 
-// 				* set height of key that triggered event  manually
-// 				* call fn() => sets width based on height
-	
-// 	const element = getElement(id);
- 
-// 	element.addEventListener('setkeysize', (e) => {  
-// 		updateKeyHeight(e.srcElement.id)
-	
-// 		// call fn to update width based on new height
-// 		fn()
-// 	}) 
-// }
-
-// jest.mock('./../utils.js', () => { 
-// 	const allUtils = jest.requireActual('./../utils.js');
-
-// 	return {
-// 		...allUtils,
-// 		triggerOnSizeChange: mockTriggerOnSizeChange,
-// 	} 
-// })
 
 // ============================================ Set up / tear down ===============================//
 beforeEach(() => {
