@@ -23,14 +23,13 @@ jest.mock('./utils.js')
 let container;
 let keys;
 const CONTAINER_ID = 'container'; 
-const CONTAINER_WIDTH = 100;
+// const CONTAINER_WIDTH = 100000;
 const CONTAINER_HEIGHT = 100;
 
 const CONTAINER_STYLES = `
 .container {  
 	resize: both;
-	overflow: auto;
-	width: ${CONTAINER_WIDTH}px;
+	overflow: auto; 
 	height: ${CONTAINER_HEIGHT}px;
 }`;
 
@@ -38,6 +37,7 @@ const KEYS_ID = 'keys';
 const KEY_NAMES = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 const WHITE_KEYS = ['C3','D3', 'E3','F3','G3','A3','B3'];
 const BLACK_KEYS = ['Db3','Eb3','Gb3','Ab3','Bb3']; 
+const WHITE_KEYS_WIDTH = (0.2 *  CONTAINER_HEIGHT * 3) + (0.21 *  CONTAINER_HEIGHT * 4);
 
 const KEY_NAMES_TABLE = KEY_NAMES.map(keyName => [keyName]);
 const WHITE_KEYS_TABLE = WHITE_KEYS.map(whiteKey => [whiteKey]);
@@ -174,7 +174,10 @@ describe('<Keys/>', () => {
 			})
 		})
 
-		test.todo('<Keys> Width: ')
+		test('<Keys> Width should be same as width of all white keys', () => {
+			const keys = getElement(KEYS_ID);
+			expect(keys.style.width).toEqual(WHITE_KEYS_WIDTH + 'px')
+		})
 	}) 
 
 	describe.skip('on change size', () => {
