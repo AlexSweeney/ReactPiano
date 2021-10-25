@@ -40,22 +40,36 @@ export default function Keys({
 
 	/* ============= Initial Values */ 
 	const initialHeight = 100;
-	const initialKeyStyles = makeKeyStyles(keyNames, initialHeight);
+	const initialKeyStyles = getKeyStyles(keyNames, initialHeight);
 	const initialWidth = getContainerWidth(initialHeight);
 	 
 	/* ============= Styles */
 	const [containerHeight, setContainerHeight] = useState(initialHeight);
 	const [containerWidth, setContainerWidth] = useState(initialWidth); 
-	const containerStyle = { width: containerWidth + 'px', height: containerHeight + 'px' };
+	const containerStyle = { width: containerWidth, height: containerHeight };
 
 	const [keyStyles, setKeyStyles] = useState(initialKeyStyles);
 	/* ======================== Event Handlers =================== */
 	function onRender() {
+		setContainerHeight('100%')
+
+		triggerOnSizeChange(KEYS_ID, onKeysSizeChange)
 		// const initialKeyStyles = makeKeyStyles(keyNames);
 		// setKeyStyles(initialKeyStyles);
 
 		// updateKeysWidth()
 		// listenForWhiteKeyWidthChange() 
+	}
+
+	function onKeysSizeChange() {
+		console.log('onKeysSizeChange -----------')
+		const containerHeight = getElementHeight(KEYS_ID, 'number');
+		console.log('containerHeight', containerHeight)
+		const newContainerWidth = getContainerWidth(containerHeight);
+		const newKeyStyles = getKeyStyles(keyNames, containerHeight);
+
+		setContainerWidth(newContainerWidth)
+		setKeyStyles(newKeyStyles)
 	}
 
 	// function onWhiteKeyWidthChange() { 
@@ -70,7 +84,7 @@ export default function Keys({
 		})
 	}*/
 
-	function makeKeyStyles(keyNames, containerHeight) {
+	function getKeyStyles(keyNames, containerHeight) {
 		return keyNames.map((keyName, i) => {
 			return (
 				{
@@ -128,7 +142,6 @@ export default function Keys({
 		const whiteKeys = keyNames.filter(keyName => getKeyType(keyName) === 'white');
 		return whiteKeys.reduce((total, keyName) => total + getKeyWidth(keyName, containerHeight), 0);
 	}
-
 
 	/* ======================== Listen / Trigger =================== */
   useEffect(() => {
