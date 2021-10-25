@@ -26,12 +26,17 @@ const CONTAINER_ID = 'container';
 // const CONTAINER_WIDTH = 100000;
 const CONTAINER_HEIGHT = 100;
 
-const CONTAINER_STYLES = `
+const CONTAINER_STYLES = {
+	resize: 'both',
+	overflow: 'auto',
+	height: CONTAINER_HEIGHT + 'px',
+};
+/*const CONTAINER_STYLES = `
 .container {  
 	resize: both;
 	overflow: auto; 
 	height: ${CONTAINER_HEIGHT}px;
-}`;
+}`;*/
 
 const KEYS_ID = 'keys';
 const KEY_NAMES = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
@@ -65,9 +70,21 @@ function renderKeys(container) {
 	act(() => { render(<Keys keyNames={KEY_NAMES}/>, container) })
 }
 
+function simulateSizeChange(newHeight) {
+	container.style.height = newHeight + 'px';
+
+	// change <Keys> height manually, code has 100% height so does automatically
+	const keys = getElement(KEYS_ID);
+	expect(keys.style.height).toEqual('100%')
+	keys.style.height = newHeight + 'px';
+
+	// trigger internal <Keys> functions to adjust width to new height
+	act(() => { keys.dispatchEvent(new CustomEvent("resizekeys", { bubbles: true })) })
+}
+
 // ============================================ Tests ======================================================//
 describe('<Keys/>', () => {
-	describe.only('on render', () => {
+	describe('on render', () => {
 		test('<Key> Render: it should render key element for keyName, in order they appear in keyNames', () => {   
 			KEY_NAMES.forEach(keyName => {
 				const keyId = getKeyId(keyName);
@@ -180,37 +197,103 @@ describe('<Keys/>', () => {
 		})
 	}) 
 
-	describe.skip('on change size', () => {
-		describe('on shrink', () => {
-			it('should shrink to width of white keys', () => {
-				const newWidth = '100px';
-				const newHeight = '100px';
+	describe('on change size', () => {
+		describe.only('on <Keys> element\'s container shrink', () => {
+			describe('<Key> Width', () => {
+				describe('white keys', () => {
+					it('white keys should have a width of (C,D,E: 20%, F,G,A,B: 21%) of container height', () => {
+						simulateSizeChange(CONTAINER_HEIGHT / 2)
 
-				act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
-			
-				changeContainerSize(newWidth, newHeight)
+						WHITE_KEYS.forEach((keyName, whiteKeyI) => {
+							const keyId = getKeyId(keyName);
+							const thisKey = getElement(keyId);
 
-				const keysWidth = getElementWidth(KEYS_ID, 'number');
-				const totalWhiteKeysWidth = getWhiteKeysWidth(container);
+							const ratio = (whiteKeyI < 3) ? 0.2 : 0.21;
+							console.log(thisKey)
+							expect(thisKey.style.width).toEqual((CONTAINER_HEIGHT * ratio) / 2 + 'px')
+						})
+					})
+				})
+				
+				it('black keys should have width of 12% of container height', () => {
+					simulateSizeChange(CONTAINER_HEIGHT / 2)
 
-				expect(keysWidth).toEqual(totalWhiteKeysWidth)
-			}) 
+					BLACK_KEYS.forEach(keyName => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+
+						expect(thisKey.style.width).toEqual((CONTAINER_HEIGHT * 0.12) / 2 + 'px')
+					}) 
+				})
+			})
+
+			describe('<Key> height', () => {
+				it('white keys have height of 100%', () => {
+					simulateSizeChange(CONTAINER_HEIGHT / 2)
+
+					WHITE_KEYS.forEach(keyName => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+
+						expect(thisKey.style.height).toEqual('100%')
+					}) 
+				})
+
+				it('black keys have height of 65%', () => {
+					simulateSizeChange(CONTAINER_HEIGHT / 2)
+
+					BLACK_KEYS.forEach(keyName => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+
+						expect(thisKey.style.height).toEqual('65%')
+					}) 
+				})
+			})
+
+			describe('<Key> left', () => {
+				it('white keys should be render adjacent to each other', () => {
+					simulateSizeChange(CONTAINER_HEIGHT / 2)
+					let left = 0;
+
+					WHITE_KEYS.forEach((keyName, whiteKeyI) => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+
+						const thisRatio = (whiteKeyI < 3) ? 0.2 : 0.21;
+						const thisWidth = CONTAINER_HEIGHT * thisRatio;
+
+						const thisLeft = left;
+						left += thisWidth;
+
+						expect(thisKey.style.left).toEqual(thisLeft / 2 + 'px')
+					})
+				})
+
+				it('black keys should be rendered with left of i * blackKeyWidth (12% of container Height)', () => {
+					simulateSizeChange(CONTAINER_HEIGHT / 2)
+					const blackKeyWidth = CONTAINER_HEIGHT * 0.12;
+
+					BLACK_KEYS.forEach((keyName) => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+						const i = KEY_NAMES.indexOf(keyName);
+
+						expect(thisKey.style.left).toEqual((i * blackKeyWidth) / 2 + 'px')
+					})
+				})
+			})
+
+			test('<Keys> Width should be same as width of all white keys', () => {
+				simulateSizeChange(CONTAINER_HEIGHT / 2)
+
+				const keys = getElement(KEYS_ID);
+				expect(keys.style.width).toEqual(WHITE_KEYS_WIDTH / 2 + 'px')
+			})
 		})
 
-		describe('on expand', () => {
-			it('should expand to width of white keys', () => {
-				const newWidth = '1000px';
-				const newHeight = '1000px';
-
-				act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
-			 	
-			 	changeContainerSize(newWidth, newHeight)
-
-				const keysWidth = getElementWidth(KEYS_ID, 'number');
-				const totalWhiteKeysWidth = getWhiteKeysWidth(container);
-
-				expect(keysWidth).toEqual(totalWhiteKeysWidth)
-			})
+		test.todo('on <Keys> element\'s container expand', () => {
+			
 		})
 	})
 }) 

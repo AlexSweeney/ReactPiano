@@ -64,7 +64,7 @@ export default function Keys({
 	function onKeysSizeChange() {
 		console.log('onKeysSizeChange -----------')
 		const containerHeight = getElementHeight(KEYS_ID, 'number');
-		console.log('containerHeight', containerHeight)
+		// console.log('containerHeight', containerHeight)
 		const newContainerWidth = getContainerWidth(containerHeight);
 		const newKeyStyles = getKeyStyles(keyNames, containerHeight);
 

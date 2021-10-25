@@ -113,7 +113,7 @@ export default function Key({
 		// updateWidth()
 		// updateLeftOffset()
 
-		triggerOnSizeChange(KEY_ID, onContainerSizeChange)   
+		// triggerOnSizeChange(KEY_ID, onContainerSizeChange)   
 	}
 
 	function onContainerSizeChange() { 
