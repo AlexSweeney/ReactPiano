@@ -198,7 +198,7 @@ describe('<Keys/>', () => {
 	}) 
 
 	describe('on change size', () => {
-		describe.only('on <Keys> element\'s container shrink', () => {
+		describe('on <Keys> element\'s container shrink', () => {
 			describe('<Key> Width', () => {
 				describe('white keys', () => {
 					it('white keys should have a width of (C,D,E: 20%, F,G,A,B: 21%) of container height', () => {
@@ -292,8 +292,98 @@ describe('<Keys/>', () => {
 			})
 		})
 
-		test.todo('on <Keys> element\'s container expand', () => {
-			
+		describe('on <Keys> element\'s container expand', () => {
+			describe('<Key> Width', () => {
+				describe('white keys', () => {
+					it('white keys should have a width of (C,D,E: 20%, F,G,A,B: 21%) of container height', () => {
+						simulateSizeChange(CONTAINER_HEIGHT * 2)
+
+						WHITE_KEYS.forEach((keyName, whiteKeyI) => {
+							const keyId = getKeyId(keyName);
+							const thisKey = getElement(keyId);
+
+							const ratio = (whiteKeyI < 3) ? 0.2 : 0.21;
+							console.log(thisKey)
+							expect(thisKey.style.width).toEqual((CONTAINER_HEIGHT * ratio) * 2 + 'px')
+						})
+					})
+				})
+				
+				it('black keys should have width of 12% of container height', () => {
+					simulateSizeChange(CONTAINER_HEIGHT * 2)
+
+					BLACK_KEYS.forEach(keyName => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+
+						expect(thisKey.style.width).toEqual((CONTAINER_HEIGHT * 0.12) * 2 + 'px')
+					}) 
+				})
+			})
+
+			describe('<Key> height', () => {
+				it('white keys have height of 100%', () => {
+					simulateSizeChange(CONTAINER_HEIGHT * 2)
+
+					WHITE_KEYS.forEach(keyName => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+
+						expect(thisKey.style.height).toEqual('100%')
+					}) 
+				})
+
+				it('black keys have height of 65%', () => {
+					simulateSizeChange(CONTAINER_HEIGHT * 2)
+
+					BLACK_KEYS.forEach(keyName => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+
+						expect(thisKey.style.height).toEqual('65%')
+					}) 
+				})
+			})
+
+			describe('<Key> left', () => {
+				it('white keys should be render adjacent to each other', () => {
+					simulateSizeChange(CONTAINER_HEIGHT * 2)
+					let left = 0;
+
+					WHITE_KEYS.forEach((keyName, whiteKeyI) => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+
+						const thisRatio = (whiteKeyI < 3) ? 0.2 : 0.21;
+						const thisWidth = CONTAINER_HEIGHT * thisRatio;
+
+						const thisLeft = left;
+						left += thisWidth;
+
+						expect(thisKey.style.left).toEqual(thisLeft * 2 + 'px')
+					})
+				})
+
+				it('black keys should be rendered with left of i * blackKeyWidth (12% of container Height)', () => {
+					simulateSizeChange(CONTAINER_HEIGHT * 2)
+					const blackKeyWidth = CONTAINER_HEIGHT * 0.12;
+
+					BLACK_KEYS.forEach((keyName) => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
+						const i = KEY_NAMES.indexOf(keyName);
+
+						expect(thisKey.style.left).toEqual((i * blackKeyWidth) * 2 + 'px')
+					})
+				})
+			})
+
+			test('<Keys> Width should be same as width of all white keys', () => {
+				simulateSizeChange(CONTAINER_HEIGHT * 2)
+
+				const keys = getElement(KEYS_ID);
+				expect(keys.style.width).toEqual(WHITE_KEYS_WIDTH * 2 + 'px')
+			})
 		})
 	})
 }) 
