@@ -6,6 +6,7 @@ import {
 	getElementHeight,
 	pxToNumber,
 	triggerOnSizeChange,  
+	getKeyType,
 } from './utils.js';
 import {
 	WHITE_KEY_WIDTH_RATIOS,
@@ -95,11 +96,6 @@ export default function Keys({
 				}
 			)
 		})
-	}
-
-	function getKeyType(keyName) {
-		if (keyName.indexOf('b') === -1 && keyName.indexOf('#') === -1) return 'white';
-		if (keyName.indexOf('b') !== -1 || keyName.indexOf('#') != -1) return 'black';
 	}
 
 	function getKeyWidth(keyName, containerHeight) {

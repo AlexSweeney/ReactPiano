@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';  
+import { getKeyType } from './../utils.js';
 import './Key.css';
 
 export default function Key({
-	keyName, 
-	keyType,
+	keyName,  
 	width,
 	height,
 	left,
@@ -41,15 +41,16 @@ export default function Key({
 	// =========================== const =========================== //    
 	// ============= Id  
 	const idKeyName = keyName.replace('#', '\#');  // can't use # in ID for tests
-	const KEY_ID = `key-${idKeyName}`;
-	const KEY_LETTER = keyName[0];
+	const KEY_ID = `key-${idKeyName}`; 
 
 	// ============= Color
 	const [isOver, setIsOver] = useState(false);
 	const [isDown, setIsDown] = useState(false);
-
-	const [keyTypeClass, setKeyTypeClass] = useState((keyType === 'white') ? 'white-key' : 'black-key');
 	const [keyColorClass, setKeyColorClass] = useState('key-out');
+
+	// ============= Type 
+	const keyType = getKeyType(keyName);
+	const keyTypeClass = (keyType === 'white') ? 'white-key' : 'black-key'; 
 
 	// =========================== Event Handlers ================== // 
 	function onMouseOver() { 

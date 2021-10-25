@@ -1,14 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom'; 
 import { act, Simulate, isElementOfType } from 'react-dom/test-utils';  
-import Key from './Key.jsx'; 
-import {
-	WHITE_KEY_WIDTHS,
-	WHITE_OFFSET_TOTALS,
-	BLACK_KEY_WIDTH,
-	WHITE_HEIGHT,
-	BLACK_HEIGHT,
-} from './../settings/KeySizes.js';
+import Key from './Key.jsx';  
+import { getElement } from './../utils.js';
+
 import {
 	UNESCAPED_SHARP_KEYS,
 	OCTAVE_KEYS_SHARP,
@@ -32,10 +27,8 @@ const CONTAINER_ID = 'container';
 const CONTAINER_WIDTH = 500;
 const CONTAINER_HEIGHT = 500; 
 const KEY_CONTAINER_STYLES = {
-	width:  `${CONTAINER_WIDTH}px`,
-	height: `${CONTAINER_HEIGHT}px`, 
-	resize: 'both',
-	overflow: 'auto',
+	width:  CONTAINER_WIDTH + 'px',
+	height: CONTAINER_HEIGHT + 'px',  
 }; 
 
 const KEY_HEIGHT = '250px';
@@ -56,7 +49,7 @@ function makeTable(array) {
 function renderKey(container, keyName = 'C3', props = {}) {  
 	props.width = KEY_WIDTH;
 	props.height = KEY_HEIGHT;
-	props.left =KEY_LEFT;
+	props.left = KEY_LEFT;
 
 	act(() => { render(<Key keyName={keyName} {...props}/>, container)})
 
@@ -130,7 +123,6 @@ describe('<Key>', () => {
 			describe('white keys should have class "white-key"', () => {
 				test.each(WHITE_KEYS_TABLE)('%s', (keyName) => {
 					const key = renderKey(container, keyName);
-
 					expect(key.className).toContain('white-key')
 				}) 
 			})
@@ -164,496 +156,87 @@ describe('<Key>', () => {
 		})
 
 		it('position should have passed left', () => {
-				const key = renderKey(container); 
-				expect(key.style.left).toEqual(KEY_LEFT)
-			})
-
-		// describe('size', () => {
-		// 	describe('white keys', () => {
-		// 		describe('keys C D E: width should be 20% of container height', () => {
-		// 			test.each([['C3'], ['D3'], ['E3']])('%s', (keyName) => {
-		// 				const key = renderKey(container, keyName); 
-
-		// 				const keyHeight = getElementHeight(key, 'number'); 
-		// 				const keyWidth = getElementWidth(key, 'number');
-		// 				const targetWidth = CONTAINER_HEIGHT * 0.2;
-				 		 
-		// 				expect(keyWidth).toEqual(targetWidth)
-		// 			})  
-		// 		}) 
-
-		// 		describe('keys F G A B: width should be 21% of container height', () => {
-		// 			test.each([['F3'], ['G3'], ['A3'], ['B3']])('%s', (keyName) => {
-		// 				const key = renderKey(container, keyName); 
-		// 				const keyWidth = getElementWidth(key, 'number');
-		// 				const targetWidth = CONTAINER_HEIGHT * 0.21;
-				 		 
-		// 				expect(keyWidth).toEqual(targetWidth)
-		// 			})
-		// 		}) 
-
-		// 		describe('height should be 100% container height', () => {
-		// 			test.each(WHITE_KEYS_TABLE)('$s', (keyName) => {
-		// 				const key = renderKey(container, keyName); 
-		// 				const keyHeight = getElementHeight(key, 'number');
-					 		
-		// 			 	expect(keyHeight).toEqual(CONTAINER_HEIGHT)
-		// 			})
-		// 		})
-		// 	})
-
-		// 	describe('black keys', () => {
-		// 		describe('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
-		// 			test.each(BLACK_KEYS_TABLE)('%s', (keyName) => {
-		// 				const key = renderKey(container, keyName);   
-		// 				const keyWidth = getElementWidth(key, 'number');
-		// 				const widthToHeightRatio = BLACK_KEY_WIDTH / 100;
-		// 		 		const targetKeyWidth = CONTAINER_HEIGHT * widthToHeightRatio; 
-
-		// 				expect(keyWidth).toEqual(targetKeyWidth) 
-		// 			}) 
-		// 		})
-
-		// 		describe('height be 65% of container height', () => {
-		// 			test.each(BLACK_KEYS_TABLE)('%s', (keyName) => {
-		// 				const key = renderKey(container, keyName); 
-		// 				const keyHeight = getElementHeight(key, 'number');
-		// 				const targetHeight = CONTAINER_HEIGHT * 0.65;
-				 		 
-		// 				expect(keyHeight).toEqual(targetHeight)
-		// 			})
-		// 		})
-		// 	})
-		// })  
-
-		// describe('offset', () => { 
-		// 	// describe.only('white keys => should have offset value of the total width of previous white keys', () => {
-		// 	// 	/* 
-		// 	// 		white keys have different widths 
-		// 	// 			C D E = 20% of container height 
-		// 	// 			F G A B = 21% of container height 
-		// 	// 	*/    
-				
-
-		// 	// 	// test.each(WHITE_KEYS_TABLE)(`${testFn()}`, (keyName) => {
-		// 	// 	// 	const key = renderKey(container, keyName);
-
-		// 	// 	// 	count += 1;
-		// 	// 	// 	console.log('count', count)
-		// 	// 	// 	/*if(keyName === 'C3') {
-		// 	// 	// 		console.log('inside test', arguments)
-		// 	// 	// 	}*/
-					
-		// 	// 	// })	
-		// 	// 	// ${getWhiteOffset(`${'%s'}`, CONTAINER_HEIGHT)}`
-
-		// 	// 	(`%s should have offset of ${'%s'}`, (keyName) => {
-		// 	// 		testNum += 1;
-		// 	// 		const i = OCTAVE_KEYS_SHARP.indexOf(keyName); 
-		// 	// 		const key = renderKey(container, keyName, {i});  
-		// 	// 		const keyLeft = key.style.left;	 
-
-		// 	// 		const targetLeft = getWhiteOffset(keyName, CONTAINER_HEIGHT) + 'px';
- 
-		// 	// 		 expect(keyLeft).toEqual(targetLeft)
-		// 	// 	})
-		// 	// 	// test.each(WHITE_KEYS_TABLE)(`%s should have offset of  ${getWhiteOffset(WHITE_KEYS[testNum], CONTAINER_HEIGHT)}`, (keyName) => {
-		// 	// 	// 	testNum++;
-		// 	// 	// 	const i = OCTAVE_KEYS_SHARP.indexOf(keyName); 
-		// 	// 	// 	const key = renderKey(container, keyName, {i});  
-		// 	// 	// 	const keyLeft = key.style.left;	 
-
-		// 	// 	// 	const targetLeft = getWhiteOffset(keyName, CONTAINER_HEIGHT) + 'px';
- 
-		// 	// 	// 	 expect(keyLeft).toEqual(targetLeft)
-		// 	// 	// })
-
-		// 	// /*	WHITE_KEYS.forEach((keyName, whiteKeyI) => {
-					
-		// 	// 		it(`${keyName} should have left of ${getWhiteOffset(keyName, CONTAINER_HEIGHT) + 'px'}`, () => {
-		// 	// 			const i = OCTAVE_KEYS_SHARP.indexOf(keyName); 
-		// 	// 			const key = renderKey(container, keyName, {i});  
-		// 	// 			const keyLeft = key.style.left;	 
-
-		// 	// 			const targetLeft = getWhiteOffset(keyName, CONTAINER_HEIGHT) + 'px';
- 
-		// 	// 		 	expect(keyLeft).toEqual(targetLeft)
-		// 	// 		})   
-		// 	// 	})*/
-		// 	// })
-
-		// 	// describe('black keys => should have offset value of i * black key width', () => {
-		// 	// 	BLACK_KEYS.forEach((keyName, blackI) => {
-		// 	// 		it(`${keyName} should have a left of ${(CONTAINER_HEIGHT *	BLACK_KEY_WIDTH) / 100}`, () => { 
-		// 	// 			const i = OCTAVE_KEYS_SHARP.indexOf(keyName); 
-		// 	// 			const key = renderKey(container, keyName, { i });  
-
-		// 	// 			const keyLeft = key.style.left;	
-
-		// 	// 			const keyWidth = (CONTAINER_HEIGHT * BLACK_KEY_WIDTH) / 100;
-		// 	// 			const targetLeft = keyWidth * i + 'px';
-						
-		// 	// 			expect(keyLeft).toEqual(targetLeft); 
-		// 	// 		})
-		// 	// 	}) 
-		// 	// })
-		// })
-	})
-
-	/*describe('on container resize', () => {
-		describe('expand', () => {
-			describe('white keys', () => {
-				describe('width', () => {
-					describe('keys C D E: width should be 20% of container height', () => {
-						['C3', 'D3', 'E3'].forEach(keyName => {
-							it(`${keyName}`, () => { 
-								const newWidth = 1000;
-								const newHeight = 1000;
-
-								const key = renderKey(container, keyName); 
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyWidth = getElementWidth(key, 'number'); 
-								const targetHeight = newHeight * 0.2;
-								expect(keyWidth).toEqual(targetHeight)
-							})
-						})
-					}) 
-
-					describe('keys F G A B: width should be 21% of container height', () => {
-						['F3', 'G3', 'A3', 'B3'].forEach(keyName => {
-							it(`${keyName}`, () => { 
-								const newWidth = 1000;
-								const newHeight = 1000;
-
-								const key = renderKey(container, keyName);
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyWidth = getElementWidth(key, 'number');
-								const targetHeight = newHeight * 0.21;
-								expect(keyWidth).toEqual(targetHeight)
-							})
-						})
-					}) 
-				}) 
-				
-				describe('height', () => {
-					describe('height should be 100% container height', () => {
-						WHITE_KEYS.forEach((keyName, i) => {
-							it(`${keyName}`, () => {  
-								const newWidth = 1000;
-								const newHeight = 1000;
-
-								const key = renderKey(container, keyName);
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyHeight = getElementHeight(key, 'number'); 
-								expect(keyHeight).toEqual(newHeight)
-							})
-						})
-					})
-				}) 
-			})
-
-			describe('black keys', () => {
-				describe('black key', () => {
-					describe('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
-						BLACK_KEYS.forEach(keyName => {
-							it(`${keyName}`, () => {
-								const newWidth = 1000;
-								const newHeight = 1000;
-								const key = renderKey(container, keyName); 
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyWidth = getElementWidth(key, 'number');
-
-								const widthToHeightRatio = BLACK_KEY_WIDTH / 100;
-				 				const targetKeyWidth = newHeight * widthToHeightRatio; 
-
-				 				expect(keyWidth).toEqual(targetKeyWidth) 
-							}) 
-						}) 
-					})
-
-					describe('height should  be 65% of container height', () => { 
-						BLACK_KEYS.forEach(keyName => {
-							it(`${keyName}`, () => {
-								const newWidth = 1000;
-								const newHeight = 1000;
-								const key = renderKey(container, keyName);
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyHeight = getElementHeight(key, 'number');
-								const targetHeight = newHeight * 0.65;
-
-								expect(keyHeight).toEqual(targetHeight) 
-							}) 
-						})
-					})
-				})
-			}) 
-		})
-
-		describe('shrink', () => {
-			describe('white keys', () => {
-				describe('width', () => {
-					describe('keys C D E: width should be 20% of container height', () => {
-						['C3', 'D3', 'E3'].forEach(keyName => {
-							it(`${keyName}`, () => { 
-								const newWidth = 100;
-								const newHeight = 100;
-
-								const key = renderKey(container, keyName); 
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyWidth = getElementWidth(key, 'number'); 
-								const targetHeight = newHeight * 0.2;
-								expect(keyWidth).toEqual(targetHeight)
-							})
-						})
-					}) 
-
-					describe('keys F G A B: width should be 21% of container height', () => {
-						['F3', 'G3', 'A3', 'B3'].forEach(keyName => {
-							it(`${keyName}`, () => { 
-								const newWidth = 100;
-								const newHeight = 100;
-
-								const key = renderKey(container, keyName);
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyWidth = getElementWidth(key, 'number');
-								const targetHeight = newHeight * 0.21;
-								expect(keyWidth).toEqual(targetHeight)
-							})
-						})
-					}) 
-				}) 
-				
-				describe('height', () => {
-					describe('height should be 100% container height', () => {
-						WHITE_KEYS.forEach((keyName, i) => {
-							it(`${keyName}`, () => {  
-								const newWidth = 100;
-								const newHeight = 100;
-
-								const key = renderKey(container, keyName);
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyHeight = getElementHeight(key, 'number'); 
-								expect(keyHeight).toEqual(newHeight)
-							})
-						})
-					})
-				}) 
-			})
-
-			describe('black keys', () => {
-				describe('black key', () => {
-					describe('width should be whiteHeight (100%) * WidthToHeight Ratio (blackWidth/whiteHeight)', () => {
-						BLACK_KEYS.forEach(keyName => {
-							it(`${keyName}`, () => {
-								const newWidth = 100;
-								const newHeight = 100;
-								const key = renderKey(container, keyName); 
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyWidth = getElementWidth(key, 'number');
-
-								const widthToHeightRatio = BLACK_KEY_WIDTH / 100;
-				 				const targetKeyWidth = newHeight * widthToHeightRatio; 
-
-				 				expect(keyWidth).toEqual(targetKeyWidth) 
-							}) 
-						}) 
-					})
-
-					describe('height should  be 65% of container height', () => { 
-						BLACK_KEYS.forEach((keyName, i) => {
-							it(`${keyName}`, () => { 
-								const newWidth = 100;
-								const newHeight = 100;
-								const key = renderKey(container, keyName);
-
-								resizeElement(container, newWidth, newHeight)
-								triggerKeyResize(key)
-
-								const keyHeight = getElementHeight(key, 'number');
-								const targetHeight = newHeight * 0.65;
-
-								expect(keyHeight).toEqual(targetHeight) 
-							}) 
-						})
-					})
-				})
-			})
+			const key = renderKey(container); 
+			expect(key.style.left).toEqual(KEY_LEFT)
 		}) 
-	})
+	}) 
 
 	describe('on over', () => {
-		describe('should have class "key-over"', () => {
-			ALL_KEYS.forEach(keyName => {
-				it('${keyName}', () => {
-					const key = renderKey(container, keyName);   
+		it('should have class "key-over"', () => {
+			const key = renderKey(container, 'C3');   
 	 
-					act(() => { Simulate.mouseOver(key) })
-		  		expect(key.className).toContain('key-over')
-				}) 
-			}) 
+			act(() => { Simulate.mouseOver(key) })
+		  expect(key.className).toContain('key-over')
 		})
 
-		describe('should call handleOver function', () => {
-			ALL_KEYS.forEach(keyName => {
-				it('${keyName}', () => {
-					const handleOver = jest.fn(); 
-					const key = renderKey(container, keyName, {handleOver}); 
+		it('should call handleOver function', () => {	 
+			const handleOver = jest.fn(); 
+			const key = renderKey(container, 'C3', {handleOver}); 
 
-					act(() => { Simulate.mouseOver(key) })
-					expect(handleOver).toHaveBeenCalled()
-				})
-			}) 
+			act(() => { Simulate.mouseOver(key) })
+			expect(handleOver).toHaveBeenCalled()
 		})
 	})
 
 	describe('on out', () => {
 		describe('mouse up', () => {
-			describe('should have class "key-out"', () => {
-				ALL_KEYS.forEach(keyName => {
-					it(`${keyName}`, () => {  
-						const key = renderKey(container, keyName);   
-				 	
-				 		act(() => { Simulate.mouseOver(key) })
-						act(() => { Simulate.mouseOut(key) })
-				  	expect(key.className).toContain('key-out') 
-					})
-				}) 
+			it('should have class "key-out"', () => {
+				const key = renderKey(container, 'C3');   
+		 	
+		 		act(() => { Simulate.mouseOver(key) })
+				act(() => { Simulate.mouseOut(key) })
+		  	expect(key.className).toContain('key-out') 
 			}) 
 
-			describe('should call handleOut function', () => {
-				ALL_KEYS.forEach(keyName => {
-					it(`${keyName}`, () => {  
-						const handleOut = jest.fn();
-						const key = renderKey(container, keyName, {handleOut});   
-				 		
-				 		act(() => { Simulate.mouseOver(key) })
-						act(() => { Simulate.mouseOut(key) })
-				  	expect(handleOut).toHaveBeenCalled()
-					})
-				}) 
+			it('should call handleOut function', () => {
+				const handleOut = jest.fn();
+				const key = renderKey(container, 'C3', {handleOut});   
+		 		
+		 		act(() => { Simulate.mouseOver(key) })
+				act(() => { Simulate.mouseOut(key) })
+		  	expect(handleOut).toHaveBeenCalled()
 			}) 
 		})
 
 		describe('mouse down', () => {
-			describe('should have class "key-out"', () => {
-				ALL_KEYS.forEach(keyName => {
-					it(`${keyName}`, () => {  
-						const key = renderKey(container, keyName);   
-				 	
-				 		act(() => { Simulate.mouseOver(key) })
-				 		act(() => { Simulate.mouseDown(key) })
-						act(() => { Simulate.mouseOut(key) })
-				  	expect(key.className).toContain('key-out') 
-					})
-				}) 
+			it('should have class "key-out"', () => {
+				const key = renderKey(container, 'C3');   
+		 	
+		 		act(() => { Simulate.mouseOver(key) })
+		 		act(() => { Simulate.mouseDown(key) })
+				act(() => { Simulate.mouseOut(key) })
+		  	expect(key.className).toContain('key-out')
 			}) 
 
-			describe('should call handleOut function', () => {
-				ALL_KEYS.forEach(keyName => {
-					it(`${keyName}`, () => {  
-						const handleOut = jest.fn();
-						const key = renderKey(container, keyName, {handleOut});   
-				 		
-				 		act(() => { Simulate.mouseOver(key) })
-				 		act(() => { Simulate.mouseDown(key) })
-						act(() => { Simulate.mouseOut(key) })
-				  	expect(handleOut).toHaveBeenCalled()
-					})
-				}) 
+			it('should call handleOut function', () => {
+				const handleOut = jest.fn();
+				const key = renderKey(container, 'C3', {handleOut});   
+		 		
+		 		act(() => { Simulate.mouseOver(key) })
+		 		act(() => { Simulate.mouseDown(key) })
+				act(() => { Simulate.mouseOut(key) })
+		  	expect(handleOut).toHaveBeenCalled() 
 			}) 
 		}) 
 	})
 
 	describe('on down', () => {
-		describe('should have class "key-down"', () => {
-			ALL_KEYS.forEach(keyName => {
-				it(`${keyName}`, () => { 
-					const handleOver = jest.fn();
-					const key = renderKey(container, keyName, {handleOver});   
-			 	
-			 		act(() => { Simulate.mouseOver(key) })
-					act(() => { Simulate.mouseDown(key) })
-			  	expect(key.className).toContain('key-down') 
-				})
-			}) 
+		it('should have class "key-down"', () => {
+			const handleOver = jest.fn();
+			const key = renderKey(container, 'C3', {handleOver});   
+	 	
+	 		act(() => { Simulate.mouseOver(key) })
+			act(() => { Simulate.mouseDown(key) })
+	  	expect(key.className).toContain('key-down') 
 		}) 
 		 
-		describe('should call handleDown function', () => {
-			ALL_KEYS.forEach(keyName => {
-				it(`${keyName}`, () => {
-					const handleDown = jest.fn();
-					const key = renderKey(container, keyName, {handleDown});  
+		it('should call handleDown function', () => {
+			const handleDown = jest.fn();
+			const key = renderKey(container, 'C3', {handleDown});  
 
-					act(() => { Simulate.mouseOver(key) })
-					act(() => { Simulate.mouseDown(key) })
-					expect(handleDown).toHaveBeenCalled()
-				})  
-			})
+			act(() => { Simulate.mouseOver(key) })
+			act(() => { Simulate.mouseDown(key) })
+			expect(handleDown).toHaveBeenCalled()
 		}) 
-	})
-
-	describe('on up', () => {
-		describe('on mouse over', () => {
-			describe('should have class "key-over"', () => {
-				ALL_KEYS.forEach(keyName => {
-					it(`${keyName}`, () => { 
-						const key = renderKey(container, keyName);    
-
-						act(() => { Simulate.mouseOver(key) })
-						act(() => { Simulate.mouseDown(key) })
-						act(() => { Simulate.mouseUp(key) })
-
-				  	expect(key.className).toContain('key-over') 
-					})
-				}) 
-			}) 
-		})
-
-		describe('on mouse out', () => {
-			describe('should have class "key-out"', () => {
-				ALL_KEYS.forEach(keyName => {
-					it(`${keyName}`, () => {
-						const key = renderKey(container, keyName);    
-				
-						act(() => { Simulate.mouseOver(key) })
-						act(() => { Simulate.mouseDown(key) }) 
-						act(() => { Simulate.mouseOut(key) })
-						act(() => { Simulate.mouseUp(key) })
-
-				  	expect(key.className).toContain('key-out') 
-					})
-				}) 
-			}) 
-		}) 
-	})*/
+	}) 
 })
-
-
-
