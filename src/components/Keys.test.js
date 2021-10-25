@@ -21,9 +21,10 @@ jest.mock('./utils.js')
 
 // ============================================ Constants ===================================================//
 let container;
+let keys;
 const CONTAINER_ID = 'container'; 
-const CONTAINER_WIDTH = 1000;
-const CONTAINER_HEIGHT = 1000;
+const CONTAINER_WIDTH = 100;
+const CONTAINER_HEIGHT = 100;
 
 const CONTAINER_STYLES = `
 .container {  
@@ -35,41 +36,39 @@ const CONTAINER_STYLES = `
 
 const KEYS_ID = 'keys';
 const KEY_NAMES = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
+const WHITE_KEYS = ['C3','D3', 'E3','F3','G3','A3','B3'];
+const BLACK_KEYS = ['Db3','Eb3','Gb3','Ab3','Bb3']; 
+
+const KEY_NAMES_TABLE = KEY_NAMES.map(keyName => [keyName]);
+const WHITE_KEYS_TABLE = WHITE_KEYS.map(whiteKey => [whiteKey]);
+const BLACK_KEYS_TABLE = BLACK_KEYS.map(blackKey => [blackKey]);
 
 // ============================================ Set up / Tear down ==========================================//
 beforeEach(() => {
 	container = document.createElement('div');
 	container.id = CONTAINER_ID;
 	addInlineStyles(container, CONTAINER_STYLES) 
+
+	keys = renderKeys(container);
+
 	document.body.appendChild(container); 
 })
 
 afterEach(() => {
-	document.body.removeChild(container); 
+	document.body.removeChild(container);
+	keys = null; 
 	container = null;
 })
 
 // ============================================ Helper Fns =================================================//
-function renderKeys() { 
-	console.log('---------------------- renderKeys()')
-	console.log('container.style', container.style)
-	act(() => { render(<Keys keyNames={['C3', 'Db3']}/>, container) })
-	const keys = getElement(KEYS_ID);
-	
-	const keyElements = keys.querySelectorAll('.key');
-	keyElements.forEach(keyElement => {
-		triggerKeyResize(keyElement)
-	})
-
-	return keys;
+function renderKeys(container) { 
+	act(() => { render(<Keys keyNames={KEY_NAMES}/>, container) })
 }
 
 // ============================================ Tests ======================================================//
 describe('<Keys/>', () => {
-	describe('on render', () => {
-		it.only('Render: it should render key element for every keyName passed', () => {   
-			const keys = renderKeys(container);
-
+	describe.only('on render', () => {
+		test('<Key> Render: it should render key element for keyName, in order they appear in keyNames', () => {   
 			KEY_NAMES.forEach(keyName => {
 				const keyId = getKeyId(keyName);
 				const thisKey = getElement(keyId);
@@ -78,70 +77,107 @@ describe('<Keys/>', () => {
 			})
 		})
 
-		it('<Key> Type: ', () => {
+		describe('<Key> Type: ', () => {
+			it('should render white keys with "white-key" class', () => {
+				WHITE_KEYS.forEach(keyName => {
+					const keyId = getKeyId(keyName);
+					const thisKey = getElement(keyId);
+ 					
+ 					expect(isElementOfType(thisKey, Key))
+					expect(thisKey.classList).toContain('white-key')
+				}) 
+			})
 
+			it('should render black keys with "black-key" class', () => {
+				BLACK_KEYS.forEach(keyName => {
+					const keyId = getKeyId(keyName);
+					const thisKey = getElement(keyId);
+
+					expect(isElementOfType(thisKey, Key))
+					expect(thisKey.classList).toContain('black-key')
+				}) 
+			})
 		}) 
 
-		it('<Key> Width', () => {
+		describe('<Key> Width', () => {
+			describe('white keys', () => {
+				it('white keys should have a width of (C,D,E: 20%, F,G,A,B: 21%) of container height', () => {
+					WHITE_KEYS.forEach((keyName, whiteKeyI) => {
+						const keyId = getKeyId(keyName);
+						const thisKey = getElement(keyId);
 
+						const ratio = (whiteKeyI < 3) ? 0.2 : 0.21;
+						console.log(thisKey)
+						expect(thisKey.style.width).toEqual(CONTAINER_HEIGHT * ratio + 'px')
+					})
+				})
+			})
+			
+			it('black keys should have width of 12% of container height', () => {
+				BLACK_KEYS.forEach(keyName => {
+					const keyId = getKeyId(keyName);
+					const thisKey = getElement(keyId);
+
+					expect(thisKey.style.width).toEqual(CONTAINER_HEIGHT * 0.12 + 'px')
+				}) 
+			})
 		})
 
-		it('<Key> height', () => {
-			
+		describe('<Key> height', () => {
+			it('white keys have height of 100%', () => {
+				WHITE_KEYS.forEach(keyName => {
+					const keyId = getKeyId(keyName);
+					const thisKey = getElement(keyId);
+
+					expect(thisKey.style.height).toEqual('100%')
+				}) 
+			})
+
+			it('black keys have height of 65%', () => {
+				BLACK_KEYS.forEach(keyName => {
+					const keyId = getKeyId(keyName);
+					const thisKey = getElement(keyId);
+
+					expect(thisKey.style.height).toEqual('65%')
+				}) 
+			})
 		})
 
-		it('<Key> left', () => {
-			
+		describe('<Key> left', () => {
+			it('white keys should be render adjacent to each other', () => {
+				let left = 0;
+
+				WHITE_KEYS.forEach((keyName, whiteKeyI) => {
+					const keyId = getKeyId(keyName);
+					const thisKey = getElement(keyId);
+
+					const thisRatio = (whiteKeyI < 3) ? 0.2 : 0.21;
+					const thisWidth = CONTAINER_HEIGHT * thisRatio;
+
+					const thisLeft = left;
+					left += thisWidth;
+
+					expect(thisKey.style.left).toEqual(thisLeft + 'px')
+				})
+			})
+
+			it('black keys should be rendered with left of i * blackKeyWidth (12% of container Height)', () => {
+				const blackKeyWidth = CONTAINER_HEIGHT * 0.12;
+
+				BLACK_KEYS.forEach((keyName) => {
+					const keyId = getKeyId(keyName);
+					const thisKey = getElement(keyId);
+					const i = KEY_NAMES.indexOf(keyName);
+
+					expect(thisKey.style.left).toEqual(i * blackKeyWidth + 'px')
+				})
+			})
 		})
 
-		it('<Keys> Width: ', () => {
-			
-		})
-
-		// describe('should show a keyboard with correctly spaced keys', () => {
-		// 	it('white keys should be adjacent to each other', () => {
-		// 		const keys = renderKeys(container);
-		// 		const whiteKeys = keys.querySelectorAll('.white-key');
-			 
-		// 		whiteKeys.forEach((thisKey, i) => {
-		// 			if(i > 1) return;
-		// 			if(i === 0) expect(thisKey.style.left).toEqual('0px')
-		// 			if(i > 0) {
-		// 				const previousKey = whiteKeys[i - 1];
-		// 				const previousLeft = previousKey.style.left;
-		// 				// console.log('previousKey', previousKey)
-		// 				console.log('previousKey.style', previousKey.style)
-						
-		// 				const previousWidth = getElementWidth(previousKey)
-						
-		// 				const target = previousLeft + previousWidth + 'px';
-
-		// 				expect(thisKey.left).toEqual(target) 
-		// 			}
-		// 		})
-		// 	})
-
-		// 	it('black keys should have left value of i * black key width', () => {
-		// 		const keys = renderKeys(container);
-		// 		const blackKeys = keys.querySelectorAll('.black-key');
-
-		// 		blackKeys.forEach(thisKey => {
-		// 			expect(isElementOfType(thisKey, Key))
-		// 		})
-		// 	})
-		// }) 
-
-		// it('should expand to width of white keys', () => {
-		// 	act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
-			
-		// 	const keysWidth = getElementWidth(KEYS_ID, 'number');	 
-		// 	const totalWhiteKeysWidth = getWhiteKeysWidth(container);
-
- 	// 		expect(keysWidth).toEqual(totalWhiteKeysWidth)
-		// })
+		test.todo('<Keys> Width: ')
 	}) 
 
-	describe('on change size', () => {
+	describe.skip('on change size', () => {
 		describe('on shrink', () => {
 			it('should shrink to width of white keys', () => {
 				const newWidth = '100px';

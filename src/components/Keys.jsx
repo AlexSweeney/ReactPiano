@@ -34,16 +34,18 @@ export default function Keys({
 			- set keys width same as total white key width
 	*/ 
 	/* ======================== Constants ======================== */
+	const KEYS_HEIGHT = 100;
 	const KEYS_ID = 'keys';
 	const [width, setWidth] = useState(0); 
-	const [keyStyles, setKeyStyles] = useState(makeKeyStyles(keyNames));
+	const initialKeyStyles = makeKeyStyles(keyNames);
+	// console.log('initialKeyStyles', initialKeyStyles)
+	const [keyStyles, setKeyStyles] = useState(initialKeyStyles);
 	
 
 	/* ======================== Event Handlers =================== */
 	function onRender() {
-		const initialKeyStyles = makeKeyStyles(keyNames);
-		setKeyStyles(initialKeyStyles);
-		console.log('initialKeyStyles', initialKeyStyles)
+		// const initialKeyStyles = makeKeyStyles(keyNames);
+		// setKeyStyles(initialKeyStyles);
 
 		// updateKeysWidth()
 		// listenForWhiteKeyWidthChange() 
@@ -83,7 +85,7 @@ export default function Keys({
 	function getKeyWidth(keyName) {
 		const type = getKeyType(keyName);
 		const keyLetter = keyName[0];
-		const containerHeight = getElementHeight(KEYS_ID, 'number') || 0; 
+		const containerHeight = KEYS_HEIGHT; 
 
 		const widthRatio = (type === 'white') ? WHITE_KEY_WIDTH_RATIOS[keyLetter] : BLACK_KEY_WIDTH_RATIO; 
 		return containerHeight * widthRatio;
@@ -145,7 +147,7 @@ export default function Keys({
 
   /* ======================== Output ============================= */
 	return(
-		<div className="keys" id={KEYS_ID} style={{ width: width }}> 
+		<div className="keys" id={KEYS_ID} style={{ width: width, height: KEYS_HEIGHT + 'px' }}> 
 			{
 				keyNames.map((keyName, i) => {   
 					return (
