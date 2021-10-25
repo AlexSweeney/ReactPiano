@@ -64,6 +64,7 @@ export default function AudioElements({ids, onLoad}) {
 	/*
 		* import audio file for each id
 		* create audio element for each id
+		* preload audio element
 	*/ 
 
 	// ============================== Constants ============================== //

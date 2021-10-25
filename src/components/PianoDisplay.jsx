@@ -12,13 +12,13 @@ export default function PianoDisplay({
 	volume,
 	setVolume,
 }) {
-	const output = showPlayButton ? <PlayButton handleClick={handlePlayButtonClick} playButtonDown={playButtonDown}/> : displayString;
+	const playButton = showPlayButton ? <PlayButton handleClick={handlePlayButtonClick} playButtonDown={playButtonDown}/> : displayString;
 
 	return (
 		<div className="piano-display-container">
 			<div className="piano-display">
 				{
-					output
+					playButton
 				}
 			</div>
 			<VolumeControl

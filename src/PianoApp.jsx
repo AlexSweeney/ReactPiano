@@ -214,6 +214,17 @@ export default function Piano() {
 	// ================================== Output =========================== //
 	return (
 		<div className="piano">  
+			<PianoControls
+					mode={mode}
+					setMode={setMode}
+					displayString={displayString}
+					volume={volume}
+					setVolume={setVolume}
+					audioIDs={audioIDs}
+					showPlayButton={showPlayButton}
+					handlePlayButtonClick={onPlayButtonClick}
+					playButtonDown={playButtonIsDown}
+				/>
 			<Keys keyNames={allKeys}/>
 		</div>
 	)
@@ -228,17 +239,7 @@ export default function Piano() {
 			{/*<AudioElements setAudioIDs={setAudioIDs}/>
 			
 			<div className="piano">  
-				<PianoControls
-					mode={mode}
-					setMode={setMode}
-					displayString={displayString}
-					volume={volume}
-					setVolume={setVolume}
-					audioIDs={audioIDs}
-					showPlayButton={showPlayButton}
-					handlePlayButtonClick={onPlayButtonClick}
-					playButtonDown={playButtonIsDown}
-				/>
+				
 
 				<Keys
 					handleOver={onKeyOver}
