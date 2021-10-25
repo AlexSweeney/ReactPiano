@@ -7,6 +7,7 @@ import {
 	BLACK_HEIGHT,
 } from './../settings/KeySizes.js';
 import { 
+	getKeyId,
 	getElementHeight,
 	getElementWidth,
 	setElementWidth,
@@ -17,6 +18,7 @@ import './Key.css';
 
 export default function Key({
 	keyName, 
+	keyType,
 	width,
 	height,
 	left,
@@ -30,6 +32,7 @@ export default function Key({
 			- width = passed
 			- height = passed
 			- left = passed
+			- type = pass
 
 		* on Render
 			* color
@@ -75,10 +78,13 @@ export default function Key({
 	*/
 
 	// =========================== const =========================== //    
-	// ============= Ids
-	const ID_KEY_NAME = keyName.replace('#', '\#');  // can't use # in ID for tests
-	const KEY_ID = `key-${ID_KEY_NAME}`; 
-	const KEY_TYPE = getKeyType(keyName);
+	// ============= Ids 
+	// const KEY_ID = getKeyId(keyName); 
+
+	const idKeyName = keyName.replace('#', '\#');  // can't use # in ID for tests
+	const KEY_ID = `key-${idKeyName}`;
+
+	// const KEY_TYPE = getKeyType(keyName);
 	const KEY_LETTER = keyName[0];
 	 
 	// ============= Comparative Ratios
@@ -93,9 +99,13 @@ export default function Key({
 	// const [leftOffset, setLeftOffset] = useState(0);
 	/*const KEY_STYLE = ;*/
 
+	// ============= Classes
+	
 	// ============= Color
 	const [isOver, setIsOver] = useState(false);
 	const [isDown, setIsDown] = useState(false);
+
+	const [keyTypeClass, setKeyTypeClass] = useState((keyType === 'white') ? 'white-key' : 'black-key');
 	const [keyColorClass, setKeyColorClass] = useState('key-out');
 
 	// =========================== Event Handlers ================== //
@@ -132,10 +142,7 @@ export default function Key({
 	}
 
 	// =========================== Helper Fns ===================== //
-	function getKeyType(key) {
-		if (key.indexOf('b') === -1 && key.indexOf('#') === -1) return 'white-key';
-		if (key.indexOf('b') !== -1 || key.indexOf('#') != -1) return 'black-key';
-	}
+	
 
 	// function updateWidth() {
 	// 	// console.log('updateWidth ---------------')
@@ -184,14 +191,14 @@ export default function Key({
 	// 	setLeftOffset(newOffset)
 	// }
 
-	function getPreviousWhiteKeys( ) {
-		return allKeys.map((thisKeyName, thisI) => {
-			const thisType = getKeyType(thisKeyName);
-			if(thisI >= i) return null;
-			if(thisType === 'black-key') return null;
-			if(thisType === 'white-key') return thisKeyName; 
-		}).filter(val => val)
-	}
+	// function getPreviousWhiteKeys( ) {
+	// 	return allKeys.map((thisKeyName, thisI) => {
+	// 		const thisType = getKeyType(thisKeyName);
+	// 		if(thisI >= i) return null;
+	// 		if(thisType === 'black-key') return null;
+	// 		if(thisType === 'white-key') return thisKeyName; 
+	// 	}).filter(val => val)
+	// }
 
 	
 
@@ -223,12 +230,12 @@ export default function Key({
 		return whiteKeyHeight * (THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO * 100) / 100;
 	} */
 
-	function getWhiteKeyHeight() {  
-		const thisKeyHeight = getElementHeight(KEY_ID, 'number');  
+	// function getWhiteKeyHeight() {  
+	// 	const thisKeyHeight = getElementHeight(KEY_ID, 'number');  
 
-		if(KEY_TYPE === 'white-key') return thisKeyHeight;
-		if(KEY_TYPE === 'black-key')  return thisKeyHeight * (BLACK_HEIGHT_TO_WHITE_HEIGHT * 100) / 100; 
-	} 
+	// 	if(KEY_TYPE === 'white-key') return thisKeyHeight;
+	// 	if(KEY_TYPE === 'black-key')  return thisKeyHeight * (BLACK_HEIGHT_TO_WHITE_HEIGHT * 100) / 100; 
+	// } 
 
 	function updateKeyColorClass(isOver, isDown) {
 		let newClass;
@@ -251,7 +258,7 @@ export default function Key({
 
 	// =========================== Output ======================== // 
 		return (   
-			<div className={`key ${KEY_TYPE} ${keyColorClass}`} 
+			<div className={`key ${keyTypeClass} ${keyColorClass}`} 
 					id={KEY_ID}  
 					key={KEY_ID}
 					style={{ 

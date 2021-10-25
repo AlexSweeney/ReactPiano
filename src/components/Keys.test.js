@@ -67,7 +67,7 @@ function renderKeys() {
 // ============================================ Tests ======================================================//
 describe('<Keys/>', () => {
 	describe('on render', () => {
-		it('should render key element for every keyName passed', () => {   
+		it.only('Render: it should render key element for every keyName passed', () => {   
 			const keys = renderKeys(container);
 
 			KEY_NAMES.forEach(keyName => {
@@ -78,47 +78,67 @@ describe('<Keys/>', () => {
 			})
 		})
 
-		describe('should show a keyboard with correctly spaced keys', () => {
-			it.only('white keys should be adjacent to each other', () => {
-				const keys = renderKeys(container);
-				const whiteKeys = keys.querySelectorAll('.white-key');
-			 
-				/*whiteKeys.forEach((thisKey, i) => {
-					if(i > 1) return;
-					if(i === 0) expect(thisKey.style.left).toEqual('0px')
-					if(i > 0) {
-						const previousKey = whiteKeys[i - 1];
-						const previousLeft = previousKey.style.left;
-						// console.log('previousKey', previousKey)
-						console.log('previousKey.style', previousKey.style)
-						/*
-						const previousWidth = getElementWidth(previousKey)
-						
-						const target = previousLeft + previousWidth + 'px';
+		it('<Key> Type: ', () => {
 
-						expect(thisKey.left).toEqual(target) 
-					}
-				})*/
-			})
-
-			it('black keys should have left value of i * black key width', () => {
-				const keys = renderKeys(container);
-				const blackKeys = keys.querySelectorAll('.black-key');
-
-				blackKeys.forEach(thisKey => {
-					expect(isElementOfType(thisKey, Key))
-				})
-			})
 		}) 
 
-		it('should expand to width of white keys', () => {
-			act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
-			
-			const keysWidth = getElementWidth(KEYS_ID, 'number');	 
-			const totalWhiteKeysWidth = getWhiteKeysWidth(container);
+		it('<Key> Width', () => {
 
- 			expect(keysWidth).toEqual(totalWhiteKeysWidth)
 		})
+
+		it('<Key> height', () => {
+			
+		})
+
+		it('<Key> left', () => {
+			
+		})
+
+		it('<Keys> Width: ', () => {
+			
+		})
+
+		// describe('should show a keyboard with correctly spaced keys', () => {
+		// 	it('white keys should be adjacent to each other', () => {
+		// 		const keys = renderKeys(container);
+		// 		const whiteKeys = keys.querySelectorAll('.white-key');
+			 
+		// 		whiteKeys.forEach((thisKey, i) => {
+		// 			if(i > 1) return;
+		// 			if(i === 0) expect(thisKey.style.left).toEqual('0px')
+		// 			if(i > 0) {
+		// 				const previousKey = whiteKeys[i - 1];
+		// 				const previousLeft = previousKey.style.left;
+		// 				// console.log('previousKey', previousKey)
+		// 				console.log('previousKey.style', previousKey.style)
+						
+		// 				const previousWidth = getElementWidth(previousKey)
+						
+		// 				const target = previousLeft + previousWidth + 'px';
+
+		// 				expect(thisKey.left).toEqual(target) 
+		// 			}
+		// 		})
+		// 	})
+
+		// 	it('black keys should have left value of i * black key width', () => {
+		// 		const keys = renderKeys(container);
+		// 		const blackKeys = keys.querySelectorAll('.black-key');
+
+		// 		blackKeys.forEach(thisKey => {
+		// 			expect(isElementOfType(thisKey, Key))
+		// 		})
+		// 	})
+		// }) 
+
+		// it('should expand to width of white keys', () => {
+		// 	act(() => render(<Keys keyNames={KEY_NAMES}/>, container))
+			
+		// 	const keysWidth = getElementWidth(KEYS_ID, 'number');	 
+		// 	const totalWhiteKeysWidth = getWhiteKeysWidth(container);
+
+ 	// 		expect(keysWidth).toEqual(totalWhiteKeysWidth)
+		// })
 	}) 
 
 	describe('on change size', () => {
@@ -175,7 +195,7 @@ describe('<Keys/>', () => {
 /*var style = document.createElement('style');
 style.type = 'text/css';
 style.innerHTML = `${CONTAINER_STYLES}`;
-document.getElementsByTagName('head')[0].appendChild(style);*/
+document.getElementsByTagName('head')[0].appendChild(style);
 
 // ============================================ Helper Fns ==================================================//
 

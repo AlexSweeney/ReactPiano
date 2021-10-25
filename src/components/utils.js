@@ -1,3 +1,4 @@
+ 
 // =================== Key Type
 export function getKeyType(keyName) { 
 	if(keyName.indexOf('b') === -1 && keyName.indexOf('#') === -1) return 'white-key';
