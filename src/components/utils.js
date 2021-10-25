@@ -1,7 +1,7 @@
  // =================== Key Type
 export function getKeyType(keyName) { 
 	if(keyName.indexOf('b') === -1 && keyName.indexOf('#') === -1) return 'white';
-	if(keyName.indexOf('b') !== -1 || keyName.indexOf('#') != -1) return 'black';
+	if(keyName.indexOf('b') !== -1 || keyName.indexOf('#') !== -1) return 'black';
 } 
 
 // =================== Object

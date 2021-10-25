@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import Key from './parts/Key.jsx';
-import {
-	getElement,
-	getElementWidth,
-	getElementHeight,
-	pxToNumber,
+import {  
+	getElementHeight, 
 	triggerOnSizeChange,  
 	getKeyType,
 } from './utils.js';
@@ -36,8 +33,7 @@ export default function Keys({
 	*/ 
 	/* ======================== Constants ======================== */
 	/* ============= IDs */
-	const KEYS_ID = 'keys';
-	
+	const KEYS_ID = 'keys'; 
 
 	/* ============= Initial Values */ 
 	const initialHeight = 100;
@@ -55,41 +51,22 @@ export default function Keys({
 		setContainerHeight('100%')
 
 		triggerOnSizeChange(KEYS_ID, onKeysSizeChange)
-		// const initialKeyStyles = makeKeyStyles(keyNames);
-		// setKeyStyles(initialKeyStyles);
-
-		// updateKeysWidth()
-		// listenForWhiteKeyWidthChange() 
 	}
 
 	function onKeysSizeChange() {
-		const containerHeight = getElementHeight(KEYS_ID, 'number');
-		// console.log('containerHeight', containerHeight)
+		const containerHeight = getElementHeight(KEYS_ID, 'number'); 
 		const newContainerWidth = getContainerWidth(containerHeight);
 		const newKeyStyles = getKeyStyles(keyNames, containerHeight);
 
 		setContainerWidth(newContainerWidth)
 		setKeyStyles(newKeyStyles)
 	}
-
-	// function onWhiteKeyWidthChange() { 
-	// 	updateKeysWidth()
-	// }
 	/* ======================== Helper Fns ======================= */
-	/*function listenForWhiteKeyWidthChange() {
-		const keysElement = getElement(KEYS_ID);
-		const whiteKeys = Array.from(keysElement.querySelectorAll('.white-key')); 
-		whiteKeys.forEach(key => {
-			triggerOnSizeChange(key.id, onWhiteKeyWidthChange) 
-		})
-	}*/
-
 	function getKeyStyles(keyNames, containerHeight) {
 		return keyNames.map((keyName, i) => {
 			return (
 				{
-					keyName: keyName,
-					keyType: getKeyType(keyName),
+					keyName: keyName, 
 					width: getKeyWidth(keyName, containerHeight) + 'px',
 					height: getKeyHeight(keyName) + '%',
 					left: getKeyLeft(keyName, containerHeight, i) + 'px',
@@ -165,27 +142,4 @@ export default function Keys({
 			}
 		</div>
 	)
-} 
-
-
-// function updateKeysWidth() {
-	// 	const newWidth = getWhiteKeysWidth();
-	// 	setWidth(newWidth)
-	// }
-
-	// function getWhiteKeys() {
-	// 	const keysElement = getElement(KEYS_ID);
-	// 	const whiteKeys = Array.from(keysElement.querySelectorAll('.white-key')); 
-	// 	return whiteKeys;
-	// }
-
-	// function getWhiteKeysWidth() {
-	// 	const whiteKeys = getWhiteKeys();
-
-	// 	const totalWidth = whiteKeys.reduce((tally, key) => {  
-	// 		const thisWidth = getElementWidth(key.id, 'number');  
-	// 		return tally + thisWidth;
-	// 	}, 0)
-
-	// 	return totalWidth;
-	// } 
+}
