@@ -34,14 +34,21 @@ export default function Keys({
 			- set keys width same as total white key width
 	*/ 
 	/* ======================== Constants ======================== */
-	const KEYS_HEIGHT = 100;
+	/* ============= IDs */
 	const KEYS_ID = 'keys';
-	const [width, setWidth] = useState(0); 
-	const initialKeyStyles = makeKeyStyles(keyNames);
-	// console.log('initialKeyStyles', initialKeyStyles)
-	const [keyStyles, setKeyStyles] = useState(initialKeyStyles);
 	
 
+	/* ============= Initial Values */ 
+	const initialHeight = 100;
+	const initialKeyStyles = makeKeyStyles(keyNames, initialHeight);
+	const initialWidth = getContainerWidth(initialHeight);
+	 
+	/* ============= Styles */
+	const [containerHeight, setContainerHeight] = useState(initialHeight);
+	const [containerWidth, setContainerWidth] = useState(initialWidth); 
+	const containerStyle = { width: containerWidth + 'px', height: containerHeight + 'px' };
+
+	const [keyStyles, setKeyStyles] = useState(initialKeyStyles);
 	/* ======================== Event Handlers =================== */
 	function onRender() {
 		// const initialKeyStyles = makeKeyStyles(keyNames);
@@ -63,15 +70,15 @@ export default function Keys({
 		})
 	}*/
 
-	function makeKeyStyles(keyNames) {
+	function makeKeyStyles(keyNames, containerHeight) {
 		return keyNames.map((keyName, i) => {
 			return (
 				{
 					keyName: keyName,
 					keyType: getKeyType(keyName),
-					width: getKeyWidth(keyName) + 'px',
+					width: getKeyWidth(keyName, containerHeight) + 'px',
 					height: getKeyHeight(keyName) + '%',
-					left: getKeyLeft(keyName, i) + 'px',
+					left: getKeyLeft(keyName, containerHeight, i) + 'px',
 				}
 			)
 		})
@@ -82,10 +89,9 @@ export default function Keys({
 		if (keyName.indexOf('b') !== -1 || keyName.indexOf('#') != -1) return 'black';
 	}
 
-	function getKeyWidth(keyName) {
+	function getKeyWidth(keyName, containerHeight) {
 		const type = getKeyType(keyName);
-		const keyLetter = keyName[0];
-		const containerHeight = KEYS_HEIGHT; 
+		const keyLetter = keyName[0]; 
 
 		const widthRatio = (type === 'white') ? WHITE_KEY_WIDTH_RATIOS[keyLetter] : BLACK_KEY_WIDTH_RATIO; 
 		return containerHeight * widthRatio;
@@ -98,7 +104,7 @@ export default function Keys({
 		if(type === 'black') return BLACK_KEY_HEIGHT_PERCENT;
 	}
 
-	function getKeyLeft(keyName, i) { 
+	function getKeyLeft(keyName, containerHeight, i) { 
 		const type = getKeyType(keyName);
 		let left = 0;
 
@@ -106,39 +112,23 @@ export default function Keys({
 			const previousKeys = keyNames.filter((name, x) => x < i);
 			const previousWhiteKeys = previousKeys.filter((name) => getKeyType(name) === 'white'); 
 			previousWhiteKeys.forEach(name => {
-				left += getKeyWidth(name);
+				left += getKeyWidth(name, containerHeight);
 			}) 
 		}  
 
 		if(type === 'black') { 
-			const blackKeyWidth = getKeyWidth(keyName); 
+			const blackKeyWidth = getKeyWidth(keyName, containerHeight); 
 			left = i * blackKeyWidth; 
 		} 
  		
  		return left;
 	} 
 
-	// function updateKeysWidth() {
-	// 	const newWidth = getWhiteKeysWidth();
-	// 	setWidth(newWidth)
-	// }
+	function getContainerWidth(containerHeight) {
+		const whiteKeys = keyNames.filter(keyName => getKeyType(keyName) === 'white');
+		return whiteKeys.reduce((total, keyName) => total + getKeyWidth(keyName, containerHeight), 0);
+	}
 
-	// function getWhiteKeys() {
-	// 	const keysElement = getElement(KEYS_ID);
-	// 	const whiteKeys = Array.from(keysElement.querySelectorAll('.white-key')); 
-	// 	return whiteKeys;
-	// }
-
-	// function getWhiteKeysWidth() {
-	// 	const whiteKeys = getWhiteKeys();
-
-	// 	const totalWidth = whiteKeys.reduce((tally, key) => {  
-	// 		const thisWidth = getElementWidth(key.id, 'number');  
-	// 		return tally + thisWidth;
-	// 	}, 0)
-
-	// 	return totalWidth;
-	// } 
 
 	/* ======================== Listen / Trigger =================== */
   useEffect(() => {
@@ -147,7 +137,7 @@ export default function Keys({
 
   /* ======================== Output ============================= */
 	return(
-		<div className="keys" id={KEYS_ID} style={{ width: width, height: KEYS_HEIGHT + 'px' }}> 
+		<div className="keys" id={KEYS_ID} style={containerStyle}> 
 			{
 				keyNames.map((keyName, i) => {   
 					return (
@@ -168,3 +158,26 @@ export default function Keys({
 		</div>
 	)
 } 
+
+
+// function updateKeysWidth() {
+	// 	const newWidth = getWhiteKeysWidth();
+	// 	setWidth(newWidth)
+	// }
+
+	// function getWhiteKeys() {
+	// 	const keysElement = getElement(KEYS_ID);
+	// 	const whiteKeys = Array.from(keysElement.querySelectorAll('.white-key')); 
+	// 	return whiteKeys;
+	// }
+
+	// function getWhiteKeysWidth() {
+	// 	const whiteKeys = getWhiteKeys();
+
+	// 	const totalWidth = whiteKeys.reduce((tally, key) => {  
+	// 		const thisWidth = getElementWidth(key.id, 'number');  
+	// 		return tally + thisWidth;
+	// 	}, 0)
+
+	// 	return totalWidth;
+	// } 
