@@ -16,14 +16,21 @@ import {
 import './Key.css';
 
 export default function Key({
-	keyName,
-	allKeys,
+	keyName, 
+	width,
+	height,
+	left,
 	i,
 	handleOver = () => {}, 
 	handleOut = () => {}, 
 	handleDown = () => {},  
 }) { 
-	/* ================================ Key.jsx ================================ //
+	/* ================================ Key.jsx ================================ // 
+		- refactor
+			- width = passed
+			- height = passed
+			- left = passed
+
 		* on Render
 			* color
 				* if keyName contains b or # => class black-key
@@ -75,15 +82,15 @@ export default function Key({
 	const KEY_LETTER = keyName[0];
 	 
 	// ============= Comparative Ratios
-	const BLACK_HEIGHT_TO_WHITE_HEIGHT =  WHITE_HEIGHT / BLACK_HEIGHT; 
+	// const BLACK_HEIGHT_TO_WHITE_HEIGHT =  WHITE_HEIGHT / BLACK_HEIGHT; 
 
-	const THIS_HEIGHT = (KEY_TYPE === 'white-key') ? '100%' : '65%'; 
+	// const THIS_HEIGHT = (KEY_TYPE === 'white-key') ? '100%' : '65%'; 
 	// const THIS_WIDTH_TO_WHITE_KEY_HEIGHT_RATIO = (KEY_TYPE === 'white-key') ? WHITE_KEY_WIDTHS[LETTER_NAME] / 100 : BLACK_KEY_WIDTH / 100;
   
   // ============= Styles	
- 	const [width, setWidth] = useState(0); 
- 	const [height, setHeight] = useState(THIS_HEIGHT);
-	const [leftOffset, setLeftOffset] = useState(0);
+ // 	const [width, setWidth] = useState(0); 
+ // 	const [height, setHeight] = useState(THIS_HEIGHT);
+	// const [leftOffset, setLeftOffset] = useState(0);
 	/*const KEY_STYLE = ;*/
 
 	// ============= Color
@@ -93,15 +100,15 @@ export default function Key({
 
 	// =========================== Event Handlers ================== //
 	function onRender() { 
-		updateWidth()
-		updateLeftOffset()
+		// updateWidth()
+		// updateLeftOffset()
 
 		triggerOnSizeChange(KEY_ID, onContainerSizeChange)   
 	}
 
 	function onContainerSizeChange() { 
-		updateWidth()
-		updateLeftOffset() 
+		// updateWidth()
+		// updateLeftOffset() 
 	} 
   
 	function onMouseOver() { 
@@ -130,52 +137,52 @@ export default function Key({
 		if (key.indexOf('b') !== -1 || key.indexOf('#') != -1) return 'black-key';
 	}
 
-	function updateWidth() {
-		console.log('updateWidth ---------------')
-		const newWidth = getKeyWidth();
-		console.log('newWidth', newWidth)
-		setWidth(newWidth)
-	}
+	// function updateWidth() {
+	// 	// console.log('updateWidth ---------------')
+	// 	const newWidth = getKeyWidth();
+	// 	// console.log('newWidth', newWidth)
+	// 	setWidth(newWidth)
+	// }
 
-	function getKeyWidth(keyType = KEY_TYPE) {
-		console.log('getThisKeyWidth -----------')
-		const whiteKeyHeight = getWhiteKeyHeight();
-		console.log('whiteKeyHeight', whiteKeyHeight)
-		let thisWidth; 
+	// function getKeyWidth(keyType = KEY_TYPE) {
+	// 	// console.log('getThisKeyWidth -----------')
+	// 	const whiteKeyHeight = getWhiteKeyHeight();
+	// 	// console.log('whiteKeyHeight', whiteKeyHeight)
+	// 	let thisWidth; 
 
-		if(keyType === 'white-key') {
-			thisWidth =  (whiteKeyHeight * WHITE_KEY_WIDTHS[KEY_LETTER]) / 100;
-		}    
-		if(keyType === 'black-key') {
-			thisWidth = (whiteKeyHeight * BLACK_KEY_WIDTH) / 100;
-		}
+	// 	if(keyType === 'white-key') {
+	// 		thisWidth =  (whiteKeyHeight * WHITE_KEY_WIDTHS[KEY_LETTER]) / 100;
+	// 	}    
+	// 	if(keyType === 'black-key') {
+	// 		thisWidth = (whiteKeyHeight * BLACK_KEY_WIDTH) / 100;
+	// 	}
 
-		return thisWidth;
-	}
+	// 	return thisWidth;
+	// }
 
-	function updateLeftOffset() {
-		// console.log('updateLeftOffset -----------', KEY_ID)
-		let newOffset; 
+	// function updateLeftOffset() {
+	// 	// console.log('updateLeftOffset -----------', KEY_ID)
+	// 	let newOffset; 
 
-		if(KEY_TYPE === 'white-key') {
-			const previousWhiteKeys = getPreviousWhiteKeys();
-			const previousWhiteKeyWidths = previousWhiteKeys.map(whiteKey => {
-				return getKeyWidth('white-key');
-			}); 
-			// console.log('previousWhiteKeys', previousWhiteKeys)
-			// console.log('previousWhiteKeyWidths', previousWhiteKeyWidths)
-			newOffset = previousWhiteKeyWidths.reduce((a, b) => a + b, 0); 
-		}  
+	// 	if(KEY_TYPE === 'white-key') {
+	// 		const previousWhiteKeys = getPreviousWhiteKeys();
+	// 		const previousWhiteKeyWidths = previousWhiteKeys.map(whiteKey => {
+	// 			return getKeyWidth('white-key');
+	// 		}); 
+	// 		// console.log('previousWhiteKeys', previousWhiteKeys)
+	// 		// console.log('previousWhiteKeyWidths', previousWhiteKeyWidths)
+	// 		newOffset = previousWhiteKeyWidths.reduce((a, b) => a + b, 0); 
+	// 	}  
 
-		if(KEY_TYPE === 'black-key') { 
-			const thisWidth = getKeyWidth('black-key');
-			// console.log('thisWidth', thisWidth)
-			newOffset =  i * thisWidth;
-		} 
+	// 	if(KEY_TYPE === 'black-key') { 
+	// 		const thisWidth = getKeyWidth('black-key');
+	// 		// console.log('thisWidth', thisWidth)
+	// 		newOffset =  i * thisWidth;
+	// 	} 
 
-	// 	console.log('newOffset', newOffset)
-		setLeftOffset(newOffset)
-	}
+	// // 	console.log('newOffset', newOffset)
+	// 	setLeftOffset(newOffset)
+	// }
 
 	function getPreviousWhiteKeys( ) {
 		return allKeys.map((thisKeyName, thisI) => {
@@ -249,8 +256,8 @@ export default function Key({
 					key={KEY_ID}
 					style={{ 
 						width: width,
-						height: THIS_HEIGHT,
-						left: leftOffset
+						height: height,
+						left: left,
 					}}
 					onMouseOver={onMouseOver}
 					onMouseOut={onMouseOut}

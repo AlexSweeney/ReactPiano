@@ -37,14 +37,14 @@ function mockTriggerOnSizeChange(id, fn) {
 				* set height of key that triggered event  manually
 				* call fn() => sets width based on height
 	*/
-	const element = getElement(id);
+	// const element = getElement(id);
   
-	element.addEventListener('setkeysize', (e) => {  
-		updateKeyHeight(e.srcElement.id)
+	// element.addEventListener('setkeysize', (e) => {  
+	// 	// updateKeyHeight(e.srcElement.id)
 	
-		// call fn to update width based on new height
-		fn()
-	})  
+	// 	// call fn to update width based on new height
+	// 	fn()
+	// })  
 }
   
 allUtils.triggerOnSizeChange = mockTriggerOnSizeChange;

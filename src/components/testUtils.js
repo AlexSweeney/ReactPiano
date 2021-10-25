@@ -55,17 +55,7 @@ export function getKeyId(keyName) {
 	return `key-${keyName}`;
 }
 
-export function renderKey(container, keyName = 'C3', props = {}) {  
-	act(() => { render(<Key keyName={keyName} allKeys={OCTAVE_KEYS_SHARP} {...props}/>, container)})
-
-	const keyId = getKeyId(keyName); 
- 	const key = getElement(keyId);
-
- 	triggerKeyResize(key)
-
-	return key;
-} 
-
+ 
 export function triggerKeyResize(key) {
 	// trigger setkeysize 
  		// => triggers updateKeyHeight() to set height in px

@@ -45,47 +45,47 @@ describe('test functions', () => {
 		}) 
 	})
 
-	describe('renderKey(keyName, props)', () => { 
-		describe('should render all keys', () => {
-			ALL_KEYS.forEach((keyName, i) => {  
-				if(i > 0) return; 
-				it(`${keyName}`, () => {
-					if(i > 0) return; 
-					const key = renderKey(container, keyName);
-					expect(isElementOfType(key, Key)) 
-				})
-			})
-		})  
+	// describe('renderKey(keyName, props)', () => { 
+	// 	describe('should render all keys', () => {
+	// 		ALL_KEYS.forEach((keyName, i) => {  
+	// 			if(i > 0) return; 
+	// 			it(`${keyName}`, () => {
+	// 				if(i > 0) return; 
+	// 				const key = renderKey(container, keyName);
+	// 				expect(isElementOfType(key, Key)) 
+	// 			})
+	// 		})
+	// 	})  
 
-		describe('should render when i value passed as prop', () => {
-			describe('octave using flat keys', () => {
-				OCTAVE_KEYS_FLAT.forEach((keyName, i) => {  
-					it(`${keyName}`, () => {
-						const key = renderKey(container, keyName, {i});
-						expect(isElementOfType(key, Key))  
-					}) 
-				})
-			})
+	// 	describe('should render when i value passed as prop', () => {
+	// 		describe('octave using flat keys', () => {
+	// 			OCTAVE_KEYS_FLAT.forEach((keyName, i) => {  
+	// 				it(`${keyName}`, () => {
+	// 					const key = renderKey(container, keyName, {i});
+	// 					expect(isElementOfType(key, Key))  
+	// 				}) 
+	// 			})
+	// 		})
 
-			describe('octave using sharp keys', () => {
-				OCTAVE_KEYS_SHARP.forEach((keyName, i) => {  
-					it(`${keyName}`, () => {
-						const key = renderKey(container, keyName, {i});
-						expect(isElementOfType(key, Key))  
-					}) 
-				})  	
-			}) 
+	// 		describe('octave using sharp keys', () => {
+	// 			OCTAVE_KEYS_SHARP.forEach((keyName, i) => {  
+	// 				it(`${keyName}`, () => {
+	// 					const key = renderKey(container, keyName, {i});
+	// 					expect(isElementOfType(key, Key))  
+	// 				}) 
+	// 			})  	
+	// 		}) 
 
-			describe('octave using sharp keys with unescaped #', () => {
-				OCTAVE_KEYS_UNESCAPED_SHARP.forEach((keyName, i) => {  
-					it(`${keyName}`, () => {
-						const key = renderKey(container, keyName, {i});
-						expect(isElementOfType(key, Key))  
-					}) 
-				})  	
-			})
-		}) 
-	}) 
+	// 		describe('octave using sharp keys with unescaped #', () => {
+	// 			OCTAVE_KEYS_UNESCAPED_SHARP.forEach((keyName, i) => {  
+	// 				it(`${keyName}`, () => {
+	// 					const key = renderKey(container, keyName, {i});
+	// 					expect(isElementOfType(key, Key))  
+	// 				}) 
+	// 			})  	
+	// 		})
+	// 	}) 
+	// }) 
 
 	describe('updateKeyHeight() (called on renderKey)', () => { 
 		describe('should set natural keys to 100% of container height', () => {
