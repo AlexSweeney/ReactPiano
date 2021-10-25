@@ -29,7 +29,7 @@ describe('<PlayButton/>', () => {
 			expect(isElementOfType(playButton, PlayButton))
 		}) 
 
-		it('should have class "play-button-down" if playButtonDown prop true', () => {
+		it('should have class "play-button-down" if props.playButtonDown true', () => {
 			act(() => { render(<PlayButton playButtonDown={true}/>, container)})
 			const playButton = getElement(playButtonId);
 
