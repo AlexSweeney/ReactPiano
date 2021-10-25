@@ -71,6 +71,8 @@ export function getElementHeight(id,  output = 'px') {
 	} else {
 		element = id;
 	}
+
+	if(!element) return null;
 		
 	const height = pxToNumber(window.getComputedStyle(element).height);
 
@@ -86,6 +88,8 @@ export function getElementWidth(id, output = 'px') {
 	} else {
 		element = id;
 	} 
+
+	if(!element) return null;
 
 	const width = pxToNumber(window.getComputedStyle(element).width); 
 

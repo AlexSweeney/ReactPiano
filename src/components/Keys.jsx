@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
-// import Key from './parts/Key.jsx';
+import Key from './parts/Key.jsx';
 import {
 	getElement,
 	getElementWidth,
@@ -35,8 +35,8 @@ export default function Keys({
 	*/ 
 	/* ======================== Constants ======================== */
 	const KEYS_ID = 'keys';
-	const [width, setWidth] = useState(0);
-	const [keyStyles, setKeyStyles] = useState([]);
+	const [width, setWidth] = useState(0); 
+	const [keyStyles, setKeyStyles] = useState(makeKeyStyles(keyNames));
 	
 
 	/* ======================== Event Handlers =================== */
@@ -65,10 +65,11 @@ export default function Keys({
 		return keyNames.map((keyName, i) => {
 			return (
 				{
+					keyName: keyName,
 					keyType: getKeyType(keyName),
 					width: getKeyWidth(keyName) + 'px',
 					height: getKeyHeight(keyName) + '%',
-					left: getKeyLeft(keyName),
+					left: getKeyLeft(keyName, i) + 'px',
 				}
 			)
 		})
@@ -79,17 +80,12 @@ export default function Keys({
 		if (keyName.indexOf('b') !== -1 || keyName.indexOf('#') != -1) return 'black';
 	}
 
-	function getKeyWidth(keyName, i) {
+	function getKeyWidth(keyName) {
 		const type = getKeyType(keyName);
 		const keyLetter = keyName[0];
-		const containerHeight = getElementHeight(KEYS_ID, 'number');
+		const containerHeight = getElementHeight(KEYS_ID, 'number') || 0; 
 
-		const widthRatio = (type === 'white') ? WHITE_KEY_WIDTH_RATIOS[keyLetter] : BLACK_KEY_WIDTH_RATIO;
-		/*if(type === 'white') {
-			console.log('widthRatio', widthRatio)
-			console.log('containerHeight', containerHeight)
-		}*/
-
+		const widthRatio = (type === 'white') ? WHITE_KEY_WIDTH_RATIOS[keyLetter] : BLACK_KEY_WIDTH_RATIO; 
 		return containerHeight * widthRatio;
 	}
 
@@ -106,15 +102,14 @@ export default function Keys({
 
 		if(type === 'white') {
 			const previousKeys = keyNames.filter((name, x) => x < i);
-			const previousWhiteKeys = previousKeys.filter((name) => getKeyType(name) === 'white');
-
+			const previousWhiteKeys = previousKeys.filter((name) => getKeyType(name) === 'white'); 
 			previousWhiteKeys.forEach(name => {
 				left += getKeyWidth(name);
 			}) 
 		}  
 
-		if(type === 'black-key') { 
-			const blackKeyWidth = getKeyWidth(keyName);
+		if(type === 'black') { 
+			const blackKeyWidth = getKeyWidth(keyName); 
 			left = i * blackKeyWidth; 
 		} 
  		
@@ -151,7 +146,7 @@ export default function Keys({
   /* ======================== Output ============================= */
 	return(
 		<div className="keys" id={KEYS_ID} style={{ width: width }}> 
-		{/*	{
+			{
 				keyNames.map((keyName, i) => {   
 					return (
 						<Key i={i} 
@@ -167,7 +162,7 @@ export default function Keys({
 						/>
 					)
 				})
-			}*/}
+			}
 		</div>
 	)
 } 
