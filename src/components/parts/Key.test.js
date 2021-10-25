@@ -125,7 +125,7 @@ describe('<Key>', () => {
 		})
 	})
 
-	describe.only('on render', () => {  
+	describe('on render', () => {  
 		describe('key color', () => {
 			describe('white keys should have class "white-key"', () => {
 				test.each(WHITE_KEYS_TABLE)('%s', (keyName) => {
@@ -161,12 +161,12 @@ describe('<Key>', () => {
 				const key = renderKey(container); 
 				expect(key.style.height).toEqual(KEY_HEIGHT)
 			})
+		})
 
-			it('should have passed left', () => {
+		it('position should have passed left', () => {
 				const key = renderKey(container); 
 				expect(key.style.left).toEqual(KEY_LEFT)
 			})
-		})
 
 		// describe('size', () => {
 		// 	describe('white keys', () => {
