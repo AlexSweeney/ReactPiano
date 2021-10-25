@@ -24,11 +24,11 @@ export default function Keys({
 	/*
 		* on render 
 			* make key element for every keyName
-			- pass width, height and left to each key
-			- set keys width same as total white key width
+			* set width, height and left for each key
+			* set keys width same as total white key width
 
 		* on size change
-			- pass width, height and left to each key
+			* 
 			- set keys width same as total white key width
 	*/ 
 	/* ======================== Constants ======================== */
