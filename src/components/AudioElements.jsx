@@ -19,6 +19,21 @@ import A3 from './../audio/piano/mf/3/A3.mp3';
 import Bb3 from './../audio/piano/mf/3/Bb3.mp3';
 import B3 from './../audio/piano/mf/3/B3.mp3';
 
+
+/*import A3 from  './../audio/piano/A3.mp3';
+import Ab3 from './../audio/piano/Ab3.mp3';
+import B3 from  './../audio/piano/B3.mp3';
+import Bb3 from './../audio/piano/Bb3.mp3';
+import C3 from  './../audio/piano/C3.mp3';
+import D3 from  './../audio/piano/D3.mp3';
+import Db3 from './../audio/piano/Db3.mp3';
+import E3 from  './../audio/piano/E3.mp3';
+import Eb3 from './../audio/piano/Eb3.mp3';
+import F3 from  './../audio/piano/F3.mp3';
+import G3 from  './../audio/piano/G3.mp3';
+import Gb3 from './../audio/piano/Gb3.mp3';
+*/
+
 // export default function AudioElements({setAudioIDs}) {  
 // 	/* 
 // 		* render audio elements for piano notes and feedback sounds
