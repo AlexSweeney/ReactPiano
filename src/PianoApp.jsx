@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {getNewRandomArrayElement} from './components/utils.js';
-import AudioElements from './components/AudioElements.jsx';
-import PianoControls from './components/PianoControls.jsx';
+import AudioElements from './components/AudioElements.jsx'; 
+import PianoDisplay from './components/PianoDisplay.jsx';
+import ModeSelect from './components/ModeSelect.jsx';
 import Keys from './components/Keys.jsx';
 
-import Key from './components/parts/Key.jsx';
+// import Key from './components/parts/Key.jsx';
 
 import './PianoApp.css';  
  
@@ -233,6 +234,12 @@ export default function Piano() {
 					playButtonDown={playButtonIsDown}
 				/>*/}
 			<div className="piano-controls">
+				<PianoDisplay></PianoDisplay>
+				<VolumeControl
+					audioIDs={audioIDs}
+					volume={volume}
+					setVolume={setVolume}
+				/> 
 				<ModeSelect modes={modes} defaultMode={defaultMode} handleClick={onClickRadio}/>
 			</div>
 

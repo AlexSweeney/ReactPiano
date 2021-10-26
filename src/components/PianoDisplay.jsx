@@ -7,25 +7,36 @@ export default function PianoDisplay({
 	displayString, 
 	showPlayButton, 
 	handlePlayButtonClick,
-	playButtonDown,
-	audioIDs,
-	volume,
-	setVolume,
+	playButtonDown, 
 }) {
-	const playButton = showPlayButton ? <PlayButton handleClick={handlePlayButtonClick} playButtonDown={playButtonDown}/> : displayString;
+	/*
+		* on render
+			* if showPlayButton 
+				* show PlayButton
+			* if !showPlayButton
+				* show displayString
+
+		* on click
+			* if click playbutton => handlePlayButtonClick
+	*/
+	const id = 'piano-display';
+	let output;
+
+	if(showPlayButton) {
+		output =  <PlayButton handleClick={handlePlayButtonClick} playButtonDown={playButtonDown}/>
+	}
+
+	if(!showPlayButton) {
+		output = displayString;
+	}
 
 	return (
-		<div className="piano-display-container">
+		<div className="piano-display-container" id={id}>
 			<div className="piano-display">
 				{
-					playButton
+					output
 				}
-			</div>
-			<VolumeControl
-				audioIDs={audioIDs}
-				volume={volume}
-				setVolume={setVolume}
-			/> 
+			</div> 
 		</div>
 	) 
 }	
