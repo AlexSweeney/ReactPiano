@@ -8,8 +8,8 @@
 	padding: 0.8em;
 }*/
 
-.piano {
-	height: 800px;
+.piano { 
+	height: 200px;
 	resize: both;
 	overflow: auto;
 	/*display: inline-flex;*/

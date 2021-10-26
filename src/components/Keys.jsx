@@ -49,7 +49,7 @@ export default function Keys({
 	/* ======================== Event Handlers =================== */
 	function onRender() {
 		// remove Inline style?
-		setContainerHeight('100%')
+		setContainerHeight('50%')
 
 		triggerOnSizeChange(KEYS_ID, onKeysSizeChange)
 	}

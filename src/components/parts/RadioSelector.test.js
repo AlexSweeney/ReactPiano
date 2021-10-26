@@ -4,7 +4,8 @@ import { act, isElementOfType, Simulate } from 'react-dom/test-utils';
 import { getElement } from './../utils.js';
 import RadioSelector from './RadioSelector.jsx';
 
-let container;
+// ========================================== Consts / vars ======================================= //
+let container; 
 
 const value = 'value-1-string';
 const labelValue = 'value 1 string';
@@ -12,6 +13,7 @@ const defaultValue = value;
 const radioId = `${value}-radio`;
 const labelId = `${value}-label`;
 
+// ========================================== Setup / Teardown ===================================== //
 beforeEach(() => {
 	container = document.createElement('div');
 	document.body.appendChild(container)
@@ -22,6 +24,7 @@ afterEach(() => {
 	container = null;
 })
 
+// ========================================== Tests --------======================================= //
 describe('<RadioSelector>', () => {
 	describe('on render', () => {
 		it('should render', () => {

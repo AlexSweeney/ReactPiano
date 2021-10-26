@@ -23,7 +23,9 @@ export default function Piano() {
 	const [targetKey, setTargetKey] = useState('');
 	
 	// =================== Mode Select
-	const [mode, setMode] = useState('show-key'); 
+	const modes = ['show-key', 'select-key', 'select-key-by-ear'];
+	const defaultMode = modes[0];
+	const [mode, setMode] = useState(defaultMode); 
 
 	// =================== Display
 	const [displayString, setDisplayString] = useState('');
@@ -98,6 +100,11 @@ export default function Piano() {
 		setTimeout(() => {
 			playSound(incorrectSound)
 		}, feedbackSoundDelay) 
+	} 
+
+	// ============= mode radio 
+	function onClickRadio(value) {
+		setMode(value)
 	} 
 
 	// ============= mode change
@@ -214,7 +221,7 @@ export default function Piano() {
 	// ================================== Output =========================== //
 	return (
 		<div className="piano">  
-			<PianoControls
+			{/*<PianoControls
 					mode={mode}
 					setMode={setMode}
 					displayString={displayString}
@@ -224,7 +231,11 @@ export default function Piano() {
 					showPlayButton={showPlayButton}
 					handlePlayButtonClick={onPlayButtonClick}
 					playButtonDown={playButtonIsDown}
-				/>
+				/>*/}
+			<div className="piano-controls">
+				<ModeSelect modes={modes} defaultMode={defaultMode} handleClick={onClickRadio}/>
+			</div>
+
 			<Keys keyNames={allKeys}/>
 		</div>
 	)
