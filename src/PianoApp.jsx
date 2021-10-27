@@ -92,15 +92,12 @@ export default function Piano() {
 			fileType: fileType,
 			id: `${id}-audio`,
 		}
-	})
+	});
 
 	const [audioElements, setAudioElements] = useState({}); 
- 
-	console.log('audioElements on rend ------------')
-	console.log(audioElements)
-	
-	const correctSound = document.getElementById('correctSound-audio');
-	const incorrectSound = document.getElementById('incorrectSound-audio');
+   
+	// const correctSound = document.getElementById('correctSound-audio');
+	// const incorrectSound = document.getElementById('incorrectSound-audio');
  
 	// =================== Play Button
 	const [showPlayButton, setShowPlayButton] = useState(false); 
@@ -215,18 +212,7 @@ export default function Piano() {
 		}
 		
 		sound.play()
-	}
-/*	function playSound(sound) {
-		sound.pause();
-		sound.currentTime = 0;
-		sound.play()
-	}
-*/
-	/*function playKeySound(name) { 
-		const id = `${name}-audio`;
-		const audioElement = getElement(id);
-		playSound(audioElement)
-	}*/
+	} 
 
 	function getAudioElements(audio) {
 		let obj = {};

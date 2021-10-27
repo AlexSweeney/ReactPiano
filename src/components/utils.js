@@ -31,14 +31,14 @@ export function getElements(ids) {
 
 export function getElement(id) { 
 	const element = document.getElementById(id);
-	if(!element) throw new Error('getElement(id) -> element not found')
+	if(!element) console.error(`getElement(${id}) -> element not found`)
 	return element;
 }
 
 export function getParentId(id) {
 	const parentId = document.getElementById(id).parentElement.id;
 	if(parentId) return parentId;
-	if(!parentId) throw new Error(`getParentId(${id}) - parent element doesn\'t have an id`)
+	if(!parentId) console.error(`getParentId(${id}) -> parent element doesn\'t have an id`)
 }
 
 export function getNewRandomArrayElement(allElements, oldElement = null) {  
@@ -69,7 +69,7 @@ export function getElementHeight(id,  output = 'px') {
 		element = id;
 	}
 
-	if(!element) throw new Error('getElementHeight() element not found')
+	if(!element) console.error(`getElementHeight(${id}) -> element not found`)
 		
 	const height = pxToNumber(window.getComputedStyle(element).height);
 
@@ -86,7 +86,7 @@ export function getElementWidth(id, output = 'px') {
 		element = id;
 	} 
 
-	if(!element) throw new Error('getElementWidth() element not found')
+	if(!element) console.error(`getElementWidth(${id}) -> element not found`)
 
 	const width = pxToNumber(window.getComputedStyle(element).width); 
 
@@ -96,14 +96,14 @@ export function getElementWidth(id, output = 'px') {
 
 export function setElementHeight(id, height) { 
 	const element = document.getElementById(id);
-	if(!element) throw new Error('setElementHeight() element not found')
+	if(!element) console.error(`setElementHeight(${id}) -> element not found`)
 
 	element.style.height = height;
 }
 
 export	function setElementWidth(id, width) { 
 	const element = document.getElementById(id);
-	if(!element) throw new Error('setElementWidth() element not found')
+	if(!element) console.error(`setElementWidth(${id}) -> element not found`)
 
 	element.style.width = width;
 }
@@ -111,7 +111,7 @@ export	function setElementWidth(id, width) {
 // =================== Element change 
 export function triggerOnSizeChange(id, fn) {
 	const element = document.getElementById(id); 
-	if(!element) throw new Error('triggerOnSizeChange() element not found')
+	if(!element) console.error(`triggerOnSizeChange(${id}) -> element not found`)
 		
 	new ResizeObserver(fn).observe(element);
 }

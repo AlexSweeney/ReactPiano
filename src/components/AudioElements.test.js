@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom'; 
+import { render } from 'react-dom';  
 import { act, isElementOfType } from 'react-dom/test-utils';
 import AudioElements from './AudioElements.jsx'; 
 import { getElement } from './utils.js';
@@ -7,23 +7,31 @@ import { getElement } from './utils.js';
 // ============================================ Vars and Consts ============================================ //
 let container;  
 const audioElementsId = 'audio-elements-container';
-const ids = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
+const ids = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3', 'correctSound', 'incorrectSound']; 
+const errorIds = ['NoFile','WrongFile','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3', 'correctSound', 'incorrectSound']; 
 
 // ================= Props
-let onLoad; 
+let handleLoad; 
 let handleLoadingError;
 let props; 
 let errorProps;
-const audioObjects = ids.map(id => {
+
+// =================== Audio 
+const fileType = '.mp3';
+ 
+const audioObjects = ids.map((id) => { 
 	return {
-		id: id,
-		path: getPath(id)
+		fileName: id,
+		fileType: fileType,
+		id: `${id}-audio`,
 	}
-});
-const errorAudioObjects = ids.map(id => {
+}); 
+
+const errorAudioObjects = errorIds.map((id) => { 
 	return {
-		id: id,
-		path: getErrorPath(id)
+		fileName: id,
+		fileType: fileType,
+		id: `${id}-audio`,
 	}
 });
 
@@ -40,16 +48,16 @@ function getErrorPath(id) {
 beforeEach(() => { 
 	container = document.createElement('div');
 	document.body.appendChild(container) 
-	onLoad = jest.fn();
+	handleLoad = jest.fn();
 	handleLoadingError = jest.fn();
-	props = { audioObjects, onLoad, handleLoadingError };
-	errorProps = { audioObjects: errorAudioObjects, onLoad, handleLoadingError};
+	props = { audioObjects, handleLoad, handleLoadingError };
+	errorProps = { audioObjects: errorAudioObjects, handleLoad, handleLoadingError};
 })
 
 afterEach(() => {
 	document.body.removeChild(container)
 	container = null; 
-	onLoad = null;
+	handleLoad = null;
 	handleLoadingError = null;
 	props = null;
 	errorProps = null;
@@ -68,23 +76,23 @@ describe('<AudioElements/>', () => {
 
 	describe('on load audio', () => {
 		it('should render an audio element for each id', async () => { 
-			await act(async () => { render(<AudioElements {...props}/>, container)})
-			
-			audioObjects.forEach(object => {
-				const audioElement = getElement(object.id);
+			await act(async () => { render(<AudioElements {...props}/>, container)})  
+
+			audioObjects.forEach(object => { 
+				const audioElement = getElement(`${object.id}`);
 				expect(isElementOfType(audioElement, Audio))
 			})  
 		})
 
-		it('should call props.onLoad fn', async () => {
+		it('should call props.handleLoad fn', async () => {
 		 	await act(async () => render(<AudioElements {...props}/>, container))
 
-			expect(onLoad).toHaveBeenCalledTimes(1)
+			expect(handleLoad).toHaveBeenCalledTimes(1)
 		}) 
 	}) 
 
  	describe('on loading error', () => {
- 		it('should call props.onLoadingError fn', async () => { 
+ 		it('should call props.handleLoadingError fn', async () => { 
  			// stop message showing in jest console
  			global.console = { error: () => { }}
  			await act(async () => render(<AudioElements {...errorProps}/>, container))

@@ -9,18 +9,18 @@ export default function AudioElements({audioObjects, handleLoad, handleLoadingEr
 			* create audio element for each id
 			* preload audio element
 			* call onLoad fn
-	*/  
+	*/   
 	// ============================== Constants ============================== //
 	const containerId = 'audio-elements-container';
 	const [loadedAudio, setLoadedAudio] = useState({});
 	const [finishedLoading, setFinishedLoading] = useState(false);
 
 	// ============================== Event Handlers ========================= //
-	function onRender() {
+	function onRender() { 
 		loadAllAudio(audioObjects)
 	}
 
-	function onAudioLoaded(result) { 
+	function onAudioLoaded(result) {   
 		setLoadedAudio(result)
 		setFinishedLoading(true) 
 		handleLoad(result)
@@ -34,15 +34,15 @@ export default function AudioElements({audioObjects, handleLoad, handleLoadingEr
 	// ============================== Helper Fns ============================= //
 	function loadAudio({fileName, fileType, id}) {
 		return import('./../audio/' + fileName + fileType).then(result => {
-			const audioObject = {id: fileName, src: result.default};
+			const audioObject = {id: fileName + '-audio', src: result.default};
 			return audioObject;
 		}) 
 	} 
 
-	function loadAllAudio(audioObjects) {
+	function loadAllAudio(audioObjects) { 
 		const promises = audioObjects.map(object => {
 			return loadAudio(object)
-		}) 
+		})  
 
 		Promise.all(promises)
 			.then((result) => onAudioLoaded(result))
@@ -59,8 +59,7 @@ export default function AudioElements({audioObjects, handleLoad, handleLoadingEr
   	<div className="audio-element-container" id={containerId}> 
   		{	
   			finishedLoading &&
-  			loadedAudio.map(audioObject => { 
-  				const {id, src} = audioObject; 
+  			loadedAudio.map(({id, src}) => {  
   				return <audio src={src} id={id} key={id} preload="auto"/>
   			}) 
   		}
