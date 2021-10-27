@@ -20,12 +20,10 @@ export default function AudioElements({audioObjects, handleLoad, handleLoadingEr
 		loadAllAudio(audioObjects)
 	}
 
-	function onAudioLoaded(result) {
-		console.log('loaded audio ---------------')
-		console.log(result)
+	function onAudioLoaded(result) { 
 		setLoadedAudio(result)
 		setFinishedLoading(true) 
-		handleLoad()
+		handleLoad(result)
 	}
 
 	function onErrorLoading(error) {
@@ -34,9 +32,9 @@ export default function AudioElements({audioObjects, handleLoad, handleLoadingEr
 	}
 	
 	// ============================== Helper Fns ============================= //
-	function loadAudio({fileName, id}) {
-		return import('./../audio/' + fileName).then(result => {
-			const audioObject = {id: id, src: result.default};
+	function loadAudio({fileName, fileType, id}) {
+		return import('./../audio/' + fileName + fileType).then(result => {
+			const audioObject = {id: fileName, src: result.default};
 			return audioObject;
 		}) 
 	} 

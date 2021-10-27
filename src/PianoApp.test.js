@@ -131,7 +131,7 @@ describe('<PianoApp/>', () => {
 		})
 
 		describe('on key down', () => {
-			it.only('should play note', () => {
+			it.only('should play note', async () => {
 				await act(async () => { render(<PianoApp/>, container)}) 
 				const app = getElement(pianoId);
 
@@ -140,10 +140,19 @@ describe('<PianoApp/>', () => {
 
 				const pianoDisplay = getElement(pianoDisplayId);
  
-				keyNames.forEach(keyName => {
+				keyNames.forEach((keyName, i) => {
+					if(i > 0) return;
+					const keyAudio = getElement(`${keyName}-audio`);
 					const key = getElement(`key-${keyName}`);
+ 					
+ 					// console.log(keyAudio)
+					// const spy = jest.spyOn(keyAudio, 'play')
+
 					act(() => Simulate.mouseOver(key))
 					act(() => Simulate.mouseDown(key)) 
+
+					// expect(spy).toHaveBeenCalled()
+					// spy.mockRestore();
 				})
 			})
 		})

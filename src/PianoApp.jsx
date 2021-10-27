@@ -61,7 +61,8 @@ export default function Piano() {
 	*/
 
 	/*	
-		load audio
+		load audio 
+			audio element object => use to play = don't have to search everytime play
 			to do -> give root directory -> auto load all audio from folder?
 	*/
 
@@ -87,10 +88,16 @@ export default function Piano() {
 
 	const audioObjects = audioIds.map((id) => { 
 		return {
-			fileName: id + fileType,
+			fileName: id,
+			fileType: fileType,
 			id: `${id}-audio`,
 		}
 	})
+
+	const [audioElements, setAudioElements] = useState({}); 
+ 
+	console.log('audioElements on rend ------------')
+	console.log(audioElements)
 	
 	const correctSound = document.getElementById('correctSound-audio');
 	const incorrectSound = document.getElementById('incorrectSound-audio');
@@ -108,9 +115,10 @@ export default function Piano() {
 
 	// ================================== Event Handlers =========================== //
 	// ======================== Audio
-	function onLoadAudio() {
-
-	}
+	function onLoadAudio(audio) {
+		console.log('onLoadAudio --------------')
+		getAudioElements(audio) 
+	} 
 
 	function onLoadAudioError() {
 
@@ -134,7 +142,7 @@ export default function Piano() {
 	// ============= key down
 	function onKeyDown(keyName) {
 		if(mode === 'show-key') {
-			playKeySound(keyName)
+			playSound(keyName)
 		}
 
 		if(mode === 'select-key') {
@@ -146,14 +154,9 @@ export default function Piano() {
 		}
 	}
 
-	// ============= play button
-	function onPlayButtonClick() {
-		playKeySound(targetKey)
-	}
-
 	// ============= press correct
 	function onPressCorrect(keyName) { 
-		playKeySound(keyName)
+		playSound(keyName)
 		flashKeyColor(keyName, 'correct')
 		
 		setTimeout(() => {
@@ -161,8 +164,9 @@ export default function Piano() {
 		}, feedbackSoundDelay) 
 	}
 
+	// ============= press incorrect
 	function onPressIncorrect(keyName) { 
-		playKeySound(keyName)
+		playSound(keyName)
 		flashKeyColor(keyName, 'incorrect')
 
 		setTimeout(() => {
@@ -170,6 +174,13 @@ export default function Piano() {
 		}, feedbackSoundDelay) 
 	} 
 
+	// ======================== Play Button
+	// ============= play button
+	function onPlayButtonClick() {
+		playSound(targetKey)
+	}
+
+	// ======================== Mode
 	// ============= mode radio 
 	function onClickRadio(value) {
 		setMode(value)
@@ -195,16 +206,36 @@ export default function Piano() {
 	}
 
 	// ================================== Helper fns =========================== //
-	function playSound(sound) {
+	function playSound(id) { 
+		let sound = audioElements[id];
+
+		if(sound.currentTime !== 0) {
+			sound.pause();
+			sound.currentTime = 0;
+		}
+		
+		sound.play()
+	}
+/*	function playSound(sound) {
 		sound.pause();
 		sound.currentTime = 0;
 		sound.play()
 	}
-
-	function playKeySound(name) { 
+*/
+	/*function playKeySound(name) { 
 		const id = `${name}-audio`;
 		const audioElement = getElement(id);
 		playSound(audioElement)
+	}*/
+
+	function getAudioElements(audio) {
+		let obj = {};
+
+		audio.forEach(({id}) => {
+			obj[id] = getElement(id)
+		})
+
+		setAudioElements(obj)
 	}
 
 	function generateTargetKey() {
@@ -259,7 +290,7 @@ export default function Piano() {
 		const newTargetKey = generateTargetKey();
 		
 		setTargetKey(newTargetKey) 
-		playKeySound(newTargetKey) 
+		playSound(newTargetKey) 
 		flashPlayButtonColor()
 
 		setDisplayString('')
