@@ -2,22 +2,22 @@ import React, {useEffect, useState} from 'react';
 import {mapObject} from './utils.js';
 
 // Sounds
-import correctSound from './../audio/correctSound.mp3';
-import incorrectSound from './../audio/incorrectSound.mp3'; 
+// import correctSound from './../audio/correctSound.mp3';
+// import incorrectSound from './../audio/incorrectSound.mp3'; 
 
 // Keys
-import C3 from './../audio/piano/mf/3/C3.mp3';
-import Db3 from './../audio/piano/mf/3/Db3.mp3';
-import D3 from './../audio/piano/mf/3/D3.mp3';
-import Eb3 from './../audio/piano/mf/3/Eb3.mp3';
-import E3 from './../audio/piano/mf/3/E3.mp3';
-import F3 from './../audio/piano/mf/3/F3.mp3';
-import Gb3 from './../audio/piano/mf/3/Gb3.mp3';
-import G3 from './../audio/piano/mf/3/G3.mp3';
-import Ab3 from './../audio/piano/mf/3/Ab3.mp3';
-import A3 from './../audio/piano/mf/3/A3.mp3';
-import Bb3 from './../audio/piano/mf/3/Bb3.mp3';
-import B3 from './../audio/piano/mf/3/B3.mp3';
+// import C3 from './../audio/piano/mf/3/C3.mp3';
+// import Db3 from './../audio/piano/mf/3/Db3.mp3';
+// import D3 from './../audio/piano/mf/3/D3.mp3';
+// import Eb3 from './../audio/piano/mf/3/Eb3.mp3';
+// import E3 from './../audio/piano/mf/3/E3.mp3';
+// import F3 from './../audio/piano/mf/3/F3.mp3';
+// import Gb3 from './../audio/piano/mf/3/Gb3.mp3';
+// import G3 from './../audio/piano/mf/3/G3.mp3';
+// import Ab3 from './../audio/piano/mf/3/Ab3.mp3';
+// import A3 from './../audio/piano/mf/3/A3.mp3';
+// import Bb3 from './../audio/piano/mf/3/Bb3.mp3';
+// import B3 from './../audio/piano/mf/3/B3.mp3';
 
 
 /*import A3 from  './../audio/piano/A3.mp3';
@@ -75,48 +75,133 @@ import Gb3 from './../audio/piano/Gb3.mp3';
 // 	)
 // }
 
-export default function AudioElements({ids, onLoad}) { 
+export default function AudioElements({audioObjects, onLoad, handleLoadingError}) { 
 	/*
-		* import audio file for each id
-		* create audio element for each id
-		* preload audio element
-	*/ 
+		* on render
+			* import audio file for each id
 
+		* on load
+			* create audio element for each id
+			* preload audio element
+			* call onLoad fn
+	*/  
 	// ============================== Constants ============================== //
+	const containerId = 'audio-elements-container';
 	const [loadedAudio, setLoadedAudio] = useState({});
 	const [finishedLoading, setFinishedLoading] = useState(false);
 
+	// ============================== Event Handlers ========================= //
+	function onRender() {
+		loadAllAudio(audioObjects)
+	}
+
+	function onAudioLoaded(result) {
+		setLoadedAudio(result)
+		setFinishedLoading(true) 
+		onLoad()
+	}
+
+	function onErrorLoading(error) {
+		handleLoadingError(error)
+		console.error('ERROR <AudioELements> => loadAllAudio() => audio elements not loaded', error);
+	}
+	
 	// ============================== Helper Fns ============================= //
-	async function loadAudio(id) {
-		return await import(`./../audio/${id}.mp3`).then(result => {
-			return {id: id, src: result.default};
-		})
+	function loadAudio(object) {
+		return import(object.path).then(result => {
+			const audioObject = {id: object.id, src: result.default};
+			return audioObject;
+		}) 
 	} 
 
-	function loadAudioFromIds(ids) {
-		const promises = ids.map(id => loadAudio(id));
-		Promise.all(promises).then((result) => { 
-			setLoadedAudio(result)
-			setFinishedLoading(true)
-			onLoad()
-		})
+	function loadAllAudio(audioObjects) {
+		const promises = audioObjects.map(object => {
+			return loadAudio(object)
+		}) 
+
+		Promise.all(promises)
+			.then((result) => onAudioLoaded(result))
+			.catch((error) => onErrorLoading(error))
 	}
 
 	// ============================== Listen / trigger ======================= //
 	useEffect(() => {
-		loadAudioFromIds(ids)
+		onRender()
 	}, [])
  	
  	// ============================== Output ================================ //
   return (
-  	<div className="audio-element-container"> 
+  	<div className="audio-element-container" id={containerId}> 
   		{	
   			finishedLoading &&
   			loadedAudio.map(audioObject => { 
   				const {id, src} = audioObject;
-  				return <audio src={src} id={id} key={id} preload="true"/>
+  				return <audio src={src} id={id} key={id} preload="auto"/>
   			}) 
   		}
   	</div>
   )
 }   
+
+	/*return await import(object.path).then(result => {
+			const audioObject = {id: object.id, src: result.default};
+			return audioObject;
+		})*/
+
+		/*return new Promise(resolve => {
+			import(object.path).then(result => {
+				const audioObject = {id: object.id, src: result.default}
+				resolve(audioObject)
+			})
+		})*/
+
+		/*Promise.all(promises).then(() => {
+			onLoad()
+			console.log('fin')
+		})*/
+
+	/*	.then((result) => {
+			setLoadedAudio(result)
+			setFinishedLoading(true)
+			console.log('fin ---')
+			console.log(onLoad)
+			onLoad()
+		}).catch((error) => {
+			console.log('ERROR <AudioELements> => loadAllAudio() :', error)
+		})*/
+
+		/*Promise.all(promises).then((result) => {
+			setLoadedAudio(result)
+			setFinishedLoading(true)
+			console.log('fin ---')
+			console.log(onLoad)
+			onLoad()
+		}).catch((error) => {
+			console.log('ERROR <AudioELements> => loadAllAudio() :', error)
+		})*/
+
+
+
+		// const ids = audioObjects.map(object => object.id);
+
+
+		/*const promises = ids.map(id => loadAudio(id).then((result) => {
+			console.log(result)
+		}))*/
+
+		/*loadAudio(audioObjects[0]).then((result) => { 
+			console.log('loaded in loadAll')
+			console.log(result)
+		})
+*/
+		/*
+
+		const promises = ids.map(id => loadAudio(id));
+		
+		Promise.all(promises).then((result) => { 
+			setLoadedAudio(result)
+			setFinishedLoading(true)
+			onLoad()
+		}).catch((error) => {
+			console.log('ERROR <AudioELements> => loadAllAudio() :', error)
+		})*/

@@ -12,21 +12,17 @@ export function mapObject(object, fn) {
 	return Object.keys(object).map((key) => fn(key, object[key]));  
 }
 
-function mergeObjects(objectsArray) {
+export function mergeObjects(objectsArray) {
 	let o = {}; 
 	
 	objectsArray.forEach((object) => { 
-		copyPropertiesAndValues(o, object);
+		Object.keys(object).forEach((name) => {
+			o[name] = object[name];
+		})
 	})	
 
 	return o;
-}
-
-function copyPropertiesAndValues(targetObject, object) {
-	Object.keys(object).forEach((name) => {
-		targetObject[name] = object[name];
-	});
-}
+} 
 
 // =================== Elements
 export function getElements(ids) { 
@@ -34,7 +30,9 @@ export function getElements(ids) {
 }
 
 export function getElement(id) { 
-	return document.getElementById(id)
+	const element = document.getElementById(id);
+	if(!element) throw new Error('getElement(id) -> element not found')
+	return element;
 }
 
 export function getParentId(id) {
@@ -54,7 +52,7 @@ export function getRandomArrayElement(array) {
 }
 
 export function getRandomNumber(range) {
-	return Math.floor(Math.random() * range);
+	return Math.floor(Math.random() * (range + 1));
 }
 
 // =================== Element Size
@@ -71,7 +69,7 @@ export function getElementHeight(id,  output = 'px') {
 		element = id;
 	}
 
-	if(!element) return null;
+	if(!element) throw new Error('getElementHeight() element not found')
 		
 	const height = pxToNumber(window.getComputedStyle(element).height);
 
@@ -88,7 +86,7 @@ export function getElementWidth(id, output = 'px') {
 		element = id;
 	} 
 
-	if(!element) return null;
+	if(!element) throw new Error('getElementWidth() element not found')
 
 	const width = pxToNumber(window.getComputedStyle(element).width); 
 
@@ -98,16 +96,22 @@ export function getElementWidth(id, output = 'px') {
 
 export function setElementHeight(id, height) { 
 	const element = document.getElementById(id);
+	if(!element) throw new Error('setElementHeight() element not found')
+
 	element.style.height = height;
 }
 
 export	function setElementWidth(id, width) { 
 	const element = document.getElementById(id);
+	if(!element) throw new Error('setElementWidth() element not found')
+
 	element.style.width = width;
 }
 
 // =================== Element change 
 export function triggerOnSizeChange(id, fn) {
 	const element = document.getElementById(id); 
+	if(!element) throw new Error('triggerOnSizeChange() element not found')
+		
 	new ResizeObserver(fn).observe(element);
 }
