@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-export default function AudioElements({audioObjects, onLoad, handleLoadingError}) { 
+export default function AudioElements({audioObjects, handleLoad, handleLoadingError}) { 
 	/*
 		* on render
 			* import audio file for each id
@@ -21,9 +21,11 @@ export default function AudioElements({audioObjects, onLoad, handleLoadingError}
 	}
 
 	function onAudioLoaded(result) {
+		console.log('loaded audio ---------------')
+		console.log(result)
 		setLoadedAudio(result)
 		setFinishedLoading(true) 
-		onLoad()
+		handleLoad()
 	}
 
 	function onErrorLoading(error) {
@@ -32,9 +34,9 @@ export default function AudioElements({audioObjects, onLoad, handleLoadingError}
 	}
 	
 	// ============================== Helper Fns ============================= //
-	function loadAudio(object) {
-		return import(object.path).then(result => {
-			const audioObject = {id: object.id, src: result.default};
+	function loadAudio({fileName, id}) {
+		return import('./../audio/' + fileName).then(result => {
+			const audioObject = {id: id, src: result.default};
 			return audioObject;
 		}) 
 	} 
@@ -48,7 +50,7 @@ export default function AudioElements({audioObjects, onLoad, handleLoadingError}
 			.then((result) => onAudioLoaded(result))
 			.catch((error) => onErrorLoading(error))
 	}
-
+  
 	// ============================== Listen / trigger ======================= //
 	useEffect(() => {
 		onRender()
@@ -60,7 +62,7 @@ export default function AudioElements({audioObjects, onLoad, handleLoadingError}
   		{	
   			finishedLoading &&
   			loadedAudio.map(audioObject => { 
-  				const {id, src} = audioObject;
+  				const {id, src} = audioObject; 
   				return <audio src={src} id={id} key={id} preload="auto"/>
   			}) 
   		}

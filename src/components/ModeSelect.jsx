@@ -16,7 +16,7 @@ export default function ModeSelect({modes, defaultMode, handleClick}) {
 
 	// ========================== Output  =========================== // 
 	return (
-		<form className="mode-select">  
+		<form className="mode-select" id={id}>  
 			<h2>Mode</h2>  
 			
 			{modes.map((thisMode, i) => {

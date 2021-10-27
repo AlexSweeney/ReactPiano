@@ -19,6 +19,7 @@ export default function PianoDisplay({
 		* on click
 			* if click playbutton => handlePlayButtonClick
 	*/
+	const containerId = 'piano-display-container';
 	const id = 'piano-display';
 	let output;
 
@@ -32,7 +33,7 @@ export default function PianoDisplay({
 
 	return (
 		<div className="piano-display-container" id={id}>
-			<div className="piano-display">
+			<div className="piano-display" id={id}>
 				{
 					output
 				}

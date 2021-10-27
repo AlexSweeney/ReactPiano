@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {getNewRandomArrayElement} from './components/utils.js';
 import AudioElements from './components/AudioElements.jsx'; 
-import PianoDisplay from './components/PianoDisplay.jsx';
 import ModeSelect from './components/ModeSelect.jsx';
+import PianoDisplay from './components/PianoDisplay.jsx';
+import VolumeControl from './components/VolumeControl.jsx';
 import Keys from './components/Keys.jsx';
+import {getElement} from './components/utils.js';
 
 // import Key from './components/parts/Key.jsx';
 
@@ -11,14 +13,61 @@ import './PianoApp.css';
  
 export default function Piano() {
 	/*
-		* show controls with mode selector
-		* show feedback window
-		* show piano keys
+		- on render
+			- show mode selector
+			- show feedback window
+			- show volume slider
+			- show piano keys
 		
-		* handle key events based on mode
+		- on load audio error
+			- show overlay with error infomation
+
+		- on show key mode 
+			- on key hover
+				- show key name in display
+			- on key press 
+				- play note
+
+		- on select key mode
+			- on turn start
+				- show targe key in display
+			- on key press
+				- on wrong answer
+					- play incorrect sound
+					- flash key red
+				- on correct answer 
+					- play correct sound
+					- flash key green
+					- start new turn
+				
+		- on select key by ear mode
+			- on turn start
+				- play key sound
+				- show play button in display
+			- on play button click
+				- play target sound
+			- on key press
+				- on wrong answer
+					- play incorrect sound
+					- flash key red
+
+				- on correct answer 
+					- play correct sound
+					- flash key green
+					- start new turn
+
+		- on resize
+			- keep proportions
+	*/
+
+	/*	
+		load audio
+			to do -> give root directory -> auto load all audio from folder?
 	*/
 
 	// ================================== Constants =========================== //
+	const id = 'piano-app';
+
 	// =================== Keys
 	const allKeys = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 	const [targetKey, setTargetKey] = useState('');
@@ -31,13 +80,21 @@ export default function Piano() {
 	// =================== Display
 	const [displayString, setDisplayString] = useState('');
 
-	// =================== Audio
-	const [audioIDs, setAudioIDs] = useState([
+	// =================== Audio 
+	const fileType = '.mp3';
 
-	]);
-	const correctSound = document.getElementById('correctSound_audio');
-	const incorrectSound = document.getElementById('incorrectSound_audio');
+	const audioIds = [ ...allKeys, 'correctSound', 'incorrectSound'];
 
+	const audioObjects = audioIds.map((id) => { 
+		return {
+			fileName: id + fileType,
+			id: `${id}-audio`,
+		}
+	})
+	
+	const correctSound = document.getElementById('correctSound-audio');
+	const incorrectSound = document.getElementById('incorrectSound-audio');
+ 
 	// =================== Play Button
 	const [showPlayButton, setShowPlayButton] = useState(false); 
 	const [playButtonIsDown, setPlayButtonIsDown] = useState(false);
@@ -50,8 +107,18 @@ export default function Piano() {
 	const [volume, setVolume] = useState(30); 
 
 	// ================================== Event Handlers =========================== //
+	// ======================== Audio
+	function onLoadAudio() {
+
+	}
+
+	function onLoadAudioError() {
+
+	}
+
+	// ======================== Keys
 	// ============= key over
-	function onKeyOver(keyName) { 
+	function onKeyOver(keyName) {  
 		if(mode === 'show-key') {
 			setDisplayString(keyName)
 		} 
@@ -135,8 +202,8 @@ export default function Piano() {
 	}
 
 	function playKeySound(name) { 
-		const id = `${name}_audio`;
-		const audioElement = document.getElementById(id);
+		const id = `${name}-audio`;
+		const audioElement = getElement(id);
 		playSound(audioElement)
 	}
 
@@ -221,8 +288,43 @@ export default function Piano() {
 
 	// ================================== Output =========================== //
 	return (
-		<div className="piano">  
-			{/*<PianoControls
+		<div className="piano" id={id}> 
+			<AudioElements 
+				audioObjects={audioObjects}
+				handleLoad={onLoadAudio}
+				handleLoadingError={onLoadAudioError}/>
+
+			<div className="piano-controls">
+				<div className="left-piano-controls">
+					<ModeSelect modes={modes} defaultMode={defaultMode} handleClick={onClickRadio}/>
+				</div>
+				<div className="right-piano-controls">
+					<PianoDisplay
+						displayString={displayString}
+						showPlayButton={showPlayButton} 
+						handlePlayButtonClick={onPlayButtonClick}
+						playButtonDown={playButtonIsDown}
+					/>
+					<VolumeControl
+						audioIDs={audioIds}
+						volume={volume}
+						setVolume={setVolume}
+					/> 
+				</div>
+			</div>
+
+			<Keys 
+				keyNames={allKeys} 
+				handleOver={onKeyOver}
+				handleOut={onKeyOut}
+				handleDown={onKeyDown}
+				/>
+		</div>
+	)
+};
+
+{/*
+	{/*<PianoControls
 					mode={mode}
 					setMode={setMode}
 					displayString={displayString}
@@ -232,23 +334,8 @@ export default function Piano() {
 					showPlayButton={showPlayButton}
 					handlePlayButtonClick={onPlayButtonClick}
 					playButtonDown={playButtonIsDown}
-				/>*/}
-			<div className="piano-controls">
-				<PianoDisplay></PianoDisplay>
-				<VolumeControl
-					audioIDs={audioIDs}
-					volume={volume}
-					setVolume={setVolume}
 				/> 
-				<ModeSelect modes={modes} defaultMode={defaultMode} handleClick={onClickRadio}/>
-			</div>
 
-			<Keys keyNames={allKeys}/>
-		</div>
-	)
-};
-
-{/*
 					<div style={{width: '100px', height: '100px', 'min-height': '125px', border: '2px solid blue', resize: 'both', overflow: 'auto'}} id="box"> 
 				<Keys keyNames={allKeys}/>
 		</div>
