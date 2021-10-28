@@ -112,8 +112,7 @@ export default function Piano() {
 
 	// ================================== Event Handlers =========================== //
 	// ======================== Audio
-	function onLoadAudio(audio) {
-		console.log('onLoadAudio --------------')
+	function onLoadAudio(audio) { 
 		getAudioElements(audio) 
 	} 
 
@@ -153,21 +152,22 @@ export default function Piano() {
 
 	// ============= press correct
 	function onPressCorrect(keyName) { 
+		// console.log('onPressCorrect =============', keyName)
 		playSound(keyName)
 		flashKeyColor(keyName, 'correct')
 		
 		setTimeout(() => {
-			playSound(correctSound)
+			playSound('correctSound')
 		}, feedbackSoundDelay) 
 	}
 
 	// ============= press incorrect
-	function onPressIncorrect(keyName) { 
+	function onPressIncorrect(keyName) {  
 		playSound(keyName)
-		flashKeyColor(keyName, 'incorrect')
-
+		flashKeyClass(keyName, 'incorrect')
+		
 		setTimeout(() => {
-			playSound(incorrectSound)
+			playSound('incorrectSound')
 		}, feedbackSoundDelay) 
 	} 
 
@@ -203,8 +203,8 @@ export default function Piano() {
 	}
 
 	// ================================== Helper fns =========================== //
-	function playSound(id) { 
-		let sound = audioElements[id];
+	function playSound(id) {  
+		const sound = audioElements[id]; 
 
 		if(sound.currentTime !== 0) {
 			sound.pause();
@@ -217,8 +217,8 @@ export default function Piano() {
 	function getAudioElements(audio) {
 		let obj = {};
 
-		audio.forEach(({id}) => {
-			obj[id] = getElement(id)
+		audio.forEach(({fileName}) => {
+			obj[fileName] = getElement(fileName + '-audio')
 		})
 
 		setAudioElements(obj)
@@ -228,37 +228,34 @@ export default function Piano() {
 		return getNewRandomArrayElement(allKeys, targetKey);   
 	}
 
-	function flashKeyColor(keyName, className) {
+	function flashKeyClass(keyName, className) { 
 		const id = `key-${keyName}`;
-		flashColor(id, className)
-	}
-
-	function flashColor(id, className) {
-		const element = document.getElementById(id); 
-		element.classList.add(className)
+		const key = getElement(id);
+ 			 
+		key.classList.add(className) 
 
 		setTimeout(() => {
-			element.classList.remove(className)
+			key.classList.remove(className)
 		}, colorHightLightTime) 
-	}
+	} 
 
 	function flashPlayButtonColor() {
 		setPlayButtonIsDown(true)
 
 		setTimeout(() => {
 			setPlayButtonIsDown(false)
-		}, 1000)
+		}, colorHightLightTime)
 	}
 
 	// ================================== Mode fns =========================== //
 	// ====================== Select Key Mode
-	function startSelectKeyMode() {
+	function startSelectKeyMode() { 
 		const newTargetKey = generateTargetKey();
 		setTargetKey(newTargetKey) 
 		setDisplayString(newTargetKey)
 	}
 
-	function selectKey(keyName) {
+	function selectKey(keyName) {  
 		const correct = keyName === targetKey;
 
 		if(correct) {

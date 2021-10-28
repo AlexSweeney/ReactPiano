@@ -34,7 +34,7 @@ export default function AudioElements({audioObjects, handleLoad, handleLoadingEr
 	// ============================== Helper Fns ============================= //
 	function loadAudio({fileName, fileType, id}) {
 		return import('./../audio/' + fileName + fileType).then(result => {
-			const audioObject = {id: fileName + '-audio', src: result.default};
+			const audioObject = {fileName: fileName, src: result.default};
 			return audioObject;
 		}) 
 	} 
@@ -59,7 +59,8 @@ export default function AudioElements({audioObjects, handleLoad, handleLoadingEr
   	<div className="audio-element-container" id={containerId}> 
   		{	
   			finishedLoading &&
-  			loadedAudio.map(({id, src}) => {  
+  			loadedAudio.map(({fileName, src}) => {  
+  				const id = fileName + '-audio';
   				return <audio src={src} id={id} key={id} preload="auto"/>
   			}) 
   		}
