@@ -151,14 +151,17 @@ export default function Piano() {
 	}
 
 	// ============= press correct
-	function onPressCorrect(keyName) { 
-		// console.log('onPressCorrect =============', keyName)
+	function onPressCorrect(keyName) {  
 		playSound(keyName)
-		flashKeyColor(keyName, 'correct')
+		flashKeyClass(keyName, 'correct')
 		
 		setTimeout(() => {
 			playSound('correctSound')
 		}, feedbackSoundDelay) 
+
+		setTimeout(() => {
+			startSelectKeyMode() 
+		}, 2000) 
 	}
 
 	// ============= press incorrect
@@ -249,9 +252,9 @@ export default function Piano() {
 
 	// ================================== Mode fns =========================== //
 	// ====================== Select Key Mode
-	function startSelectKeyMode() { 
+	function startSelectKeyMode() {  
 		const newTargetKey = generateTargetKey();
-		setTargetKey(newTargetKey) 
+		setTargetKey(newTargetKey)  
 		setDisplayString(newTargetKey)
 	}
 
@@ -260,10 +263,6 @@ export default function Piano() {
 
 		if(correct) {
 			onPressCorrect(keyName)
-
-			setTimeout(() => {
-				startSelectKeyMode()
-			}, 2000) 
 		}
 		if(!correct) onPressIncorrect(keyName)
 	} 
