@@ -24,7 +24,7 @@ export default function PianoDisplay({
 	let output;
 
 	if(showPlayButton) {
-		output =  <PlayButton handleClick={handlePlayButtonClick} playButtonDown={playButtonDown}/>
+		output = <PlayButton handleClick={handlePlayButtonClick} playButtonDown={playButtonDown}/>
 	}
 
 	if(!showPlayButton) {
