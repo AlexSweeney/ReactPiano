@@ -346,7 +346,7 @@ describe('<PianoApp/>', () => {
 				})
 			})
 
-			describe.only('on press correct', () => {
+			describe('on press correct', () => {
 				it('should play key sound', async () => {
 					// render
 					await act(async () => { render(<PianoApp/>, container)}) 
@@ -511,39 +511,204 @@ describe('<PianoApp/>', () => {
 
 	describe('on select key by ear mode', () => {
 		describe('on turn start', () => {
-			it('should play target key', () => {
-				
+			it('should play target key', async () => {
+				// render
+				await act(async () => { render(<PianoApp/>, container)}) 
+				const app = getElement(pianoId);
+
+				// listen for key sounds 
+				const playFn = jest.fn();
+
+				keyNames.forEach(keyName => {
+					const key = getElement(keyName + '-audio');
+					key.play = playFn;
+				}) 
+
+				// select mode
+				const selectKeyByEarButton = getElement(selectKeyByEarId);
+				act(() => Simulate.click(selectKeyByEarButton))
+
+				// check sound played 
+				expect(playFn).toHaveBeenCalledTimes(1)
 			})
 		})
 		 
 		describe('on key press', () => {
-			describe('on press incorrect', () => {
-				it('should play incorrect sound', () => {
+			describe.only('on press incorrect', () => {
+				it('should play key sound', async () => {
+					// render
+					await act(async () => { render(<PianoApp/>, container)}) 
+					const app = getElement(pianoId);
 
+					// save target key when played on render
+					let targetKey; 
+
+					keyNames.forEach(keyName => {
+						const key = getElement(keyName + '-audio');
+						key.play = () => { targetKey = keyName };
+					}) 
+
+					// select mode 
+					const selectKeyByEarButton = getElement(selectKeyByEarId);
+					act(() => Simulate.click(selectKeyByEarButton))
+  
+					// press incorrect keys
+					keyNames.forEach(keyName => {
+						if(keyName !== targetKey) {
+							const keyAudio = getElement(`${keyName}-audio`);
+							const keyAudioPlay = jest.fn();
+							keyAudio.play = keyAudioPlay;
+
+							const key = getElement(`key-${keyName}`);
+			 						
+							act(() => Simulate.mouseOver(key))
+							act(() => Simulate.mouseDown(key)) 
+	 
+							expect(keyAudioPlay).toHaveBeenCalledTimes(1)
+						} 
+					})
 				})
 
-				it('should flash key red', () => {
+				it('should play incorrect sound after 750ms', async () => {
+					// render
+					await act(async () => { render(<PianoApp/>, container)}) 
+					const app = getElement(pianoId);
 
+					// save target key when played on render
+					let targetKey;  
+
+					keyNames.forEach(keyName => {
+						const key = getElement(keyName + '-audio');
+						key.play = () => { targetKey = keyName };
+					}) 
+
+					// select mode 
+					const selectKeyByEarButton = getElement(selectKeyByEarId);
+					act(() => Simulate.click(selectKeyByEarButton)) 
+
+					// reset keyName play fns
+					keyNames.forEach(keyName => {
+						const key = getElement(keyName + '-audio');
+						key.play = () => { };
+					})
+
+					// press incorrect key
+					keyNames.forEach(keyName => { 
+						if(keyName !== targetKey) {   
+							// spy on incorrect audio play
+							const incorrectAudio = getElement('incorrectSound-audio'); 
+							incorrectAudio.play = jest.fn(); 
+							const incorrectAudioSpy = jest.spyOn(incorrectAudio, 'play');  
+
+							// press key
+							const key = getElement(`key-${keyName}`);
+			 						
+							act(() => Simulate.mouseOver(key))
+							act(() => Simulate.mouseDown(key)) 
+ 
+	 						// check
+							expect(incorrectAudioSpy).toHaveBeenCalledTimes(0)
+							act(() => jest.advanceTimersByTime(750))
+							expect(incorrectAudioSpy).toHaveBeenCalledTimes(1)
+							act(() => jest.runAllTimers())
+						} 
+					})
 				})
-			})
 
-			describe('on press correct', () => {
-				it('should play correct sound', () => {
-					
-				})
+				it('should add class "incorrect" and remove after 1000ms', async () => {
+					// render
+					await act(async () => { render(<PianoApp/>, container)}) 
+					const app = getElement(pianoId);
 
-				it('should flash key green', () => {
+					// listen for target key
+					let targetKey; 
 
-				})
+					keyNames.forEach(keyName => {
+						const keyAudio = getElement(keyName + '-audio');
+						keyAudio.play = () => { targetKey = keyName };
+					}) 
 
-				it('should display target key name', () => {
+					// select mode
+					const selectKeyByEarButton = getElement(selectKeyByEarId);
+					act(() => Simulate.click(selectKeyByEarButton))
 
-				})
+					// reset key.play fns
+					keyNames.forEach(keyName => {
+						const keyAudio = getElement(keyName + '-audio');
+						keyAudio.play = () => {  };
+					}) 
 
-				it('should play new target key sound', () => {
+					getElement('incorrectSound-audio').play = () => {};
 
-				})
-			})
+					// press incorrect keys
+					keyNames.forEach(keyName => {
+						if(keyName !== targetKey) {  
+							// key
+							const key = getElement(`key-${keyName}`); 
+							const classListAddSpy = jest.spyOn(key.classList, 'add');
+							const classListRemoveSpy = jest.spyOn(key.classList, 'remove')
+
+							// click
+							act(() => Simulate.mouseOver(key))
+							act(() => Simulate.mouseDown(key)) 
+	 							
+	 						// check
+	 						expect(classListAddSpy).toHaveBeenCalledWith('incorrect')
+	 						expect(classListRemoveSpy).not.toHaveBeenCalled()
+	 					 	act(() => jest.advanceTimersByTime(1000))
+ 							expect(classListRemoveSpy).toHaveBeenCalledWith('incorrect') 
+ 						} 
+					})
+				}) 
+			})  
+
+			// describe('on press correct', () => {
+			// 	it('should play correct sound', () => {
+			// 		// render
+			// 		await act(async () => { render(<PianoApp/>, container)}) 
+			// 		const app = getElement(pianoId);
+
+			// 		// save target key when played on render
+			// 		let targetKey; 
+
+			// 		keyNames.forEach(keyName => {
+			// 			const key = getElement(keyName + '-audio');
+			// 			key.play = () => { targetKey = keyName };
+			// 		}) 
+
+			// 		// select mode 
+			// 		const selectKeyByEarButton = getElement(selectKeyByEarId);
+			// 		act(() => Simulate.click(selectKeyByEarButton))
+  
+			// 		// press incorrect keys
+			// 		keyNames.forEach(keyName => {
+			// 			if(keyName !== targetKey) {
+			// 				const keyAudio = getElement(`${keyName}-audio`);
+			// 				const keyAudioPlay = jest.fn();
+			// 				keyAudio.play = keyAudioPlay;
+
+			// 				const key = getElement(`key-${keyName}`);
+			 						
+			// 				act(() => Simulate.mouseOver(key))
+			// 				act(() => Simulate.mouseDown(key)) 
+	 
+			// 				expect(keyAudioPlay).toHaveBeenCalledTimes(1)
+			// 			} 
+			// 		})
+			// 	})
+
+			// 	it('should flash key green', () => {
+
+			// 	})
+
+			// 	it('should display target key name', () => {
+
+			// 	})
+
+			// 	it('should play new target key sound', () => {
+
+			// 	})
+			// })
 		})
 	})
 

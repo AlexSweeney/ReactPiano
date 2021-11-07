@@ -208,6 +208,7 @@ export default function Piano() {
 	// ================================== Helper fns =========================== //
 	function playSound(id) {  
 		const sound = audioElements[id]; 
+		if(!sound) console.error(`sound ${id} not found`)
 
 		if(sound.currentTime !== 0) {
 			sound.pause();
