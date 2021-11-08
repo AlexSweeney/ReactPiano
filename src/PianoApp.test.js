@@ -254,16 +254,13 @@ describe('<PianoApp/>', () => {
 	 				keyNames.forEach(keyName => { 
 						if(keyName !== targetKey) {   
 							const key = getElement(`key-${keyName}`); 
-							const classListAddSpy = jest.spyOn(key.classList, 'add');
-							const classListRemoveSpy = jest.spyOn(key.classList, 'remove')
-
+							 
 							act(() => Simulate.mouseOver(key))
 							act(() => Simulate.mouseDown(key)) 
  							 
- 							expect(classListAddSpy).toHaveBeenCalledWith('incorrect')
- 							expect(classListRemoveSpy).not.toHaveBeenCalled()
- 							jest.advanceTimersByTime(1000)
- 							expect(classListRemoveSpy).toHaveBeenCalledWith('incorrect') 
+ 							expect(key.className).toContain('incorrect')
+ 							act(() => jest.advanceTimersByTime(1000))
+ 							expect(key.className).not.toContain('incorrect') 
 						} 
 					})
 				}) 
@@ -295,7 +292,7 @@ describe('<PianoApp/>', () => {
 							act(() => Simulate.mouseDown(key)) 
 							
 							expect(incorrectAudioSpy).toHaveBeenCalledTimes(0)
-							jest.advanceTimersByTime(750)
+							act(() => jest.advanceTimersByTime(750))
 							expect(incorrectAudioSpy).toHaveBeenCalledTimes(1)
 						} 
 					})
@@ -340,18 +337,12 @@ describe('<PianoApp/>', () => {
 						if(keyName === targetKey) { 
 							// key
 							const key = getElement(`key-${keyName}`); 
-							const classListAddSpy = jest.spyOn(key.classList, 'add');
-							const classListRemoveSpy = jest.spyOn(key.classList, 'remove')
-
 							// click
 							act(() => Simulate.mouseOver(key))
 							act(() => Simulate.mouseDown(key)) 
  							
  							// check
- 							expect(classListAddSpy).toHaveBeenCalledWith('correct')
- 							expect(classListRemoveSpy).not.toHaveBeenCalled()
- 							jest.advanceTimersByTime(1000)
- 							expect(classListRemoveSpy).toHaveBeenCalledWith('correct') 
+ 							expect(key.className).toContain('correct')
 						} 
 					})
 				})
@@ -383,7 +374,7 @@ describe('<PianoApp/>', () => {
 							
 							// check
 							expect(correctAudioSpy).toHaveBeenCalledTimes(0)
-							jest.advanceTimersByTime(750)
+							act(() => jest.advanceTimersByTime(750))
 							expect(correctAudioSpy).toHaveBeenCalledTimes(1)
 						} 
 					})
@@ -562,25 +553,21 @@ describe('<PianoApp/>', () => {
 						keyAudio.play = () => {  };
 					}) 
 
-					getElement('incorrectSound-audio').play = () => {};
-
 					// press incorrect keys
 					keyNames.forEach(keyName => {
 						if(keyName !== targetKey) {  
 							// key
 							const key = getElement(`key-${keyName}`); 
-							const classListAddSpy = jest.spyOn(key.classList, 'add');
-							const classListRemoveSpy = jest.spyOn(key.classList, 'remove')
+							
 
 							// click
 							act(() => Simulate.mouseOver(key))
 							act(() => Simulate.mouseDown(key)) 
 	 							
 	 						// check
-	 						expect(classListAddSpy).toHaveBeenCalledWith('incorrect')
-	 						expect(classListRemoveSpy).not.toHaveBeenCalled()
+	 						expect(key.className).toContain('incorrect')
 	 					 	act(() => jest.advanceTimersByTime(1000))
- 							expect(classListRemoveSpy).toHaveBeenCalledWith('incorrect') 
+ 							expect(key.className).not.toContain('incorrect')
  						} 
 					})
 				}) 
@@ -629,19 +616,16 @@ describe('<PianoApp/>', () => {
 					const selectKeyByEarButton = getElement(selectKeyByEarId);
 					act(() => Simulate.click(selectKeyByEarButton))
 
-					const key = getElement(`key-${targetKey}`); 
-					const classListAddSpy = jest.spyOn(key.classList, 'add');
-					const classListRemoveSpy = jest.spyOn(key.classList, 'remove')
+					const key = getElement(`key-${targetKey}`);  
 
 					// click
 					act(() => Simulate.mouseOver(key))
 					act(() => Simulate.mouseDown(key)) 
 						
-					// check
-					expect(classListAddSpy).toHaveBeenCalledWith('correct')
-					expect(classListRemoveSpy).not.toHaveBeenCalled()
+					// check 
+					expect(key.className).toContain('correct')
 					act(() => jest.advanceTimersByTime(1000))
-					expect(classListRemoveSpy).toHaveBeenCalledWith('correct') 
+					expect(key.className).not.toContain('correct')
 				})
 
 				it('should display target key name and remove and show play button after 3000ms', async () => {
