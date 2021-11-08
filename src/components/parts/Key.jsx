@@ -48,16 +48,36 @@ export default function Key({
 	const realWhiteWidth = 24;
 	const realBlackWidth = 14;
 	
-	// ============= Type 
-	const keyType = getKeyType(keyName);
-	const keyTypeClass = (keyType === 'white') ? 'white-key' : 'black-key'; 
+	// ============= Color 
+	const [isOver, setIsOver] = useState(false);
+	const [isDown, setIsDown] = useState(false); 
+	const [keyColorClass, setKeyColorClass] = useState('');
+
 	const correctColorClass = keyName === correctKey ? 'correct' : '';
 	const incorrectColorClass = keyName === incorrectKey ? 'incorrect' : '';
+
+	// ============= Type
+	const keyType = getKeyType(keyName);
+	const keyTypeClass = (keyType === 'white') ? 'white-key' : 'black-key'; 
 
 	// =========================== Event Handlers ================== // 
 	function onMouseOver() { 
 		handleOver(keyName)
 		setIsOver(true) 
+	}
+
+	function onMouseOut() {
+		setIsDown(false)
+		setIsOver(false)
+	}
+
+	function onMouseDown() {
+		handleDown(keyName)
+		setIsDown(true)
+	}
+
+	function onMouseUp() {
+		setIsDown(false)
 	}
 
 	// =========================== Helper Fns ===================== // 

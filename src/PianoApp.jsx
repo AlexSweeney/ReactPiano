@@ -293,10 +293,14 @@ export default function Piano() {
 			setDisplayString(keyName)
 			
 			setTimeout(() => {
-				startSelectByEar()
 				setShowPlayButton(true)
+			}, 2000)
+
+			setTimeout(() => {
+				startSelectByEar()
 			}, 3000)
 		}
+
 		if(!correct) onPressIncorrect(keyName)
 	}
  
