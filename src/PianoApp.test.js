@@ -13,6 +13,7 @@ const pianoId = 'piano-app';
 const modeSelectId = 'mode-select';
 const pianoDisplayId = 'piano-display';
 const volumeControlId = 'volume-control';
+const playButtonId = 'play-button';
 
 const showKeyModeButtonId = 'show-key-radio';
 const selectKeyModeButtonId = 'select-key-radio';
@@ -440,6 +441,33 @@ describe('<PianoApp/>', () => {
 				expect(playFn).toHaveBeenCalledTimes(1)
 			})
 		})
+
+		describe('on press play button', () => { 
+			it('should play target key', () => {
+				// listen for target key 
+				let targetKey;
+
+				keyNames.forEach(keyName => {
+					const key = getElement(keyName + '-audio');
+					key.play = () => { targetKey = keyName};
+				}) 
+
+				// select mode
+				const selectKeyByEarButton = getElement(selectKeyByEarId);
+				act(() => Simulate.click(selectKeyByEarButton))
+
+				// listen on target key
+				const targetAudio = getElement(targetKey + '-audio');
+				const playSpy =	jest.spyOn(targetAudio, 'play');
+
+				// press play button 
+				const playButton = getElement(playButtonId);
+				act(() => Simulate.click(playButton))
+
+				// check
+				expect(playSpy).toHaveBeenCalledTimes(1)
+			})
+		})
 		 
 		describe('on key press', () => {
 			describe('on press incorrect', () => {
@@ -510,8 +538,7 @@ describe('<PianoApp/>', () => {
 	 						// check
 							expect(incorrectAudioSpy).toHaveBeenCalledTimes(0)
 							act(() => jest.advanceTimersByTime(750))
-							expect(incorrectAudioSpy).toHaveBeenCalledTimes(1)
-							act(() => jest.runAllTimers())
+							expect(incorrectAudioSpy).toHaveBeenCalledTimes(1) 
 						} 
 					})
 				})
@@ -681,4 +708,5 @@ describe('<PianoApp/>', () => {
 	})
 
 	test.todo('on resize') 
+	test.todo('accessibility')
 })
