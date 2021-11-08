@@ -5,9 +5,7 @@ import ModeSelect from './components/ModeSelect.jsx';
 import PianoDisplay from './components/PianoDisplay.jsx';
 import VolumeControl from './components/VolumeControl.jsx';
 import Keys from './components/Keys.jsx';
-import {getElement} from './components/utils.js';
-
-// import Key from './components/parts/Key.jsx';
+import {getElement} from './components/utils.js'; 
 
 import './PianoApp.css';  
  
@@ -94,10 +92,7 @@ export default function Piano() {
 		}
 	});
 
-	const [audioElements, setAudioElements] = useState({}); 
-   
-	// const correctSound = document.getElementById('correctSound-audio');
-	// const incorrectSound = document.getElementById('incorrectSound-audio');
+	const [audioElements, setAudioElements] = useState({});  
  
 	// =================== Play Button
 	const [showPlayButton, setShowPlayButton] = useState(false); 
@@ -337,35 +332,4 @@ export default function Piano() {
 			</div> 
 		</div>
 	)
-};
-
-{/*
-	{/*<PianoControls
-					mode={mode}
-					setMode={setMode}
-					displayString={displayString}
-					volume={volume}
-					setVolume={setVolume}
-					audioIDs={audioIDs}
-					showPlayButton={showPlayButton}
-					handlePlayButtonClick={onPlayButtonClick}
-					playButtonDown={playButtonIsDown}
-				/> 
-
-					<div style={{width: '100px', height: '100px', 'min-height': '125px', border: '2px solid blue', resize: 'both', overflow: 'auto'}} id="box"> 
-				<Keys keyNames={allKeys}/>
-		</div>
-
-			<Keys keyNames={allKeys}/>
-			{/*<AudioElements setAudioIDs={setAudioIDs}/>
-			
-			<div className="piano">  
-				
-
-				<Keys
-					handleOver={onKeyOver}
-					handleOut={onKeyOut}
-					handleDown={onKeyDown}
-				/>
-			</div>
-		</div>*/}
+}; 

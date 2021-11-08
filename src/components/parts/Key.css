@@ -1,7 +1,6 @@
 .key { 
 	position: absolute;
-	box-sizing: border-box; 
-	opacity: 0.5;
+	box-sizing: border-box;  
 }
 
 .white-key { 
