@@ -662,7 +662,7 @@ describe('<PianoApp/>', () => {
 				}) 
 			})  
 
-			describe.only('on press correct', () => {
+			describe('on press correct', () => {
 				it('should play correct sound after 750ms seconds', async () => {
 					// render
 					await act(async () => { render(<PianoApp/>, container)}) 
@@ -730,7 +730,7 @@ describe('<PianoApp/>', () => {
 					expect(classListRemoveSpy).toHaveBeenCalledWith('correct') 
 				})
 
-				it.only('should display target key name and remove and show play button after 3000ms', async () => {
+				it('should display target key name and remove and show play button after 3000ms', async () => {
 					// render
 					await act(async () => { render(<PianoApp/>, container)}) 
 					const app = getElement(pianoId);

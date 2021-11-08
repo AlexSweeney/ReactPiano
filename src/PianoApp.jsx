@@ -327,12 +327,14 @@ export default function Piano() {
 				</div>
 			</div>
 
-			<Keys 
-				keyNames={allKeys} 
-				handleOver={onKeyOver}
-				handleOut={onKeyOut}
-				handleDown={onKeyDown}
+			<div className="keys-container">
+				<Keys 
+					keyNames={allKeys} 
+					handleOver={onKeyOver}
+					handleOut={onKeyOut}
+					handleDown={onKeyDown}
 				/>
+			</div> 
 		</div>
 	)
 };
