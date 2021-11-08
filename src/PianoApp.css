@@ -43,3 +43,10 @@
 .incorrect:hover {
 	background: #ff3939 !important;
 } 
+
+@media screen and (max-width: 295px) {
+	.piano {
+		width: 100vw;
+	 	transform: rotate(90deg);
+	}
+}
