@@ -19,6 +19,8 @@ export default function Keys({
 	handleOver = () => {}, 
 	handleOut  = () => {}, 
 	handleDown = () => {},
+	correctKey,
+	incorrectKey,
 }) {
 	/* ======================== <Keys> =========================== */
 	/*
@@ -136,6 +138,8 @@ export default function Keys({
 							handleOver={handleOver} 
 							handleOut={handleOut}
 							handleDown={handleDown}
+							correctKey={correctKey}
+							incorrectKey={incorrectKey}
 						/>
 					)
 				})

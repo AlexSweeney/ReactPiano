@@ -11,6 +11,8 @@ export default function Key({
 	handleOver = () => {}, 
 	handleOut = () => {}, 
 	handleDown = () => {},  
+	correctKey,
+	incorrectKey,
 }) { 
 	/* ================================ Key.jsx ================================ // 
 		* on Render
@@ -51,6 +53,8 @@ export default function Key({
 	// ============= Type 
 	const keyType = getKeyType(keyName);
 	const keyTypeClass = (keyType === 'white') ? 'white-key' : 'black-key'; 
+	const correctColorClass = keyName === correctKey ? 'correct' : '';
+	const incorrectColorClass = keyName === incorrectKey ? 'incorrect' : '';
 
 	// =========================== Event Handlers ================== // 
 	function onMouseOver() { 
@@ -91,7 +95,7 @@ export default function Key({
 
 	// =========================== Output ======================== // 
 		return (   
-			<div className={`key ${keyTypeClass} ${keyColorClass}`} 
+			<div className={`key ${keyTypeClass} ${keyColorClass} ${correctColorClass} ${incorrectColorClass}`} 
 					id={KEY_ID}  
 					key={KEY_ID}
 					style={{ 

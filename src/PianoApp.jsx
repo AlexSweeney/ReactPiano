@@ -105,6 +105,10 @@ export default function Piano() {
 	// ===================  Volume Control
 	const [volume, setVolume] = useState(30); 
 
+	// =================== Keys
+	const [incorrectKey, setIncorrectKey] = useState(null);
+	const [correctKey, setCorrectKey] = useState(null);
+
 	// ================================== Event Handlers =========================== //
 	// ======================== Audio
 	function onLoadAudio(audio) { 
@@ -142,24 +146,37 @@ export default function Piano() {
 			playSound(keyName)
 		}
 
-		if(mode === 'select-key') {
-			selectKey(keyName)
+		if(mode === 'select-key') {  
+			const correct = keyName === targetKey;
+
+			if(correct) onPressCorrect(keyName)
+			if(!correct) onPressIncorrect(keyName)
 		}
 
 		if(mode === 'select-key-by-ear') {
 			selectKeyByEar(keyName)
 		}
-	}
+	} 
 
 	// ============= press correct
 	function onPressCorrect(keyName) {  
-		playSound(keyName)
-		flashKeyClass(keyName, 'correct')
+		// play key name
+		playSound(keyName) 
+
+		// show key color
+		setCorrectKey(keyName)
 		
+		// remove key color
+		setTimeout(() => {
+			setCorrectKey('')
+		}, colorHightLightTime)
+
+		// play correct sound
 		setTimeout(() => {
 			playSound('correctSound')
 		}, feedbackSoundDelay) 
 
+		// next turn
 		setTimeout(() => {
 			startSelectKeyMode() 
 		}, 2000) 
@@ -167,8 +184,15 @@ export default function Piano() {
 
 	// ============= press incorrect
 	function onPressIncorrect(keyName) {  
-		playSound(keyName)
-		flashKeyClass(keyName, 'incorrect')
+		playSound(keyName) 
+
+		// show key color
+		setIncorrectKey(keyName)
+		
+		// remove key color
+		setTimeout(() => {
+			setIncorrectKey('')
+		}, colorHightLightTime)
 		
 		setTimeout(() => {
 			playSound('incorrectSound')
@@ -231,17 +255,6 @@ export default function Piano() {
 
 	function generateTargetKey() {
 		return getNewRandomArrayElement(allKeys, targetKey);   
-	}
-
-	function flashKeyClass(keyName, className) { 
-		const id = `key-${keyName}`;
-		const key = getElement(id);
- 			 
-		key.classList.add(className) 
-
-		setTimeout(() => {
-			key.classList.remove(className)
-		}, colorHightLightTime) 
 	} 
 
 	function flashPlayButtonColor() {
@@ -259,15 +272,6 @@ export default function Piano() {
 		setTargetKey(newTargetKey)   
 		setDisplayString(newTargetKey)
 	}
-
-	function selectKey(keyName) {  
-		const correct = keyName === targetKey;
-
-		if(correct) {
-			onPressCorrect(keyName)
-		}
-		if(!correct) onPressIncorrect(keyName)
-	} 
 
 	// ====================== Select By Ear Mode
 	function startSelectByEar() {
@@ -332,6 +336,8 @@ export default function Piano() {
 			<div className="keys-container">
 				<Keys 
 					keyNames={allKeys} 
+					correctKey={correctKey}
+					incorrectKey={incorrectKey}
 					handleOver={onKeyOver}
 					handleOut={onKeyOut}
 					handleDown={onKeyDown}

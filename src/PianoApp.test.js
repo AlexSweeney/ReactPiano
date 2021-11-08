@@ -709,4 +709,6 @@ describe('<PianoApp/>', () => {
 
 	test.todo('on resize') 
 	test.todo('accessibility')
+	test.todo('landscape / portrait mode button')
+	test.todo('scss and settings file')
 })

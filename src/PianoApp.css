@@ -44,9 +44,9 @@
 	background: #ff3939 !important;
 } 
 
+/* landscape mode  */
 @media screen and (max-width: 295px) {
-	.piano {
-		width: 100vw;
+	.piano { 
 	 	transform: rotate(90deg);
 	}
 }
