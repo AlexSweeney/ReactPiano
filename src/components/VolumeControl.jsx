@@ -17,17 +17,6 @@ export default function VolumeControl({volume, handleVolumeChange}) {
 		handleVolumeChange(e.target.value);  
 	}   
  
-
-	// function onSliderChange(e) {  
-	// 	// setVolume(e.target.value);  
-	// 	changeAudioElementVolumes(audioIDs, volume / 100); 
-	// }   
- 
-	// function changeAudioElementVolumes(audioIDs, newVolume) {
-	// 	let audioElements = getElements(audioIDs);
-	// 	audioElements.forEach(element => element.volume = newVolume);
-	// }
-
 	return( 
 		<div className="volume-control-container" id={id}>
 			<input type="range" min="0" max="100" value={volume} onChange={onSliderChange}/>

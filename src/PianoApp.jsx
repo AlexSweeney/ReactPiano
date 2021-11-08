@@ -115,6 +115,12 @@ export default function Piano() {
 
 	}
 
+	// ======================== Volume
+	function onChangeVolume(newVolume) {  
+		setVolume(newVolume)
+		audioIds.forEach(id => audioElements[id].volume = newVolume / 100)
+	}
+
 	// ======================== Keys
 	// ============= key over
 	function onKeyOver(keyName) {  
@@ -317,6 +323,7 @@ export default function Piano() {
 					<VolumeControl
 						audioIDs={audioIds}
 						volume={volume}
+						handleVolumeChange={onChangeVolume}
 						setVolume={setVolume}
 					/> 
 				</div>
