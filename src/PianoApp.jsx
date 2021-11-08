@@ -250,7 +250,7 @@ export default function Piano() {
 	// ====================== Select Key Mode
 	function startSelectKeyMode() {  
 		const newTargetKey = generateTargetKey();
-		setTargetKey(newTargetKey)  
+		setTargetKey(newTargetKey)   
 		setDisplayString(newTargetKey)
 	}
 
@@ -267,7 +267,7 @@ export default function Piano() {
 	function startSelectByEar() {
 		const newTargetKey = generateTargetKey();
 		
-		setTargetKey(newTargetKey) 
+		setTargetKey(newTargetKey)  
 		playSound(newTargetKey) 
 		flashPlayButtonColor()
 

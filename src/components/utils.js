@@ -48,7 +48,7 @@ export function getNewRandomArrayElement(allElements, oldElement = null) {
 }
 
 export function getRandomArrayElement(array) { 
-	return array[getRandomNumber(array.length)];
+	return array[getRandomNumber(array.length - 1)];
 }
 
 export function getRandomNumber(range) {

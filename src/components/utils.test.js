@@ -95,8 +95,8 @@ describe('getNewRandomArrayElement(allElements, oldElement = null)', () => {
 			results.push(getNewRandomArrayElement(array))
 		}
 
-		array.forEach(el => {
-			expect(results.indexOf(el)).not.toEqual(-1)
+		results.forEach(el => {
+			expect(array.indexOf(el)).not.toEqual(-1)
 		}) 
 	})
 
@@ -123,8 +123,8 @@ describe('getRandomArrayElement(array)', () => {
 			results.push(getRandomArrayElement(array))
 		}
 
-		array.forEach(el => {
-			expect(results.indexOf(el)).not.toEqual(-1)
+		results.forEach(el => {
+			expect(array.indexOf(el)).not.toEqual(-1)
 		})
 	})
 })
