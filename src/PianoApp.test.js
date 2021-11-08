@@ -34,14 +34,13 @@ beforeEach(async () => {
 	// mock audio.play 
 	const audioTags = Array.from(container.getElementsByTagName('audio'))
 	audioTags.forEach(audioTag => {
-		audioTag.play = jest.fn();
+		audioTag.play = () => {};
 	})
 })
 
-afterEach(() => { 
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null; 
+afterEach(() => {   
+	act(() => jest.runAllTimers())
+	unmountComponentAtNode(container)
 })
 
 async function renderPiano() {
@@ -318,8 +317,7 @@ describe('<PianoApp/>', () => {
 							const keyAudioPlay = jest.fn();
 							keyAudio.play = keyAudioPlay;
 
-							// Key
-							console.log('keyName', keyName)
+							// Key 
 							const key = getElement(`key-${keyName}`);
 							act(() => Simulate.mouseOver(key))
 							act(() => Simulate.mouseDown(key))  
