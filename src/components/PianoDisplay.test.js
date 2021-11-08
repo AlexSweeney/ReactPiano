@@ -39,10 +39,8 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-	handlePlayButtonClick = null;
-
-	document.body.removeChild(container)
-	container = null;
+	handlePlayButtonClick = null; 
+	unmountComponentAtNode(container)
 })
 
 // ========================================= Tests =================================================== //

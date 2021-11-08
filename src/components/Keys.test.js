@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {render} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 import {act, isElementOfType} from 'react-dom/test-utils';
 import TestRenderer from 'react-test-renderer';  
 import {
@@ -46,9 +46,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-	document.body.removeChild(container);
-	keys = null; 
-	container = null;
+	unmountComponentAtNode(container)
 })
 
 // ============================================ Helper Fns =================================================//

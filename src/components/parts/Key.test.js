@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom'; 
+import { render, unmountComponentAtNode } from 'react-dom'; 
 import { act, Simulate, isElementOfType } from 'react-dom/test-utils';  
 import Key from './Key.jsx';  
 import { getElement } from './../utils.js';
@@ -71,9 +71,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-	document.body.removeChild(container); 
-	container = null;
-	count = 0;
+	unmountComponentAtNode(container);
 })
 
 // ============================================ Tests =============================================//

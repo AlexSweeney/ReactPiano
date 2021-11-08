@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import { act, isElementOfType, Simulate } from 'react-dom/test-utils';
 import VolumeControl from './VolumeControl.jsx';
 import { getElement } from './utils.js';
@@ -29,12 +29,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-	document.body.removeChild(container)
-	container = null;
-
-	handleVolumeChange = null;
-	volumeControl = null;
-	volumeSlider = null;
+	unmountComponentAtNode(container)
 })
 
 // ============================================= Tests ============================================= //

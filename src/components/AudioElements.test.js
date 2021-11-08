@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';  
+import { render, unmountComponentAtNode } from 'react-dom';  
 import { act, isElementOfType } from 'react-dom/test-utils';
 import AudioElements from './AudioElements.jsx'; 
 import { getElement } from './utils.js';
@@ -55,12 +55,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-	document.body.removeChild(container)
-	container = null; 
-	handleLoad = null;
-	handleLoadingError = null;
-	props = null;
-	errorProps = null;
+	unmountComponentAtNode(container)
 })
 
 // ============================================ Tests ===================================================== //

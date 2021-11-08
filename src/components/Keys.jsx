@@ -48,7 +48,6 @@ export default function Keys({
 	const [keyStyles, setKeyStyles] = useState(initialKeyStyles);
 	/* ======================== Event Handlers =================== */
 	function onRender() {
-		// remove Inline style?
 		setContainerHeight('100%')
 
 		triggerOnSizeChange(KEYS_ID, onKeysSizeChange)

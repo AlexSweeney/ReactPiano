@@ -18,7 +18,6 @@ export default function RadioSelector({value, defaultValue, handleClick}) {
 	/* ============================= Event Hanlders ====================== */
 	function onClick() {
 		handleClick(value)
-		// console.log('clicked radio', radioId)
 	} 
 
 	/* ============================= Output ============================== */

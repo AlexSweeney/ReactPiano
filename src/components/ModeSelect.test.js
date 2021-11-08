@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 import ModeSelect from './ModeSelect.jsx';
 import RadioSelector from './parts/RadioSelector.jsx';
 import {act, isElementOfType, Simulate} from 'react-dom/test-utils';
@@ -23,10 +23,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-	document.body.removeChild(container)
-	container = null;
-	modeSelect = null;
-	handleClick = null;
+	unmountComponentAtNode(container)
 })
 
 describe('<ModeSelect/>', () => {
