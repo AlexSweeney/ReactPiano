@@ -1,4 +1,5 @@
-.keys { 
-  height: 50%;
-  display: flex; 
+.keys {  
+  display: inline-flex;
+  position: relative;  
+  height: 100%;
 }

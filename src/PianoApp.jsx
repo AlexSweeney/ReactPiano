@@ -1,34 +1,99 @@
 import React, {useState, useEffect} from 'react';
 import {getNewRandomArrayElement} from './components/utils.js';
-import AudioElements from './components/AudioElements.jsx';
-import PianoControls from './components/PianoControls.jsx';
-import Keys from './components/Keys.jsx'; 
+import AudioElements from './components/AudioElements.jsx'; 
+import ModeSelect from './components/ModeSelect.jsx';
+import PianoDisplay from './components/PianoDisplay.jsx';
+import VolumeControl from './components/VolumeControl.jsx';
+import Keys from './components/Keys.jsx';
+import {getElement} from './components/utils.js'; 
+
 import './PianoApp.css';  
  
 export default function Piano() {
 	/*
-		* show controls with mode selector
-		* show feedback window
-		* show piano keys
-		* handle key events based on mode
+		- on render
+			- show mode selector
+			- show feedback window
+			- show volume slider
+			- show piano keys
+		
+		- on load audio error
+			- show overlay with error infomation
+
+		- on show key mode 
+			- on key hover
+				- show key name in display
+			- on key press 
+				- play note
+
+		- on select key mode
+			- on turn start
+				- show targe key in display
+			- on key press
+				- on wrong answer
+					- play incorrect sound
+					- flash key red
+				- on correct answer 
+					- play correct sound
+					- flash key green
+					- start new turn
+				
+		- on select key by ear mode
+			- on turn start
+				- play key sound
+				- show play button in display
+			- on play button click
+				- play target sound
+			- on key press
+				- on wrong answer
+					- play incorrect sound
+					- flash key red
+
+				- on correct answer 
+					- play correct sound
+					- flash key green
+					- start new turn
+
+		- on resize
+			- keep proportions
+	*/
+
+	/*	
+		load audio 
+			audio element object => use to play = don't have to search everytime play
+			to do -> give root directory -> auto load all audio from folder?
 	*/
 
 	// ================================== Constants =========================== //
+	const id = 'piano-app';
+
 	// =================== Keys
 	const allKeys = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 	const [targetKey, setTargetKey] = useState('');
 	
 	// =================== Mode Select
-	const [mode, setMode] = useState('show-key'); 
+	const modes = ['show-key', 'select-key', 'select-key-by-ear'];
+	const defaultMode = modes[0];
+	const [mode, setMode] = useState(defaultMode); 
 
 	// =================== Display
 	const [displayString, setDisplayString] = useState('');
 
-	// =================== Audio
-	const [audioIDs, setAudioIDs] = useState([]);
-	const correctSound = document.getElementById('correctSound_audio');
-	const incorrectSound = document.getElementById('incorrectSound_audio');
+	// =================== Audio 
+	const fileType = '.mp3';
 
+	const audioIds = [ ...allKeys, 'correctSound', 'incorrectSound'];
+
+	const audioObjects = audioIds.map((id) => { 
+		return {
+			fileName: id,
+			fileType: fileType,
+			id: `${id}-audio`,
+		}
+	});
+
+	const [audioElements, setAudioElements] = useState({});  
+ 
 	// =================== Play Button
 	const [showPlayButton, setShowPlayButton] = useState(false); 
 	const [playButtonIsDown, setPlayButtonIsDown] = useState(false);
@@ -40,9 +105,29 @@ export default function Piano() {
 	// ===================  Volume Control
 	const [volume, setVolume] = useState(30); 
 
+	// =================== Keys
+	const [incorrectKey, setIncorrectKey] = useState(null);
+	const [correctKey, setCorrectKey] = useState(null);
+
 	// ================================== Event Handlers =========================== //
+	// ======================== Audio
+	function onLoadAudio(audio) { 
+		getAudioElements(audio) 
+	} 
+
+	function onLoadAudioError() {
+
+	}
+
+	// ======================== Volume
+	function onChangeVolume(newVolume) {  
+		setVolume(newVolume)
+		audioIds.forEach(id => audioElements[id].volume = newVolume / 100)
+	}
+
+	// ======================== Keys
 	// ============= key over
-	function onKeyOver(keyName) { 
+	function onKeyOver(keyName) {  
 		if(mode === 'show-key') {
 			setDisplayString(keyName)
 		} 
@@ -58,40 +143,72 @@ export default function Piano() {
 	// ============= key down
 	function onKeyDown(keyName) {
 		if(mode === 'show-key') {
-			playKeySound(keyName)
+			playSound(keyName)
 		}
 
-		if(mode === 'select-key') {
-			selectKey(keyName)
+		if(mode === 'select-key') {  
+			const correct = keyName === targetKey;
+
+			if(correct) onPressCorrect(keyName)
+			if(!correct) onPressIncorrect(keyName)
 		}
 
 		if(mode === 'select-key-by-ear') {
 			selectKeyByEar(keyName)
 		}
-	}
-
-	// ============= play button
-	function onPlayButtonClick() {
-		playKeySound(targetKey)
-	}
+	} 
 
 	// ============= press correct
-	function onPressCorrect(keyName) { 
-		playKeySound(keyName)
-		flashKeyColor(keyName, 'correct')
+	function onPressCorrect(keyName) {  
+		// play key name
+		playSound(keyName) 
+
+		// show key color
+		setCorrectKey(keyName)
 		
+		// remove key color
 		setTimeout(() => {
-			playSound(correctSound)
+			setCorrectKey('')
+		}, colorHightLightTime)
+
+		// play correct sound
+		setTimeout(() => {
+			playSound('correctSound')
 		}, feedbackSoundDelay) 
+
+		// next turn
+		setTimeout(() => {
+			startSelectKeyMode() 
+		}, 2000) 
 	}
 
-	function onPressIncorrect(keyName) { 
-		playKeySound(keyName)
-		flashKeyColor(keyName, 'incorrect')
+	// ============= press incorrect
+	function onPressIncorrect(keyName) {  
+		playSound(keyName) 
 
+		// show key color
+		setIncorrectKey(keyName)
+		
+		// remove key color
 		setTimeout(() => {
-			playSound(incorrectSound)
+			setIncorrectKey('')
+		}, colorHightLightTime)
+		
+		setTimeout(() => {
+			playSound('incorrectSound')
 		}, feedbackSoundDelay) 
+	} 
+
+	// ======================== Play Button
+	// ============= play button
+	function onPlayButtonClick() {
+		playSound(targetKey)
+	}
+
+	// ======================== Mode
+	// ============= mode radio 
+	function onClickRadio(value) {
+		setMode(value)
 	} 
 
 	// ============= mode change
@@ -114,71 +231,54 @@ export default function Piano() {
 	}
 
 	// ================================== Helper fns =========================== //
-	function playSound(sound) {
-		sound.pause();
-		sound.currentTime = 0;
-		sound.play()
-	}
+	function playSound(id) {  
+		const sound = audioElements[id]; 
+		if(!sound) console.error(`sound ${id} not found`)
 
-	function playKeySound(name) { 
-		const id = `${name}_audio`;
-		const audioElement = document.getElementById(id);
-		playSound(audioElement)
+		if(sound.currentTime !== 0) {
+			sound.pause();
+			sound.currentTime = 0;
+		}
+		
+		sound.play()
+	} 
+
+	function getAudioElements(audio) {
+		let obj = {};
+
+		audio.forEach(({fileName}) => {
+			obj[fileName] = getElement(fileName + '-audio')
+		})
+
+		setAudioElements(obj)
 	}
 
 	function generateTargetKey() {
 		return getNewRandomArrayElement(allKeys, targetKey);   
-	}
-
-	function flashKeyColor(keyName, className) {
-		const id = `key-${keyName}`;
-		flashColor(id, className)
-	}
-
-	function flashColor(id, className) {
-		const element = document.getElementById(id); 
-		element.classList.add(className)
-
-		setTimeout(() => {
-			element.classList.remove(className)
-		}, colorHightLightTime) 
-	}
+	} 
 
 	function flashPlayButtonColor() {
 		setPlayButtonIsDown(true)
 
 		setTimeout(() => {
 			setPlayButtonIsDown(false)
-		}, 1000)
+		}, colorHightLightTime)
 	}
 
 	// ================================== Mode fns =========================== //
 	// ====================== Select Key Mode
-	function startSelectKeyMode() {
+	function startSelectKeyMode() {  
 		const newTargetKey = generateTargetKey();
-		setTargetKey(newTargetKey) 
+		setTargetKey(newTargetKey)   
 		setDisplayString(newTargetKey)
 	}
-
-	function selectKey(keyName) {
-		const correct = keyName === targetKey;
-
-		if(correct) {
-			onPressCorrect(keyName)
-
-			setTimeout(() => {
-				startSelectKeyMode()
-			}, 2000) 
-		}
-		if(!correct) onPressIncorrect(keyName)
-	} 
 
 	// ====================== Select By Ear Mode
 	function startSelectByEar() {
 		const newTargetKey = generateTargetKey();
 		
-		setTargetKey(newTargetKey) 
-		playKeySound(newTargetKey) 
+		setTargetKey(newTargetKey)  
+		playSound(newTargetKey) 
 		flashPlayButtonColor()
 
 		setDisplayString('')
@@ -207,28 +307,42 @@ export default function Piano() {
 
 	// ================================== Output =========================== //
 	return (
-		<div>
-			<AudioElements setAudioIDs={setAudioIDs}/>
-			
-			<div className="piano">  
-				<PianoControls
-					mode={mode}
-					setMode={setMode}
-					displayString={displayString}
-					volume={volume}
-					setVolume={setVolume}
-					audioIDs={audioIDs}
-					showPlayButton={showPlayButton}
-					handlePlayButtonClick={onPlayButtonClick}
-					playButtonDown={playButtonIsDown}
-				/>
+		<div className="piano" id={id}> 
+			<AudioElements 
+				audioObjects={audioObjects}
+				handleLoad={onLoadAudio}
+				handleLoadingError={onLoadAudioError}/>
 
-				<Keys
+			<div className="piano-controls">
+				<div className="left-piano-controls">
+					<ModeSelect modes={modes} defaultMode={defaultMode} handleClick={onClickRadio}/>
+				</div>
+				<div className="right-piano-controls">
+					<PianoDisplay
+						displayString={displayString}
+						showPlayButton={showPlayButton} 
+						handlePlayButtonClick={onPlayButtonClick}
+						playButtonDown={playButtonIsDown}
+					/>
+					<VolumeControl
+						audioIDs={audioIds}
+						volume={volume}
+						handleVolumeChange={onChangeVolume}
+						setVolume={setVolume}
+					/> 
+				</div>
+			</div>
+
+			<div className="keys-container">
+				<Keys 
+					keyNames={allKeys} 
+					correctKey={correctKey}
+					incorrectKey={incorrectKey}
 					handleOver={onKeyOver}
 					handleOut={onKeyOut}
 					handleDown={onKeyDown}
 				/>
-			</div>
+			</div> 
 		</div>
 	)
-};
+}; 

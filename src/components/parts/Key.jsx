@@ -1,52 +1,95 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';  
+import { getKeyType } from './../utils.js';
 import './Key.css';
 
-export default function Key({keyName, i, handleOver, handleOut, handleDown}) { 
-	// =========================== const =========================== //   
-	const id = `key-${keyName}`;
+export default function Key({
+	keyName,  
+	width,
+	height,
+	left,
+	i,
+	handleOver = () => {}, 
+	handleOut = () => {}, 
+	handleDown = () => {},  
+	correctKey,
+	incorrectKey,
+}) { 
+	/* ================================ Key.jsx ================================ // 
+		* on Render
+			* color
+				* if keyName contains b or # => class black-key
+				* if keyName doesn't contain b or # => white key
+			
+			* size
+				* width: passed width
+				* height: passed height
+				  
+			* position
+				* left: passed value
 
-	const size = 30;
-	// size = white key width
+		* on hover
+			* change color
+			* call handle Over
 
+		* on down
+			* change color
+			* call handle Down
+
+		* on out
+			* change color
+			* call handleOut
+	*/
+
+	// =========================== const =========================== //    
+	// ============= Id  
+	const idKeyName = keyName.replace('#', '\#');  // can't use # in ID for tests
+	const KEY_ID = `key-${idKeyName}`; 
+	
 	const realWhiteWidth = 24;
 	const realBlackWidth = 14;
 	
+	// ============= Type 
+	const keyType = getKeyType(keyName);
+	const keyTypeClass = (keyType === 'white') ? 'white-key' : 'black-key'; 
+	const correctColorClass = keyName === correctKey ? 'correct' : '';
+	const incorrectColorClass = keyName === incorrectKey ? 'incorrect' : '';
 
-	const whiteWidth = realWhiteWidth / 24;
-	const blackWidth = realBlackWidth / 24;
-
-	const keyColor = getKeyColor(keyName);
-	const thisWidth = (keyColor === 'white' ? whiteWidth : blackWidth) * size + 'px';
-  
-	const style = {
-		left: (i * blackWidth) * size + 'px',
-		width: thisWidth,
-	}   
-	 
-	// =========================== Find Formula ======================== // 
-	const blackToWhiteWidthRatio = realBlackWidth / realWhiteWidth;
-	const blackKeyWidth = blackToWhiteWidthRatio * size;
-	getLeft()
-
-	function getLeft() { 
-		const oldVer = (i * blackWidth) * size + 'px';
-		const newVer = (i * blackKeyWidth) + 'px';
-
-		console.log('oldVer', oldVer)
-		console.log('newVer', newVer)
+	// =========================== Event Handlers ================== // 
+	function onMouseOver() { 
+		handleOver(keyName)
+		setIsOver(true) 
 	}
 
-	// =========================== Helper Fns ===================== //
-	// ================ Color
-	function getKeyColor(key) {
-		return (key.indexOf('b') == - 1 ) ? 'white' : 'black';
-	}
- 
-	// =========================== Output ===================== //
-	return (  
-		<div className={`key ${keyColor}-key`} id={id} style={style}
-		onMouseOver={() => handleOver(keyName)}
-		onMouseOut={handleOut}
-		onMouseDown={() => handleDown(keyName)}></div>
-	)
+	// =========================== Helper Fns ===================== // 
+	function updateKeyColorClass(isOver, isDown) {
+		let newClass;
+
+		if(isOver && !isDown) newClass = 'key-over';
+		if(isOver && isDown) newClass = 'key-down';
+		if(!isOver) newClass = 'key-out';
+
+		setKeyColorClass(newClass)
+	} 
+
+	// =========================== Listen / Trigger ============== // 
+	useEffect(() => {
+		updateKeyColorClass(isOver, isDown)
+	}, [isOver, isDown])
+
+	// =========================== Output ======================== // 
+		return (   
+			<div className={`key ${keyTypeClass} ${keyColorClass} ${correctColorClass} ${incorrectColorClass}`} 
+					id={KEY_ID}  
+					key={KEY_ID}
+					style={{ 
+						width: width,
+						height: height,
+						left: left,
+					}}
+					onMouseOver={onMouseOver}
+					onMouseOut={onMouseOut}
+					onMouseDown={onMouseDown}
+					onMouseUp={onMouseUp}>
+			</div> 
+		)
 }

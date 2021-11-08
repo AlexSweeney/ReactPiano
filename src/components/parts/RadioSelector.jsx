@@ -1,23 +1,36 @@
 import React from 'react';
 
 export default function RadioSelector({value, defaultValue, handleClick}) {
-	const id = `${value}_Radio`;
+	/*
+		* on render
+			* if value === default value => selected
+		
+		* on click
+			* trigger handleClick(value)
+	*/ 
+	/* ============================= Constants =========================== */
+	const radioId = `${value}-radio`;
+	const labelId = `${value}-label`;
+	
 	const isDefault = value === defaultValue;
+	const labelValue = value.replace(/-/g, ' ')
 
+	/* ============================= Event Hanlders ====================== */
 	function onClick() {
 		handleClick(value)
 	} 
 
+	/* ============================= Output ============================== */
 	return (
-		<div className="radio-selector" key={value}>
+		<div className="radio-selector" key={radioId}>
 			<input type="radio" 
-					name="mode"
-					value={value} 
-					id={id} 
-					onClick={onClick}
-					defaultChecked={isDefault}
+				name="mode"
+				value={value} 
+				id={radioId} 
+				onClick={onClick}
+				defaultChecked={isDefault}
 			/>
-			<label for={id} onClick={onClick}>{value.replaceAll('-', ' ')}</label>
+			<label id={labelId} htmlFor={radioId} onClick={onClick}>{labelValue}</label> 
 			<br/> 
 		</div> 
 	)

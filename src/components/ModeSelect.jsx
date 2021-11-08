@@ -2,28 +2,25 @@ import React, {useEffect} from 'react';
 import RadioSelector from './parts/RadioSelector.jsx';
 import './ModeSelect.css';
 
-export default function ModeSelect({mode, setMode}) {
+export default function ModeSelect({modes, defaultMode, handleClick}) {
 	/*
-		* Show modes
-		* change mode on click
+		* on render
+			* show radio selector for each mode
+
+		* on click
+			* set Mode to value clicked
 	*/
 
 	// ========================== Constants  ========================= // 
-	const modes = ['show-key', 'select-key', 'select-key-by-ear'];
-	const defaultValue = modes[0]; 
-
-	// ========================== Event Handlers  ==================== // 
-	function onClickRadio(value) {
-		setMode(value)
-	} 
+	const id = 'mode-select';   
 
 	// ========================== Output  =========================== // 
 	return (
-		<form className="mode-select">  
+		<form className="mode-select" id={id}>  
 			<h2>Mode</h2>  
 			
-			{modes.map(thisMode => {
-				return <RadioSelector value={thisMode} defaultValue={defaultValue} handleClick={onClickRadio}/>
+			{modes.map((thisMode, i) => {
+				return <RadioSelector key={`radio-selector-${i}`} value={thisMode} defaultValue={modes[0]} handleClick={handleClick}/>
 			})}
 		</form>
 	) 

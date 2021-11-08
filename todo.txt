@@ -1,3 +1,19 @@
+unit test
+integration tests
+functional tests
+end-to-end tests
+
+styles 
+- scss
+- StyleSheet.create({ })
+- responsive
+	
+-> when finished add snapshots to unit tests
+
+React native 
+- adjustments for mobiles
+
+
 Modes
 
 + show key mode 	x

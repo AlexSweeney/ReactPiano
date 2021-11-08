@@ -13,8 +13,8 @@ export default function PianoControls({
 	audioIDs, 
 	showPlayButton, 
 	handlePlayButtonClick,
-	playButtonDown}) {
-
+	playButtonDown
+}) {
 	return( 
 		<div className="piano-controls"> 
 			<ModeSelect

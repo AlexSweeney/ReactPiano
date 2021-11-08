@@ -1,38 +1,32 @@
-.key {
- 	border-left: none;
- 	box-sizing: border-box;
+.key { 
+	position: absolute;
+	box-sizing: border-box;  
 }
 
-.key:first-child {
-	border-left: 2px solid black;
-}
-
-.white-key {
-	background: white;
-	border: 2px solid black;
-	border-left: none;
-	height: 127px;
-}
-
-.white-key:hover {
-	background: #6696ff;;
-}
-
-.white-key:active {
-	background: #0d59ff;
+.white-key { 
+	background: white; 
+	z-index: 1;
+	border: 0.5px solid black;
 }
 
 .black-key {
-	position: absolute;
-  display: block; 
-	background: black;
-	height: 65%;
+	background: black; 
+	z-index: 2;
 }
 
-.black-key:hover {
+.white-key.key-over {
+	background: #6696ff;
+}
+.black-key.key-over {
 	background: #4646bd;
+	border-color: #4646bd;
 }
 
-.black-key:active {
+.white-key.key-down {
+	background: #0d59ff;
+	border-color: #0d59ff;
+}
+.black-key.key-down {
 	background: #212187;
+	border-color: #212187;
 }
