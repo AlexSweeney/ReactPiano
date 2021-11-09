@@ -1,0 +1,1 @@
+{"version":3,"sources":["audio/piano/mf/3/G3.mp3"],"names":["module","exports"],"mappings":"uFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/134.4b47fb33.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/G3.23448b11.mp3\";"],"sourceRoot":""}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["audio/piano/mf/G6.aiff"],"names":["module","exports"],"mappings":"uFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/183.b56da9b8.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/G6.f08e904e.aiff\";"],"sourceRoot":""}

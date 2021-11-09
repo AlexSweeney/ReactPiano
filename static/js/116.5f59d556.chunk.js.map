@@ -1,0 +1,1 @@
+{"version":3,"sources":["audio/piano/mf/3/3 trimed and normalized/C3.wav"],"names":["module","exports"],"mappings":"uFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/116.5f59d556.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/C3.e56b6a09.wav\";"],"sourceRoot":""}

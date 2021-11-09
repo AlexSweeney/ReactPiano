@@ -1,0 +1,1 @@
+{"version":3,"sources":["audio/piano/mf/3/3 trimed and normalized/Gb3.wav"],"names":["module","exports"],"mappings":"uFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/123.5c3be2bb.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/Gb3.c98ee6a1.wav\";"],"sourceRoot":""}
