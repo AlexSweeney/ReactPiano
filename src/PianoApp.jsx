@@ -7,7 +7,7 @@ import VolumeControl from './components/VolumeControl.jsx';
 import Keys from './components/Keys.jsx';
 import {getElement} from './components/utils.js'; 
 
-import './PianoApp.css';  
+import './PianoApp.scss';  
  
 export default function Piano() {
 	/*

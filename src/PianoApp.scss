@@ -1,19 +1,21 @@
+@import "colours.scss";
+@import "sizes.scss";
+@import "tools.scss";
+
 .piano { 
-	height: 300px;
+	height: $height; 
 	overflow: auto;
 	display: inline-flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background-color: #cecece;
+	background-color: $background-color;
 	border-radius: 1em;
-	border: 4px solid black; 
+	border: 4px solid $border-color; 
 	padding: 0.8em;
 }
 
 .piano-controls { 
-	display: flex;
-  justify-content: space-between;
-  align-items: center;
+	@extend %center;
 }
 
 .right-piano-controls {
@@ -29,19 +31,19 @@
 }
  
 .correct {
-	background: #328708 !important;
+	background: $correct-color;
 }
 
 .correct:hover {
-	background: #3db102 !important;
+	background: $correct-color-hover;
 }
 
 .incorrect {
-	background: red !important;
+	background: $incorrect-color;
 }
 
 .incorrect:hover {
-	background: #ff3939 !important;
+	background: $incorrect-color-hover;
 } 
 
 /* landscape mode  */
