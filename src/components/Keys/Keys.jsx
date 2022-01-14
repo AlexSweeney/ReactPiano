@@ -12,7 +12,7 @@ import {
 	BLACK_KEY_HEIGHT_PERCENT,
 } from '../../settings/KeySizes.js';
 
-import './Keys.css';
+import './Keys.scss';
 
 export default function Keys({
 	keyNames = [], 

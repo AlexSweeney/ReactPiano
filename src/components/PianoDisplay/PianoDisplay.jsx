@@ -1,7 +1,7 @@
 import React from 'react';
 import VolumeControl from '../VolumeControl/VolumeControl.jsx';
 import PlayButton from '../../parts/PlayButton/PlayButton.jsx';
-import './PianoDisplay.css';
+import './PianoDisplay.scss';
 
 export default function PianoDisplay({
 	displayString, 
