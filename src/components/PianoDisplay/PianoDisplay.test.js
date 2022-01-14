@@ -1,8 +1,8 @@
 import React from 'react';
-import {render} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 import {act, isElementOfType, Simulate} from 'react-dom/test-utils';
 import PianoDisplay from './PianoDisplay.jsx';
-import { getElement } from './utils.js';
+import { getElement } from '../../utils/utils.js';
 
 // ========================================= Consts and Vars ========================================= //
 let container;

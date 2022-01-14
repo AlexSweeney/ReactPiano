@@ -1,9 +1,9 @@
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import ModeSelect from './ModeSelect.jsx';
-import RadioSelector from './parts/RadioSelector.jsx';
+import RadioSelector from '../../parts/RadioSelector/RadioSelector.jsx';
 import {act, isElementOfType, Simulate} from 'react-dom/test-utils';
-import { getElement } from './utils.js';
+import { getElement } from '../../utils/utils.js';
 
 let container;
 let modeSelect;

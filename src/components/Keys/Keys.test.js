@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
-import {act, isElementOfType} from 'react-dom/test-utils';
-import TestRenderer from 'react-test-renderer';  
+import {act, isElementOfType} from 'react-dom/test-utils'; 
 import {
 	addInlineStyles,
 	getKeyId,
 	triggerKeyResize,
-} from './testUtils.js';
+} from '../../utils/testUtils.js';
 import Keys from './Keys.jsx';
-import Key from './parts/Key.jsx';
+import Key from '../../parts/Key/Key.jsx';
 // ============================================ Mocks =======================================================//
-jest.mock('./utils.js')
+jest.mock('../../utils/utils.js')
 
 // ============================================ Constants ===================================================//
 let container;

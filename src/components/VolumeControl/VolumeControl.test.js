@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act, isElementOfType, Simulate } from 'react-dom/test-utils';
 import VolumeControl from './VolumeControl.jsx';
-import { getElement } from './utils.js';
+import { getElement } from '../../utils/utils.js';
 
 // ============================================= Consts & Vars============================================= //
 let container;

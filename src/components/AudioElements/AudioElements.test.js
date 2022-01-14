@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';  
 import { act, isElementOfType } from 'react-dom/test-utils';
 import AudioElements from './AudioElements.jsx'; 
-import { getElement } from './utils.js';
+import { getElement } from '../../utils/utils.js';
 
 // ============================================ Vars and Consts ============================================ //
 let container;  

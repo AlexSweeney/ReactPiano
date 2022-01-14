@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom'; 
 import { act } from 'react-dom/test-utils';  
-import Key from './parts/Key.jsx';
+import Key from '../parts/Key/Key.jsx';
 
 // ====================================== Consts ====================================== //
 export const UNESCAPED_SHARP_KEYS = [
