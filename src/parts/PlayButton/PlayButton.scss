@@ -1,0 +1,22 @@
+@import "../../settings/colors.scss";
+@import "../../utils/tools.scss";
+
+
+.play-button {
+	@extend %center;
+	font-size: 1.6em;
+	border-radius: 100%;
+}
+
+.play-button:hover {
+	background: $play-button-hover-color;
+}
+
+.play-button-down {
+	background: $play-button-down-color;
+}
+
+.play-button:active {
+	background: $play-button-active-color;
+}
+

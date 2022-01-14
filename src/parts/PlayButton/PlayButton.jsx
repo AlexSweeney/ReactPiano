@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { FaPlayCircle } from 'react-icons/fa';
-import './PlayButton.css';
+import './PlayButton.scss';
 
 export default function PlayButton({handleClick, playButtonDown}) { 
 	/*

@@ -1,0 +1,36 @@
+@import "../../settings/colors.scss";
+
+.key { 
+	position: absolute;
+	box-sizing: border-box;  
+}
+
+.white-key { 
+	background: $white-key-color; 
+	z-index: 1;
+	border: 0.5px solid $border-color;
+
+	&.key-over {
+		background: $white-key-hover-color;
+	}
+
+	&.key-down {
+		background: $white-key-down-color;
+		border-color: $white-key-down-color;
+	}
+}
+
+.black-key {
+	background: black; 
+	z-index: 2;
+
+	&.key-over {
+		background: $black-key-hover-color;
+		border-color: $black-key-hover-color;
+	}
+
+	&.key-down {
+		background: $black-key-down-color;
+		border-color: $black-key-down-color;
+	}
+}

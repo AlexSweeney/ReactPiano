@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';  
 import { getKeyType } from '../../utils/utils.js';
-import './Key.css';
+import './Key.scss';
 
 export default function Key({
 	keyName,  
