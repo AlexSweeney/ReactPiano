@@ -1,12 +1,12 @@
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {act, isElementOfType, Simulate} from 'react-dom/test-utils';
-import { getElement } from './components/utils.js';
+import { getElement } from '../utils/utils.js';
 import PianoApp from './PianoApp.jsx';
-import ModeSelect from './components/ModeSelect.jsx';
-import PianoDisplay from './components/PianoDisplay.jsx';
-import VolumeControl from './components/VolumeControl.jsx';
-import Keys from './components/Keys.jsx';
+import ModeSelect from '../components/ModeSelect.jsx';
+import PianoDisplay from '../components/PianoDisplay.jsx';
+import VolumeControl from '../components/VolumeControl.jsx';
+import Keys from '../components/Keys.jsx';
 
 let container;
 const pianoId = 'piano-app';
@@ -22,7 +22,7 @@ const selectKeyByEarId = 'select-key-by-ear-radio';
 const keysId = 'keys';
 const keyNames = ['C3','Db3','D3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3']; 
 
-jest.mock('./components/utils.js') 
+jest.mock('../utils/utils.js') 
 jest.useFakeTimers()
 jest.spyOn(global, 'setTimeout')
 

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import RadioSelector from './parts/RadioSelector.jsx';
+import RadioSelector from '../../parts/RadioSelector/RadioSelector.jsx';
 import './ModeSelect.css';
 
 export default function ModeSelect({modes, defaultMode, handleClick}) {

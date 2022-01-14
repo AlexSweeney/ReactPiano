@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';  
-import { getKeyType } from './../utils.js';
+import { getKeyType } from '../../utils/utils.js';
 import './Key.css';
 
 export default function Key({

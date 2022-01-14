@@ -33,7 +33,7 @@ export default function AudioElements({audioObjects, handleLoad, handleLoadingEr
 	
 	// ============================== Helper Fns ============================= //
 	function loadAudio({fileName, fileType, id}) {
-		return import('./../audio/' + fileName + fileType).then(result => {
+		return import('./../../audio/' + fileName + fileType).then(result => {
 			const audioObject = {fileName: fileName, src: result.default};
 			return audioObject;
 		}) 

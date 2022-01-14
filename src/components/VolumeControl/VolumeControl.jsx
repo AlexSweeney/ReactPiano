@@ -1,6 +1,6 @@
 import React from 'react';
-import {getElements} from './utils.js';
-import './VolumeControl.css';
+import {getElements} from '../../utils/utils.js';
+import './VolumeControl.scss';
 
 export default function VolumeControl({volume, handleVolumeChange}) { 
 	/* 

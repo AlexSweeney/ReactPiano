@@ -1,6 +1,6 @@
-@import "colours.scss";
-@import "sizes.scss";
-@import "tools.scss";
+@import "../settings/colours.scss";
+@import "../settings/sizes.scss";
+@import "../settings/tools.scss";
 
 .piano { 
 	height: $height; 

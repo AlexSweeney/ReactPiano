@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'; 
-import Key from './parts/Key.jsx';
+import Key from '../../parts/Key/Key.jsx';
 import {  
 	getElementHeight, 
 	triggerOnSizeChange,  
 	getKeyType,
-} from './utils.js';
+} from '../../utils/utils.js';
 import {
 	WHITE_KEY_WIDTH_RATIOS,
 	BLACK_KEY_WIDTH_RATIO,
 	WHITE_KEY_HEIGHT_PERCENT,
 	BLACK_KEY_HEIGHT_PERCENT,
-} from './settings/KeySizes.js';
+} from '../../settings/KeySizes.js';
 
 import './Keys.css';
 

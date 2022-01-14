@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {getNewRandomArrayElement} from './components/utils.js';
-import AudioElements from './components/AudioElements.jsx'; 
-import ModeSelect from './components/ModeSelect.jsx';
-import PianoDisplay from './components/PianoDisplay.jsx';
-import VolumeControl from './components/VolumeControl.jsx';
-import Keys from './components/Keys.jsx';
-import {getElement} from './components/utils.js'; 
+import {getNewRandomArrayElement} from '../utils/utils.js';
+import AudioElements from '../components/AudioElements/AudioElements.jsx'; 
+import ModeSelect from '../components/ModeSelect/ModeSelect.jsx';
+import PianoDisplay from '../components/PianoDisplay/PianoDisplay.jsx';
+import VolumeControl from '../components/VolumeControl/VolumeControl.jsx';
+import Keys from '../components/Keys/Keys.jsx';
+import {getElement} from '../utils/utils.js'; 
 
 import './PianoApp.scss';  
  
@@ -81,7 +81,6 @@ export default function Piano() {
 
 	// =================== Audio 
 	const fileType = '.mp3';
-
 	const audioIds = [ ...allKeys, 'correctSound', 'incorrectSound'];
 
 	const audioObjects = audioIds.map((id) => { 
@@ -316,7 +315,7 @@ export default function Piano() {
 				audioObjects={audioObjects}
 				handleLoad={onLoadAudio}
 				handleLoadingError={onLoadAudioError}/>
-
+			
 			<div className="piano-controls">
 				<div className="left-piano-controls">
 					<ModeSelect modes={modes} defaultMode={defaultMode} handleClick={onClickRadio}/>
@@ -333,8 +332,8 @@ export default function Piano() {
 						volume={volume}
 						handleVolumeChange={onChangeVolume}
 						setVolume={setVolume}
-					/> 
-				</div>
+					/>   
+				</div>  
 			</div>
 
 			<div className="keys-container">
