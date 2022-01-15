@@ -1,18 +1,13 @@
 import React from 'react'; 
-import { render, cleanup, screen, fireEvent  } from '@testing-library/react';
+import { render, cleanup, fireEvent  } from '@testing-library/react';
 import { isElementOfType } from 'react-dom/test-utils';   
-import Key from './Key.jsx';  
-import { getElement } from '../../utils/utils.js';
-
+import Key from './Key.jsx';   
 import { 
 	WHITE_KEYS,
 	BLACK_KEYS,
 	ALL_KEYS, 
+	makeTable,
 } from '../../utils/testUtils.js';
-
-function makeTable(array) {
-	return array.map(item => [item]);
-}
 
 // ============================================ Set up / tear down ================================ //
 afterEach(() => {

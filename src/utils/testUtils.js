@@ -85,3 +85,7 @@ export function resizeElement(element, newWidth, newHeight) {
 	element.style.width = newWidth;
 	element.style.height = newHeight;
 }
+
+export function makeTable(array) {
+	return array.map(item => [item]);
+}
