@@ -1,177 +1,111 @@
-import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom'; 
-import { act, Simulate, isElementOfType } from 'react-dom/test-utils';  
+import React from 'react'; 
+import { render, cleanup, screen, fireEvent  } from '@testing-library/react';
+import { isElementOfType } from 'react-dom/test-utils';   
 import Key from './Key.jsx';  
-import { getElement } from './../utils.js';
+import { getElement } from '../../utils/utils.js';
 
-import {
-	UNESCAPED_SHARP_KEYS,
-	OCTAVE_KEYS_SHARP,
-	OCTAVE_KEYS_FLAT,
+import { 
 	WHITE_KEYS,
-	SHARP_KEYS,
-	FLAT_KEYS,
 	BLACK_KEYS,
-	ALL_KEYS,
-	addInlineStyles,
-	getKeyId,  
-} from './../testUtils.js';
+	ALL_KEYS, 
+} from '../../utils/testUtils.js';
 
-// ============================================ Vars ==============================================//
-let key;
-let container;
-let count = 0;
-
-// ============================================ Consts ============================================//
-const CONTAINER_ID = 'container'; 
-const CONTAINER_WIDTH = 500;
-const CONTAINER_HEIGHT = 500; 
-const KEY_CONTAINER_STYLES = {
-	width:  CONTAINER_WIDTH + 'px',
-	height: CONTAINER_HEIGHT + 'px',  
-}; 
-
-const KEY_HEIGHT = '250px';
-const KEY_WIDTH = '250px';
-const KEY_LEFT = '10px';
-
-const WHITE_KEYS_TABLE = makeTable(WHITE_KEYS);
-const BLACK_KEYS_TABLE = makeTable(BLACK_KEYS);
-const UNESCAPED_SHARP_KEYS_TABLE = makeTable(UNESCAPED_SHARP_KEYS);
-const SHARP_KEYS_TABLE = makeTable(SHARP_KEYS);
-const FLAT_KEYS_TABLE = makeTable(FLAT_KEYS);
-
-// ============================================ Helper Fns ========================================//
 function makeTable(array) {
 	return array.map(item => [item]);
 }
 
-function renderKey(container, keyName = 'C3', props = {}) {  
-	props.width = KEY_WIDTH;
-	props.height = KEY_HEIGHT;
-	props.left = KEY_LEFT;
-
-	act(() => { render(<Key keyName={keyName} {...props}/>, container)})
-
-	const keyId = getKeyId(keyName); 
- 	const key = getElement(keyId); 
-
-	return key;
-} 
-
-// ============================================ Mocks =============================================//
-jest.mock('./../utils.js'); 
-
-// ============================================ Set up / tear down ================================//
-beforeEach(() => {
-	container = document.createElement('div');
-	container.id = CONTAINER_ID;
-	addInlineStyles(container, KEY_CONTAINER_STYLES) 
-	document.body.appendChild(container); 
-})
-
+// ============================================ Set up / tear down ================================ //
 afterEach(() => {
-	unmountComponentAtNode(container);
+	cleanup()
 })
 
-// ============================================ Tests =============================================//
+// ============================================ Mocks ============================================= //
+jest.mock('../../utils/utils.js'); 
+
+// ============================================ Tests ============================================= //
 describe('<Key>', () => {
-	describe('can render', () => {
-		describe('white keys', () => {
-			test.each(WHITE_KEYS_TABLE)('%s',
-				(keyName) => { 
-					const key = renderKey(container, keyName);
-					expect(isElementOfType(key, Key))  
-				}
-			)
+	describe('can render', () => { 
+		test.each(makeTable(ALL_KEYS)) ('%s', (thisKeyName) => {
+			const {container} = render(<Key keyName={thisKeyName}/>);
+			const thisKeyElement = container.querySelector('.key');
+	
+			expect(isElementOfType(thisKeyElement, Key)); 
 		}) 
-
-		describe('sharp keys', () => {
-			describe('sharp keys width unescaped # character', () => {
-				test.each(UNESCAPED_SHARP_KEYS_TABLE)('%s', 
-					(keyName) => {
-						const key = renderKey(container, keyName);
-						expect(isElementOfType(key, Key))  
-					}
-				) 
-			})
-
-			describe('sharp keys width escaped # character', () => {
-				test.each(SHARP_KEYS_TABLE)('%s', 
-					(keyName) => {
-						const key = renderKey(container, keyName);
-						expect(isElementOfType(key, Key))  
-					}
-				)
-			})
-		})
-
-		describe('flat keys', () => {
-			test.each(FLAT_KEYS_TABLE)('%s', 
-				(keyName) => {
-					const key = renderKey(container, keyName);
-					expect(isElementOfType(key, Key))  
-				}
-			)  
-		})
 	})
 
 	describe('on render', () => {  
 		describe('key color', () => {
 			describe('white keys should have class "white-key"', () => {
-				test.each(WHITE_KEYS_TABLE)('%s', (keyName) => {
-					const key = renderKey(container, keyName);
-					expect(key.className).toContain('white-key')
+				test.each(makeTable(WHITE_KEYS))('%s', (thisKeyName) => {
+					const {container} = render(<Key keyName={thisKeyName}/>);
+					const thisKeyElement = container.querySelector('.key');
+					
+					expect(thisKeyElement.className).toContain('white-key') 
 				}) 
 			})
 
 			describe('black keys should have class "black-key"', () => {
-				test.each(BLACK_KEYS_TABLE)('%s', (keyName) => {
-					const key = renderKey(container, keyName);
-
-					expect(key.className).toContain('black-key')
-				})
+				test.each(makeTable(BLACK_KEYS))('%s', (thisKeyName) => {
+					const {container} = render(<Key keyName={thisKeyName}/>);
+					const thisKeyElement = container.querySelector('.key');
+					
+					expect(thisKeyElement.className).toContain('black-key') 
+				}) 
 			}) 
 		})
 		
 		describe('cursor class', () => {
 			it('should have class "key-out"', () => { 
-				const key = renderKey(container); 
-				expect(key.className).toContain('key-out')
+				const {container} = render(<Key keyName="C3"/>);
+				const keyElement = container.querySelector('.key');
+
+				expect(keyElement.className).toContain('key-out')
 			}) 
 		})
 
 		describe('size', () => {
 			it('should have passed width', () => {
-				const key = renderKey(container); 
-				expect(key.style.width).toEqual(KEY_WIDTH)
+				const width = '50px';
+				const {container} = render(<Key keyName="C3" width={width}/>);
+				const keyElement = container.querySelector('.key');
+
+				expect(keyElement.style.width).toEqual(width)
 			})
 
 			it('should have passed height', () => {
-				const key = renderKey(container); 
-				expect(key.style.height).toEqual(KEY_HEIGHT)
-			})
-		})
+				const height = '50px';
+				const {container} = render(<Key keyName="C3" height={height}/>);
+				const keyElement = container.querySelector('.key');
 
-		it('position should have passed left', () => {
-			const key = renderKey(container); 
-			expect(key.style.left).toEqual(KEY_LEFT)
-		}) 
+				expect(keyElement.style.height).toEqual(height)
+			}) 
+
+			it('should have passed left', () => {
+				const left = '50px';
+				const {container} = render(<Key keyName="C3" left={left}/>);
+				const keyElement = container.querySelector('.key');
+
+				expect(keyElement.style.left).toEqual(left)
+			})  
+		})
 	}) 
 
 	describe('on over', () => {
 		it('should have class "key-over"', () => {
-			const key = renderKey(container, 'C3');   
-	 
-			act(() => { Simulate.mouseOver(key) })
-		  expect(key.className).toContain('key-over')
+			const {container} = render(<Key keyName="C3"/>);
+			const keyElement = container.querySelector('.key');
+ 
+			fireEvent.mouseOver(keyElement);
+		  expect(keyElement.className).toContain('key-over')
 		})
 
 		it('should call handleOver function', () => {	 
 			const handleOver = jest.fn(); 
-			const key = renderKey(container, 'C3', {handleOver}); 
 
-			act(() => { Simulate.mouseOver(key) })
+			const {container} = render(<Key keyName="C3" handleOver={handleOver}/>);
+			const keyElement = container.querySelector('.key'); 
+
+			fireEvent.mouseOver(keyElement); 
 			expect(handleOver).toHaveBeenCalled()
 		})
 	})
@@ -179,62 +113,73 @@ describe('<Key>', () => {
 	describe('on out', () => {
 		describe('mouse up', () => {
 			it('should have class "key-out"', () => {
-				const key = renderKey(container, 'C3');   
-		 	
-		 		act(() => { Simulate.mouseOver(key) })
-				act(() => { Simulate.mouseOut(key) })
-		  	expect(key.className).toContain('key-out') 
+				const {container} = render(<Key keyName="C3"/>);
+				const keyElement = container.querySelector('.key'); 
+
+				fireEvent.mouseOver(keyElement);
+				fireEvent.mouseOut(keyElement);
+
+				expect(keyElement.className).toContain('key-out') 
 			}) 
 
 			it('should call handleOut function', () => {
 				const handleOut = jest.fn();
-				const key = renderKey(container, 'C3', {handleOut});   
-		 		
-		 		act(() => { Simulate.mouseOver(key) })
-				act(() => { Simulate.mouseOut(key) })
-		  	expect(handleOut).toHaveBeenCalled()
+				const {container} = render(<Key keyName="C3" handleOut={handleOut}/>);
+				const keyElement = container.querySelector('.key'); 
+
+				fireEvent.mouseOver(keyElement);
+				fireEvent.mouseOut(keyElement);
+
+				expect(handleOut).toHaveBeenCalled() 
 			}) 
 		})
 
 		describe('mouse down', () => {
-			it('should have class "key-out"', () => {
-				const key = renderKey(container, 'C3');   
-		 	
-		 		act(() => { Simulate.mouseOver(key) })
-		 		act(() => { Simulate.mouseDown(key) })
-				act(() => { Simulate.mouseOut(key) })
-		  	expect(key.className).toContain('key-out')
+			it('should have class "key-out"', () => { 
+				const {container} = render(<Key keyName="C3"/>);
+				const keyElement = container.querySelector('.key'); 
+
+				fireEvent.mouseOver(keyElement);
+				fireEvent.mouseDown(keyElement);
+				fireEvent.mouseOut(keyElement);
+
+				expect(keyElement.className).toContain('key-out') 
 			}) 
 
 			it('should call handleOut function', () => {
 				const handleOut = jest.fn();
-				const key = renderKey(container, 'C3', {handleOut});   
-		 		
-		 		act(() => { Simulate.mouseOver(key) })
-		 		act(() => { Simulate.mouseDown(key) })
-				act(() => { Simulate.mouseOut(key) })
-		  	expect(handleOut).toHaveBeenCalled() 
+				const {container} = render(<Key keyName="C3" handleOut={handleOut}/>);
+				const keyElement = container.querySelector('.key'); 
+
+				fireEvent.mouseOver(keyElement);
+				fireEvent.mouseDown(keyElement);
+				fireEvent.mouseOut(keyElement);
+
+				expect(handleOut).toHaveBeenCalled() 
 			}) 
 		}) 
 	})
 
 	describe('on down', () => {
 		it('should have class "key-down"', () => {
-			const handleOver = jest.fn();
-			const key = renderKey(container, 'C3', {handleOver});   
-	 	
-	 		act(() => { Simulate.mouseOver(key) })
-			act(() => { Simulate.mouseDown(key) })
-	  	expect(key.className).toContain('key-down') 
+			const {container} = render(<Key keyName="C3"/>);
+			const keyElement = container.querySelector('.key'); 
+
+			fireEvent.mouseOver(keyElement)
+			fireEvent.mouseDown(keyElement)
+
+			expect(keyElement.className).toContain('key-down') 
 		}) 
 		 
 		it('should call handleDown function', () => {
 			const handleDown = jest.fn();
-			const key = renderKey(container, 'C3', {handleDown});  
+			const {container} = render(<Key keyName="C3" handleDown={handleDown}/>);
+			const keyElement = container.querySelector('.key'); 
 
-			act(() => { Simulate.mouseOver(key) })
-			act(() => { Simulate.mouseDown(key) })
-			expect(handleDown).toHaveBeenCalled()
+			fireEvent.mouseOver(keyElement)
+			fireEvent.mouseDown(keyElement)
+
+			expect(handleDown).toHaveBeenCalled() 
 		}) 
 	}) 
 })

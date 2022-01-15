@@ -69,6 +69,7 @@ export default function Key({
 	function onMouseOut() {
 		setIsDown(false)
 		setIsOver(false)
+		handleOut(keyName)
 	}
 
 	function onMouseDown() {
