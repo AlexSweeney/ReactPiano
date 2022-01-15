@@ -1,5 +1,5 @@
 import { isElementOfType } from 'react-dom/test-utils';  
-import Key from './parts/Key.jsx';
+import Key from '../parts/Key/Key.jsx';
 import * as testUtils from './testUtils.js';
 
 Object.keys(testUtils).forEach(key => {

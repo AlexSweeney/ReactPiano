@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act, isElementOfType, Simulate } from 'react-dom/test-utils';
-import { getElement } from './../utils.js';
+import { getElement } from '../../utils/utils.js';
 import RadioSelector from './RadioSelector.jsx';
 
 // ========================================== Consts / vars ======================================= //

@@ -3,10 +3,10 @@ import {render, unmountComponentAtNode} from 'react-dom';
 import {act, isElementOfType, Simulate} from 'react-dom/test-utils';
 import { getElement } from '../utils/utils.js';
 import PianoApp from './PianoApp.jsx';
-import ModeSelect from '../components/ModeSelect.jsx';
-import PianoDisplay from '../components/PianoDisplay.jsx';
-import VolumeControl from '../components/VolumeControl.jsx';
-import Keys from '../components/Keys.jsx';
+import ModeSelect from '../components/ModeSelect/ModeSelect.jsx';
+import PianoDisplay from '../components/PianoDisplay/PianoDisplay.jsx';
+import VolumeControl from '../components/VolumeControl/VolumeControl.jsx';
+import Keys from '../components/Keys/Keys.jsx';
 
 let container;
 const pianoId = 'piano-app';
